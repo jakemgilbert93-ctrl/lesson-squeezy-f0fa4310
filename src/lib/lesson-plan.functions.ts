@@ -1,8 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { generateText, Output } from "ai";
+import { generateText } from "ai";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Json } from "@/integrations/supabase/types";
 
 // ---- Schemas ----
 
@@ -72,14 +73,45 @@ ${standardsText}
 
 Make objectives measurable and tied directly to the standards. Keep activity descriptions concrete and actionable with specific examples. Ensure the total activity durations fit within ${data.durationMin} minutes.`;
 
-    const { output } = await generateText({
-      model: gateway("google/gemini-3.7-flash"),
-      system: systemPrompt,
-      prompt,
-      output: Output.object({ schema: LessonPlanData }),
-    });
+    const jsonInstruction = `
 
-    return output as LessonPlanData;
+Respond with ONLY a single valid JSON object (no markdown fences, no commentary) matching this exact shape:
+{
+  "title": string,
+  "objectives": string[],
+  "materials": string[],
+  "hook": string,
+  "activities": [{ "name": string, "duration": string, "description": string }],
+  "assessment": string,
+  "differentiation": string,
+  "closure": string
+}`;
+
+    let lastError: unknown = null;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const { text } = await generateText({
+          model: gateway("google/gemini-3.7-flash"),
+          system: systemPrompt,
+          prompt: prompt + jsonInstruction,
+        });
+        const cleaned = text
+          .replace(/^```(?:json)?\s*/i, "")
+          .replace(/```\s*$/, "")
+          .trim();
+        const start = cleaned.indexOf("{");
+        const end = cleaned.lastIndexOf("}");
+        if (start === -1 || end === -1) throw new Error("No JSON in response");
+        const parsed = JSON.parse(cleaned.slice(start, end + 1));
+        return LessonPlanData.parse(parsed);
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    console.error("Lesson plan generation failed:", lastError);
+    throw new Error(
+      "The AI couldn't produce a valid plan just now. Please try again.",
+    );
   });
 
 // ---- CRUD on lesson_plans ----
@@ -108,8 +140,8 @@ export const saveLessonPlan = createServerFn({ method: "POST" })
       subject: data.subject,
       grade: data.grade,
       duration_min: data.durationMin,
-      standards: data.standards,
-      plan: data.plan,
+      standards: data.standards as unknown as Json,
+      plan: data.plan as Json,
     };
 
     if (data.id) {

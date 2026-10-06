@@ -46,9 +46,9 @@ function PlanDetailPage() {
       .then((row) => {
         setPlan(row.plan as unknown as LessonPlanData);
         setMeta({
-          subject: row.subject,
-          grade: row.grade,
-          durationMin: row.duration_min,
+          subject: row.subject ?? "",
+          grade: row.grade ?? "",
+          durationMin: row.duration_min ?? 45,
           standards: (row.standards as unknown as StandardRef[]) ?? [],
         });
       })

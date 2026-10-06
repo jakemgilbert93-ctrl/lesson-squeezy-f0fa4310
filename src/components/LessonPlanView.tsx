@@ -3,7 +3,7 @@ import type { LessonPlanData } from "@/lib/lesson-plan.functions";
 
 type Props = {
   plan: LessonPlanData;
-  meta?: { subject?: string; grade?: string; durationMin?: number };
+  meta?: { subject?: string; grade?: string; durationMin?: number } | undefined;
   onChange?: (plan: LessonPlanData) => void;
 };
 
@@ -24,9 +24,9 @@ function EditableText({
   className = "",
 }: {
   value: string;
-  onChange?: (v: string) => void;
-  multiline?: boolean;
-  className?: string;
+  onChange?: ((v: string) => void) | undefined;
+  multiline?: boolean | undefined;
+  className?: string | undefined;
 }) {
   if (!onChange) {
     return <p className={`whitespace-pre-wrap text-sm leading-relaxed text-foreground ${className}`}>{value}</p>;
@@ -52,7 +52,7 @@ function EditableText({
 }
 
 function SectionHeader({ index }: { index: number }) {
-  const accent = sectionAccents[index % sectionAccents.length];
+  const accent = sectionAccents[index % sectionAccents.length]!;
   return (
     <div className="mb-3 flex items-center gap-2.5">
       <span className={`h-5 w-1.5 rounded-full ${accent.bar}`} />
