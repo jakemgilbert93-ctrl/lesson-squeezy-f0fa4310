@@ -3,7 +3,7 @@ import type { LessonPlanData } from "@/lib/lesson-plan.functions";
 
 type Props = {
   plan: LessonPlanData;
-  meta?: { subject?: string; grade?: string; durationMin?: number };
+  meta?: { subject?: string; grade?: string; durationMin?: number } | undefined;
   onChange?: (plan: LessonPlanData) => void;
 };
 
@@ -52,7 +52,7 @@ function EditableText({
 }
 
 function SectionHeader({ index }: { index: number }) {
-  const accent = sectionAccents[index % sectionAccents.length];
+  const accent = sectionAccents[index % sectionAccents.length]!;
   return (
     <div className="mb-3 flex items-center gap-2.5">
       <span className={`h-5 w-1.5 rounded-full ${accent.bar}`} />
