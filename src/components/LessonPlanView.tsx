@@ -24,9 +24,9 @@ function EditableText({
   className = "",
 }: {
   value: string;
-  onChange?: (v: string) => void;
-  multiline?: boolean;
-  className?: string;
+  onChange?: ((v: string) => void) | undefined;
+  multiline?: boolean | undefined;
+  className?: string | undefined;
 }) {
   if (!onChange) {
     return <p className={`whitespace-pre-wrap text-sm leading-relaxed text-foreground ${className}`}>{value}</p>;

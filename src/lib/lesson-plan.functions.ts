@@ -139,8 +139,8 @@ export const saveLessonPlan = createServerFn({ method: "POST" })
       subject: data.subject,
       grade: data.grade,
       duration_min: data.durationMin,
-      standards: data.standards,
-      plan: data.plan,
+      standards: data.standards as unknown as Json,
+      plan: data.plan as Json,
     };
 
     if (data.id) {
