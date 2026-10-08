@@ -1,0 +1,163 @@
+import { useState, type ReactNode } from "react";
+import { toast } from "sonner";
+import { Copy, FileDown, Loader2, RefreshCw, Clock, Info } from "lucide-react";
+import {
+  SECTION_KEYS,
+  SECTION_LABELS,
+  VERIFY_NOTE,
+  isTimed,
+  lessonToPlainText,
+  metaLine,
+  sectionText,
+  type LessonMeta,
+  type LessonPlanData,
+  type SectionKey,
+} from "@/lib/lesson-schema";
+import { downloadLessonDocx } from "@/lib/lesson-docx";
+
+type Props = {
+  plan: LessonPlanData;
+  meta: LessonMeta;
+  onChange: (plan: LessonPlanData) => void;
+  /** Extra buttons (e.g. Save) shown in the toolbar. */
+  actions?: ReactNode;
+  regen: {
+    used: number;
+    limit: number;
+    /** False when the lesson isn't saved yet. */
+    enabled: boolean;
+    busy: SectionKey | null;
+    onRegenerate: (key: SectionKey) => void;
+  };
+};
+
+const fieldClass =
+  "w-full resize-y rounded-md border border-transparent bg-transparent px-2 py-1 text-sm leading-relaxed text-foreground outline-none transition hover:border-border focus:border-violet focus:bg-card focus:ring-2 focus:ring-violet/20";
+
+/** Shared 7-section lesson editor used by the generator and the saved-lesson page. */
+export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
+  const [exporting, setExporting] = useState(false);
+  const edited = new Set(plan.editedSections ?? []);
+  const left = Math.max(0, regen.limit - regen.used);
+
+  function markEdited(key: SectionKey, next: LessonPlanData) {
+    const set = new Set(next.editedSections ?? []);
+    set.add(key);
+    onChange({ ...next, editedSections: Array.from(set) });
+  }
+
+  function setText(key: SectionKey, value: string) {
+    if (isTimed(key)) markEdited(key, { ...plan, [key]: { ...plan[key], content: value } });
+    else markEdited(key, { ...plan, [key]: value });
+  }
+
+  function requestRegen(key: SectionKey) {
+    if (edited.has(key) && !window.confirm("This will replace your edits to this section.")) return;
+    regen.onRegenerate(key);
+  }
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(lessonToPlainText(plan, meta));
+      toast.success("Lesson copied to clipboard.");
+    } catch {
+      toast.error("Couldn't copy. Please try again.");
+    }
+  }
+
+  async function exportDocx() {
+    setExporting(true);
+    try {
+      await downloadLessonDocx(plan, meta);
+    } catch {
+      toast.error("Couldn't create the Word file. Please try again.");
+    } finally {
+      setExporting(false);
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center gap-2">
+        {actions}
+        <button
+          onClick={exportDocx}
+          disabled={exporting}
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-accent disabled:opacity-60"
+        >
+          {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileDown className="h-4 w-4" />}
+          Download .docx
+        </button>
+        <button
+          onClick={copy}
+          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-accent"
+        >
+          <Copy className="h-4 w-4" /> Copy
+        </button>
+        <span className="text-xs text-muted-foreground">
+          {regen.enabled
+            ? `${left} of ${regen.limit} section regenerations left`
+            : "Save the lesson to regenerate sections"}
+        </span>
+      </div>
+
+      <article className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
+        <input
+          value={plan.title}
+          maxLength={100}
+          onChange={(e) => onChange({ ...plan, title: e.target.value })}
+          aria-label="Lesson title"
+          className={`${fieldClass} text-2xl font-bold`}
+        />
+        <p className="mt-1 px-2 text-sm text-muted-foreground">{metaLine(meta)}</p>
+
+        <div className="mt-6 space-y-6">
+          {SECTION_KEYS.map((key) => {
+            const text = sectionText(plan, key);
+            const busy = regen.busy === key;
+            return (
+              <section key={key}>
+                <div className="mb-2 flex flex-wrap items-center gap-2 px-2">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-violet">{SECTION_LABELS[key]}</h3>
+                  {isTimed(key) && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                      <Clock className="h-3 w-3" /> {plan[key].minutes} min
+                    </span>
+                  )}
+                  <button
+                    onClick={() => requestRegen(key)}
+                    disabled={!regen.enabled || left === 0 || regen.busy !== null}
+                    title={!regen.enabled ? "Save the lesson first" : left === 0 ? "No regenerations left" : "Regenerate this section"}
+                    className="ml-auto inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    <RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} />
+                    {busy ? "Regenerating…" : "Regenerate"}
+                  </button>
+                </div>
+                {busy ? (
+                  <div className="space-y-2 px-2">
+                    <div className="h-3 w-full animate-pulse rounded bg-muted" />
+                    <div className="h-3 w-5/6 animate-pulse rounded bg-muted" />
+                    <div className="h-3 w-2/3 animate-pulse rounded bg-muted" />
+                  </div>
+                ) : (
+                  <textarea
+                    value={text}
+                    onChange={(e) => setText(key, e.target.value)}
+                    rows={Math.max(2, text.split("\n").length + 1)}
+                    aria-label={SECTION_LABELS[key]}
+                    className={fieldClass}
+                  />
+                )}
+              </section>
+            );
+          })}
+        </div>
+
+        <p className="mt-8 flex items-center gap-2 rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">
+          <Info className="h-4 w-4 shrink-0" /> {VERIFY_NOTE}
+        </p>
+      </article>
+    </div>
+  );
+}
