@@ -6,8 +6,8 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Reset password — LessonForge" },
-      { name: "description", content: "Reset your LessonForge account password." },
+      { title: "Reset password — Teacher's Pet" },
+      { name: "description", content: "Reset your Teacher's Pet account password." },
     ],
   }),
   component: ResetPasswordPage,

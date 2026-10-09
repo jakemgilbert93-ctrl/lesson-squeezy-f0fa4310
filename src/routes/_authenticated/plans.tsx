@@ -19,7 +19,7 @@ type PlanRow = {
 export const Route = createFileRoute("/_authenticated/plans")({
   head: () => ({
     meta: [
-      { title: "My lesson plans — LessonForge" },
+      { title: "My lesson plans — Teacher's Pet" },
       { name: "description", content: "Your saved standards-aligned lesson plans." },
     ],
   }),

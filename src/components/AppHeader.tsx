@@ -16,7 +16,7 @@ export function AppHeader() {
     <header className="flex items-center justify-between border-b border-border bg-card px-6 py-3.5">
       <Link to="/app" className="flex items-center gap-2 text-lg font-bold text-foreground">
         <Sparkles className="h-5 w-5 text-violet" />
-        Lesson<span className="rainbow-text">Forge</span>
+        Teacher's <span className="rainbow-text">Pet</span>
       </Link>
       <nav className="flex items-center gap-4">
         <Link

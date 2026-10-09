@@ -80,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LessonForge — AI lesson plans aligned to your standards" },
+      { title: "Teacher's Pet — AI lesson plans aligned to your standards" },
       {
         name: "description",
         content:
           "Generate creative, classroom-ready lesson plans from state and district standards with AI. Editable, exportable, and built for teachers.",
       },
-      { name: "author", content: "LessonForge" },
-      { property: "og:title", content: "LessonForge — AI lesson plans aligned to your standards" },
+      { name: "author", content: "Teacher's Pet" },
+      { property: "og:title", content: "Teacher's Pet — AI lesson plans aligned to your standards" },
       {
         property: "og:description",
         content:

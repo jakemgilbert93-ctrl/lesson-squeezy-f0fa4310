@@ -7,10 +7,10 @@ import { Sparkles } from "lucide-react";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — LessonForge" },
+      { title: "Sign in — Teacher's Pet" },
       {
         name: "description",
-        content: "Sign in or create your LessonForge account to generate standards-aligned lesson plans.",
+        content: "Sign in or create your Teacher's Pet account to generate standards-aligned lesson plans.",
       },
     ],
   }),
@@ -75,7 +75,7 @@ function AuthPage() {
         <div className="relative flex h-full flex-col justify-between p-12 text-white">
           <Link to="/" className="flex items-center gap-2 text-2xl font-bold">
             <Sparkles className="h-7 w-7" />
-            LessonForge
+            Teacher's Pet
           </Link>
           <div>
             <h2 className="text-4xl font-bold leading-tight">
@@ -96,7 +96,7 @@ function AuthPage() {
           <div className="mb-8 text-center md:hidden">
             <Link to="/" className="inline-flex items-center gap-2 text-2xl font-bold text-foreground">
               <Sparkles className="h-7 w-7 text-violet" />
-              Lesson<span className="rainbow-text">Forge</span>
+              Teacher's <span className="rainbow-text">Pet</span>
             </Link>
           </div>
 

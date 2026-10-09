@@ -4,13 +4,13 @@ import { Sparkles, FileText, Layers, Download, ArrowRight, Check } from "lucide-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LessonForge — AI lesson plans aligned to your standards" },
+      { title: "Teacher's Pet — AI lesson plans aligned to your standards" },
       {
         name: "description",
         content:
           "Generate creative, classroom-ready lesson plans from state and district standards with AI. Editable, exportable, and built for teachers.",
       },
-      { property: "og:title", content: "LessonForge — AI lesson plans aligned to your standards" },
+      { property: "og:title", content: "Teacher's Pet — AI lesson plans aligned to your standards" },
       {
         property: "og:description",
         content:
@@ -30,7 +30,7 @@ function Index() {
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <Link to="/" className="flex items-center gap-2 text-xl font-bold text-foreground">
           <Sparkles className="h-6 w-6 text-violet" />
-          Lesson<span className="rainbow-text">Forge</span>
+          Teacher's <span className="rainbow-text">Pet</span>
         </Link>
         <Link
           to="/auth"
@@ -51,7 +51,7 @@ function Index() {
           <span className="rainbow-text">aligned to your standards.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Pick your state and district standards, and LessonForge drafts a complete,
+          Pick your state and district standards, and Teacher's Pet drafts a complete,
           creative, classroom-ready lesson plan in seconds. Edit it, save it, export it.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -155,7 +155,7 @@ function Index() {
 
       <footer className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} LessonForge. Built for teachers.
+          © {new Date().getFullYear()} Teacher's Pet. Built for teachers.
         </div>
       </footer>
     </div>
