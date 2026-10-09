@@ -19,8 +19,8 @@ type PlanRow = {
 export const Route = createFileRoute("/_authenticated/plans")({
   head: () => ({
     meta: [
-      { title: "My lesson plans — Teacher's Pet" },
-      { name: "description", content: "Your saved standards-aligned lesson plans." },
+      { title: "My Lessons — Teacher's Pet" },
+      { name: "description", content: "Your saved lessons." },
     ],
   }),
   component: PlansPage,
@@ -41,7 +41,7 @@ function PlansPage() {
     try {
       await deleteFn({ data: { id } });
       setPlans((prev) => prev?.filter((p) => p.id !== id) ?? null);
-      toast.success("Plan deleted.");
+      toast.success("Lesson deleted.");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not delete.");
     }
@@ -52,31 +52,31 @@ function PlansPage() {
       <AppHeader />
       <main className="mx-auto max-w-6xl px-6 py-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-foreground">My lesson plans</h1>
+          <h1 className="text-2xl font-bold text-foreground">My Lessons</h1>
           <Link
             to="/app"
             className="inline-flex items-center gap-2 rounded-lg bg-violet px-4 py-2 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90"
           >
-            <Plus className="h-4 w-4" /> New plan
+            <Plus className="h-4 w-4" /> New lesson
           </Link>
         </div>
 
         {plans === null ? (
           <p className="mt-10 flex items-center gap-2 text-muted-foreground">
-            <Loader2 className="h-5 w-5 animate-spin" /> Loading your plans…
+            <Loader2 className="h-5 w-5 animate-spin" /> Loading your lessons…
           </p>
         ) : plans.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
             <FileText className="mx-auto h-10 w-10 text-muted-foreground" />
-            <h2 className="mt-3 text-lg font-semibold text-foreground">No plans yet</h2>
+            <h2 className="mt-3 text-lg font-semibold text-foreground">No saved lessons yet</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Generate your first standards-aligned lesson plan and save it here.
+              Generate a lesson and save it to see it here.
             </p>
             <Link
               to="/app"
               className="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet px-4 py-2 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90"
             >
-              <Plus className="h-4 w-4" /> Create a plan
+              <Plus className="h-4 w-4" /> Create a lesson
             </Link>
           </div>
         ) : (

@@ -32,7 +32,7 @@ export function AppHeader() {
           activeProps={{ className: "text-violet font-semibold" }}
           className="text-sm text-muted-foreground transition hover:text-foreground"
         >
-          My plans
+          My Lessons
         </Link>
         <button
           onClick={signOut}
