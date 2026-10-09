@@ -38,6 +38,7 @@ function PlansPage() {
   }, [listFn]);
 
   async function handleDelete(id: string) {
+    if (!window.confirm("Delete this lesson? This can't be undone.")) return;
     try {
       await deleteFn({ data: { id } });
       setPlans((prev) => prev?.filter((p) => p.id !== id) ?? null);

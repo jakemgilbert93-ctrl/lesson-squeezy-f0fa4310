@@ -25,7 +25,7 @@ export function AppHeader() {
           activeProps={{ className: "text-violet font-semibold" }}
           className="text-sm text-muted-foreground transition hover:text-foreground"
         >
-          Generator
+          New Lesson
         </Link>
         <Link
           to="/plans"
