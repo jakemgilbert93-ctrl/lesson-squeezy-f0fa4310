@@ -72,6 +72,8 @@ CREATE TABLE IF NOT EXISTS public.ai_call_log (
 CREATE INDEX IF NOT EXISTS ai_call_log_user_time_idx ON public.ai_call_log (user_id, created_at);
 ALTER TABLE public.ai_call_log ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON public.ai_call_log FROM anon, authenticated;
+GRANT ALL ON public.ai_call_log TO service_role;
+GRANT ALL ON public.usage_monthly TO service_role;
 
 -- 6. Functions
 CREATE OR REPLACE FUNCTION public.get_my_usage()
