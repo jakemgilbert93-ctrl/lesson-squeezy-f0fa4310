@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_call_log: {
+        Row: {
+          created_at: string
+          id: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       lesson_plans: {
         Row: {
           created_at: string
@@ -21,6 +39,7 @@ export type Database = {
           grade: string | null
           id: string
           plan: Json
+          regeneration_count: number
           standards: Json
           subject: string | null
           title: string
@@ -33,6 +52,7 @@ export type Database = {
           grade?: string | null
           id?: string
           plan?: Json
+          regeneration_count?: number
           standards?: Json
           subject?: string | null
           title?: string
@@ -45,6 +65,7 @@ export type Database = {
           grade?: string | null
           id?: string
           plan?: Json
+          regeneration_count?: number
           standards?: Json
           subject?: string | null
           title?: string
@@ -60,6 +81,7 @@ export type Database = {
           display_name: string | null
           district: string | null
           id: string
+          plan: string
           school: string | null
           updated_at: string
           user_id: string
@@ -70,6 +92,7 @@ export type Database = {
           display_name?: string | null
           district?: string | null
           id?: string
+          plan?: string
           school?: string | null
           updated_at?: string
           user_id: string
@@ -80,6 +103,7 @@ export type Database = {
           display_name?: string | null
           district?: string | null
           id?: string
+          plan?: string
           school?: string | null
           updated_at?: string
           user_id?: string
@@ -119,12 +143,48 @@ export type Database = {
         }
         Relationships: []
       }
+      usage_monthly: {
+        Row: {
+          lesson_count: number
+          period: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          lesson_count?: number
+          period: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          lesson_count?: number
+          period?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_my_usage: {
+        Args: never
+        Returns: {
+          lessons_used: number
+          plan: string
+        }[]
+      }
+      increment_lesson_regeneration: {
+        Args: { p_lesson_id: string; p_limit: number }
+        Returns: number
+      }
+      increment_monthly_usage: { Args: { p_limit: number }; Returns: number }
+      reserve_ai_call: {
+        Args: { p_max: number; p_window_seconds: number }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
