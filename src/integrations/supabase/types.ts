@@ -113,7 +113,7 @@ export type Database = {
       standards: {
         Row: {
           category: string | null
-          ccss_id: string | null
+          ccss_id: string
           cluster_or_category: string | null
           code: string
           created_at: string
@@ -125,14 +125,14 @@ export type Database = {
           sort_order: number | null
           source_document: string | null
           source_url: string | null
-          standard_text: string | null
+          standard_text: string
           state: string | null
           subject: string
           text: string | null
         }
         Insert: {
           category?: string | null
-          ccss_id?: string | null
+          ccss_id: string
           cluster_or_category?: string | null
           code: string
           created_at?: string
@@ -144,14 +144,14 @@ export type Database = {
           sort_order?: number | null
           source_document?: string | null
           source_url?: string | null
-          standard_text?: string | null
+          standard_text: string
           state?: string | null
           subject: string
           text?: string | null
         }
         Update: {
           category?: string | null
-          ccss_id?: string | null
+          ccss_id?: string
           cluster_or_category?: string | null
           code?: string
           created_at?: string
@@ -163,7 +163,7 @@ export type Database = {
           sort_order?: number | null
           source_document?: string | null
           source_url?: string | null
-          standard_text?: string | null
+          standard_text?: string
           state?: string | null
           subject?: string
           text?: string | null

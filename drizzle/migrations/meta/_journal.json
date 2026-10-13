@@ -15,6 +15,13 @@
       "when": 1791929144519,
       "tag": "0001_standards_ccss_columns",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791929207597,
+      "tag": "0002_standards_ccss_constraints",
+      "breakpoints": true
     }
   ]
 }
