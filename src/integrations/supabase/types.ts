@@ -113,33 +113,60 @@ export type Database = {
       standards: {
         Row: {
           category: string | null
+          ccss_id: string | null
+          cluster_or_category: string | null
           code: string
           created_at: string
+          domain_code: string | null
+          domain_name: string | null
           grade: string
           id: string
-          state: string
+          notes: string | null
+          sort_order: number | null
+          source_document: string | null
+          source_url: string | null
+          standard_text: string | null
+          state: string | null
           subject: string
-          text: string
+          text: string | null
         }
         Insert: {
           category?: string | null
+          ccss_id?: string | null
+          cluster_or_category?: string | null
           code: string
           created_at?: string
+          domain_code?: string | null
+          domain_name?: string | null
           grade: string
           id?: string
-          state: string
+          notes?: string | null
+          sort_order?: number | null
+          source_document?: string | null
+          source_url?: string | null
+          standard_text?: string | null
+          state?: string | null
           subject: string
-          text: string
+          text?: string | null
         }
         Update: {
           category?: string | null
+          ccss_id?: string | null
+          cluster_or_category?: string | null
           code?: string
           created_at?: string
+          domain_code?: string | null
+          domain_name?: string | null
           grade?: string
           id?: string
-          state?: string
+          notes?: string | null
+          sort_order?: number | null
+          source_document?: string | null
+          source_url?: string | null
+          standard_text?: string | null
+          state?: string | null
           subject?: string
-          text?: string
+          text?: string | null
         }
         Relationships: []
       }

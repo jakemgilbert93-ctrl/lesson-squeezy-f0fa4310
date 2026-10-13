@@ -1,0 +1,14 @@
+ALTER TABLE public.standards ALTER COLUMN state DROP NOT NULL;
+ALTER TABLE public.standards ALTER COLUMN text DROP NOT NULL;
+ALTER TABLE public.standards ADD COLUMN domain_code text, ADD COLUMN domain_name text, ADD COLUMN cluster_or_category text, ADD COLUMN ccss_id text, ADD COLUMN standard_text text, ADD COLUMN notes text, ADD COLUMN source_document text, ADD COLUMN source_url text, ADD COLUMN sort_order integer;
+COMMENT ON COLUMN public.standards.state IS 'DEPRECATED: retired; CCSS data is not state-specific';
+COMMENT ON COLUMN public.standards.text IS 'DEPRECATED: replaced by standard_text';
+COMMENT ON COLUMN public.standards.category IS 'DEPRECATED: replaced by cluster_or_category';
+CREATE INDEX IF NOT EXISTS standards_subject_grade_idx ON public.standards (subject, grade);
+DROP POLICY IF EXISTS "Standards: public read" ON public.standards;
+REVOKE ALL ON public.standards FROM anon;
+REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON public.standards FROM authenticated;
+GRANT SELECT ON public.standards TO authenticated;
+GRANT ALL ON public.standards TO service_role;
+ALTER TABLE public.standards ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Standards: signed-in read" ON public.standards FOR SELECT TO authenticated USING (true);
