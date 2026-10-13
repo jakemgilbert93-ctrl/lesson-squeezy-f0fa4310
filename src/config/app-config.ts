@@ -41,9 +41,32 @@ export const APP_CONFIG = {
     "Computer Science",
   ],
   lessonLengths: [30, 45, 60, 90],
+
+  /** Official Common Core standards picker. Fails closed without a real notice. */
+  standards: {
+    enabled: false as boolean,
+    copyrightNotice: "NOTICE_PENDING" as string,
+    pickerGrades: ["K", "1", "2", "3", "4", "5"],
+    /** App subject -> subject value stored in the standards table. */
+    pickerSubjects: { Math: "Math", "English Language Arts": "ELA" } as Record<string, string>,
+  },
 } as const;
 
 export type PlanTier = "free" | "pro";
+
+/** True only when standards are enabled AND a real copyright notice is set. */
+export function standardsActive(): boolean {
+  const s = APP_CONFIG.standards;
+  const notice = s.copyrightNotice.trim();
+  return s.enabled && notice.length > 0 && notice !== "NOTICE_PENDING";
+}
+
+/** Database subject for the picker, or null when the picker doesn't apply. */
+export function standardsSubjectFor(grade: string, subject: string): string | null {
+  if (!standardsActive()) return null;
+  if (!(APP_CONFIG.standards.pickerGrades as readonly string[]).includes(grade)) return null;
+  return APP_CONFIG.standards.pickerSubjects[subject] ?? null;
+}
 
 export function limitsFor(tier: PlanTier) {
   return APP_CONFIG.limits[tier];
