@@ -1,0 +1,2 @@
+- [x] Load CCSS file into standards; delete null ccss_id rows; NOT NULL ccss_id/standard_text; UNIQUE ccss_id
+- [x] Picker fix not needed (no page reads standards yet)
