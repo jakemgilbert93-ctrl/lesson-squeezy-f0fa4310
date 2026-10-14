@@ -15,3 +15,4 @@
 - Lesson cap is checked before the AI call and incremented only after validated output; failed generations never count.
 - The 7-section lesson shape lives in `src/lib/lesson-schema.ts` and one shared `LessonCanvas` component renders it for both new and saved lessons.
 - Section regeneration requires a saved lesson, because the per-lesson counter is stored on the lesson row.
+- Standards display is gated by standardsActive() in app-config; standard snapshots are always (re)built server-side from the DB, never from browser text.

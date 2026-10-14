@@ -285,7 +285,7 @@ function GeneratorPage() {
           )}
           {selectedStd && (generating || !plan) && (
             <div className="mb-4">
-              <StandardCard standard={{ ccssId: selectedStd.ccssId, code: selectedStd.code, standardText: selectedStd.standardText, notes: null, sourceUrl: null }} />
+              <StandardCard standard={{ ccssId: selectedStd.ccssId, code: selectedStd.code, standardText: selectedStd.standardText, notes: selectedStd.notes, sourceUrl: selectedStd.sourceUrl }} />
             </div>
           )}
           {generating ? (
