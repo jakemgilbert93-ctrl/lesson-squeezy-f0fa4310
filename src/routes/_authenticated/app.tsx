@@ -1,12 +1,14 @@
 import { createFileRoute, Link, useBlocker } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Loader2, Save, Wand2, AlertCircle } from "lucide-react";
 
 import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
-import { APP_CONFIG, gradeLabel } from "@/config/app-config";
+import { APP_CONFIG, gradeLabel, standardsSubjectFor } from "@/config/app-config";
+import { listStandards, type StandardOption } from "@/lib/standards.functions";
+import { StandardCard } from "@/components/StandardCard";
 import {
   generateLessonPlan,
   getUsage,
@@ -47,6 +49,32 @@ function GeneratorPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [stdOptions, setStdOptions] = useState<StandardOption[]>([]);
+  const [ccssId, setCcssId] = useState("");
+  const pickerOn = standardsSubjectFor(grade, subject) !== null;
+  const listStdFn = useServerFn(listStandards);
+  useEffect(() => {
+    setCcssId("");
+    setStdOptions([]);
+    if (!pickerOn) return;
+    let live = true;
+    listStdFn({ data: { grade, subject } })
+      .then((rows) => live && setStdOptions(rows))
+      .catch(() => live && toast.error("Couldn't load standards."));
+    return () => {
+      live = false;
+    };
+  }, [grade, subject, pickerOn, listStdFn]);
+  const selectedStd = pickerOn ? stdOptions.find((o) => o.ccssId === ccssId) : undefined;
+  const stdGroups = useMemo(() => {
+    const m = new Map<string, StandardOption[]>();
+    for (const o of stdOptions) {
+      const k = [o.domainName, o.cluster].filter(Boolean).join(" — ") || "Other";
+      m.set(k, [...(m.get(k) ?? []), o]);
+    }
+    return Array.from(m.entries());
+  }, [stdOptions]);
+
   const usageFn = useServerFn(getUsage);
   const generateFn = useServerFn(generateLessonPlan);
   const regenFn = useServerFn(regenerateSection);
@@ -62,7 +90,7 @@ function GeneratorPage() {
   });
 
   const atCap = usage?.monthlyLimit != null && usage.lessonsUsed >= usage.monthlyLimit;
-  const canGenerate = topic.trim().length > 0 && !generating && !atCap;
+  const canGenerate = (topic.trim().length > 0 || !!selectedStd) && !generating && !atCap;
 
   async function handleGenerate() {
     if (!canGenerate) return;
@@ -71,7 +99,7 @@ function GeneratorPage() {
     setError(null);
     try {
       const res = await generateFn({
-        data: { grade, subject, durationMin, topic: topic.trim(), ...(title.trim() ? { title: title.trim() } : {}) },
+        data: { grade, subject, durationMin, topic: topic.trim(), ...(selectedStd ? { ccssId: selectedStd.ccssId } : {}), ...(title.trim() ? { title: title.trim() } : {}) },
       });
       setPlan(res.plan);
       setPlanMeta({ grade, subject, durationMin });
@@ -173,8 +201,29 @@ function GeneratorPage() {
                   ))}
                 </select>
               </div>
+              {pickerOn && (
+                <div>
+                  <label htmlFor="standard" className="mb-1 block text-xs font-medium text-muted-foreground">
+                    Standard <span className="font-normal">(optional)</span>
+                  </label>
+                  <select id="standard" value={ccssId} onChange={(e) => setCcssId(e.target.value)} className={inputClass}>
+                    <option value="">No standard</option>
+                    {stdGroups.map(([group, opts]) => (
+                      <optgroup key={group} label={group}>
+                        {opts.map((o) => (
+                          <option key={o.ccssId} value={o.ccssId}>
+                            {o.code} — {o.standardText.length > 60 ? `${o.standardText.slice(0, 60)}…` : o.standardText}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                </div>
+              )}
               <div>
-                <label htmlFor="topic" className="mb-1 block text-xs font-medium text-muted-foreground">Standard or topic</label>
+                <label htmlFor="topic" className="mb-1 block text-xs font-medium text-muted-foreground">
+                  {selectedStd ? "Additional focus (optional)" : "Standard or topic"}
+                </label>
                 <input
                   id="topic"
                   value={topic}
@@ -232,6 +281,11 @@ function GeneratorPage() {
               <button onClick={handleGenerate} disabled={!canGenerate} className="rounded-md border border-border bg-card px-3 py-1.5 font-medium hover:bg-accent disabled:opacity-50">
                 Try again
               </button>
+            </div>
+          )}
+          {selectedStd && (generating || !plan) && (
+            <div className="mb-4">
+              <StandardCard standard={{ ccssId: selectedStd.ccssId, code: selectedStd.code, standardText: selectedStd.standardText, notes: selectedStd.notes, sourceUrl: selectedStd.sourceUrl }} />
             </div>
           )}
           {generating ? (

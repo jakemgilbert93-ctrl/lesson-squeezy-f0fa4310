@@ -9,6 +9,8 @@ export type StandardOption = {
   domainName: string | null;
   cluster: string | null;
   standardText: string;
+  notes: string | null;
+  sourceUrl: string | null;
 };
 
 /** Standards for the picker. Signed-in only; empty when standards are off or not applicable. */
@@ -20,7 +22,7 @@ export const listStandards = createServerFn({ method: "GET" })
     if (!dbSubject) return [] as StandardOption[];
     const { data: rows, error } = await context.supabase
       .from("standards")
-      .select("ccss_id, code, domain_name, cluster_or_category, standard_text, sort_order")
+      .select("ccss_id, code, domain_name, cluster_or_category, standard_text, notes, source_url, sort_order")
       .eq("grade", data.grade)
       .eq("subject", dbSubject)
       .order("sort_order");
@@ -31,5 +33,7 @@ export const listStandards = createServerFn({ method: "GET" })
       domainName: r.domain_name,
       cluster: r.cluster_or_category,
       standardText: r.standard_text,
+      notes: r.notes,
+      sourceUrl: r.source_url,
     })) as StandardOption[];
   });

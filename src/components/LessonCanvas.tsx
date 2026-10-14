@@ -12,8 +12,10 @@ import {
   type LessonMeta,
   type LessonPlanData,
   type SectionKey,
+  visibleStandard,
 } from "@/lib/lesson-schema";
 import { downloadLessonDocx } from "@/lib/lesson-docx";
+import { StandardCard } from "./StandardCard";
 
 type Props = {
   plan: LessonPlanData;
@@ -38,6 +40,7 @@ const fieldClass =
 export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
   const [exporting, setExporting] = useState(false);
   const edited = new Set(plan.editedSections ?? []);
+  const std = visibleStandard(plan);
   const left = Math.max(0, regen.limit - regen.used);
 
   function markEdited(key: SectionKey, next: LessonPlanData) {
@@ -112,6 +115,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
         <p className="mt-1 px-2 text-sm text-muted-foreground">{metaLine(meta)}</p>
 
         <div className="mt-6 space-y-6">
+          {std && <StandardCard standard={std} />}
           {SECTION_KEYS.map((key) => {
             const text = sectionText(plan, key);
             const busy = regen.busy === key;
