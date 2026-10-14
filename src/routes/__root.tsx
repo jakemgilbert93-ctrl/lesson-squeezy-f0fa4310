@@ -80,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Teacher's Pet — AI lesson plans aligned to your standards" },
+      { title: "Lesson Squeezy — AI lesson plans aligned to your standards" },
       {
         name: "description",
         content:
           "Generate creative, classroom-ready lesson plans from state and district standards with AI. Editable, exportable, and built for teachers.",
       },
-      { name: "author", content: "Teacher's Pet" },
-      { property: "og:title", content: "Teacher's Pet — AI lesson plans aligned to your standards" },
+      { name: "author", content: "Lesson Squeezy" },
+      { property: "og:title", content: "Lesson Squeezy — AI lesson plans aligned to your standards" },
       {
         property: "og:description",
         content:
@@ -97,6 +97,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" },
       {
         rel: "stylesheet",
         href: appCss,

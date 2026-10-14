@@ -1,4 +1,4 @@
-# Teacher's Pet
+# Lesson Squeezy
 
 I want to create a website for teachers to generate effective and creative lesson plans based off state and district standards.
 

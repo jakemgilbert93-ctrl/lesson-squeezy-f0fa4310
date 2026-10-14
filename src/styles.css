@@ -4,10 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system: light, vibrant "rainbow" palette.
- * Light, airy canvas with multi-hue accents (coral, amber, mint, sky, violet).
- */
+/* Design system: Lesson Squeezy purple theme. Nunito font. */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -50,40 +47,36 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  /* Rainbow accents */
-  --color-coral: var(--coral);
-  --color-coral-foreground: var(--coral-foreground);
-  --color-amber: var(--amber);
-  --color-amber-foreground: var(--amber-foreground);
-  --color-mint: var(--mint);
-  --color-mint-foreground: var(--mint-foreground);
-  --color-sky: var(--sky);
-  --color-sky-foreground: var(--sky-foreground);
-  --color-violet: var(--violet);
-  --color-violet-foreground: var(--violet-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-cheer: var(--cheer);
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.99 0.008 90);
-  --foreground: oklch(0.21 0.03 264);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.03 264);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.03 264);
-  --primary: oklch(0.55 0.22 295);
-  --primary-foreground: oklch(0.99 0.005 0);
-  --secondary: oklch(0.96 0.02 250);
-  --secondary-foreground: oklch(0.25 0.05 264);
-  --muted: oklch(0.97 0.015 250);
-  --muted-foreground: oklch(0.5 0.03 257);
-  --accent: oklch(0.95 0.04 295);
-  --accent-foreground: oklch(0.3 0.15 295);
+  --radius: 0.875rem;
+  --background: hsl(264 100% 99%);
+  --foreground: hsl(274 87% 21%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(274 87% 21%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(274 87% 21%);
+  --primary: hsl(272 81% 48%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(269 97% 85%);
+  --secondary-foreground: hsl(274 87% 21%);
+  --muted: hsl(269 100% 95%);
+  --muted-foreground: hsl(272 72% 40%);
+  --accent: hsl(269 100% 95%);
+  --accent-foreground: hsl(274 87% 21%);
   --destructive: oklch(0.58 0.24 27);
   --destructive-foreground: oklch(0.99 0.005 0);
-  --border: oklch(0.9 0.015 250);
-  --input: oklch(0.9 0.015 250);
-  --ring: oklch(0.55 0.22 295);
+  --border: hsl(269 100% 92%);
+  --input: hsl(269 100% 92%);
+  --ring: hsl(272 81% 48%);
+  --success: hsl(173 80% 40%);
+  --success-foreground: hsl(179 84% 10%);
+  --cheer: hsl(329 86% 70%);
   --chart-1: oklch(0.65 0.22 25);
   --chart-2: oklch(0.7 0.17 60);
   --chart-3: oklch(0.65 0.16 160);
@@ -97,17 +90,6 @@
   --sidebar-accent-foreground: oklch(0.3 0.15 295);
   --sidebar-border: oklch(0.9 0.015 250);
   --sidebar-ring: oklch(0.55 0.22 295);
-  /* Vibrant rainbow accents on light canvas */
-  --coral: oklch(0.72 0.19 25);
-  --coral-foreground: oklch(0.99 0.005 0);
-  --amber: oklch(0.8 0.16 75);
-  --amber-foreground: oklch(0.25 0.05 75);
-  --mint: oklch(0.75 0.16 160);
-  --mint-foreground: oklch(0.99 0.005 0);
-  --sky: oklch(0.7 0.13 230);
-  --sky-foreground: oklch(0.99 0.005 0);
-  --violet: oklch(0.62 0.22 295);
-  --violet-foreground: oklch(0.99 0.005 0);
 }
 
 .dark {
@@ -143,16 +125,6 @@
   --sidebar-accent-foreground: oklch(0.97 0.008 90);
   --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.72 0.18 295);
-  --coral: oklch(0.7 0.2 25);
-  --coral-foreground: oklch(0.99 0.005 0);
-  --amber: oklch(0.78 0.16 75);
-  --amber-foreground: oklch(0.2 0.04 75);
-  --mint: oklch(0.72 0.16 160);
-  --mint-foreground: oklch(0.99 0.005 0);
-  --sky: oklch(0.68 0.14 230);
-  --sky-foreground: oklch(0.99 0.005 0);
-  --violet: oklch(0.7 0.2 295);
-  --violet-foreground: oklch(0.99 0.005 0);
 }
 
 @layer base {
@@ -166,28 +138,10 @@
   }
 }
 
-@layer utilities {
-  .rainbow-gradient {
-    background-image: linear-gradient(
-      120deg,
-      var(--coral),
-      var(--amber),
-      var(--mint),
-      var(--sky),
-      var(--violet)
-    );
-  }
-  .rainbow-text {
-    background-image: linear-gradient(
-      120deg,
-      var(--coral),
-      var(--amber),
-      var(--mint),
-      var(--sky),
-      var(--violet)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
+@keyframes pop-in { from { transform: scale(0.4); opacity: 0; } 70% { transform: scale(1.1); } to { transform: scale(1); opacity: 1; } }
+@keyframes fade-in-star { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@utility animate-pop-in { animation: pop-in 0.35s ease-out both; }
+@utility animate-star { animation: fade-in-star 0.25s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-pop-in, .animate-star { animation: none; }
 }

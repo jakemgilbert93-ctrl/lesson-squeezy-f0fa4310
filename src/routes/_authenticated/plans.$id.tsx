@@ -12,7 +12,7 @@ import { isTimed, normalizeLesson, type LessonMeta, type LessonPlanData, type Se
 export const Route = createFileRoute("/_authenticated/plans/$id")({
   head: () => ({
     meta: [
-      { title: "Lesson — Teacher's Pet" },
+      { title: "Lesson — Lesson Squeezy" },
       { name: "description", content: "View, edit, and export your saved lesson." },
     ],
   }),
@@ -109,7 +109,7 @@ function PlanDetailPage() {
                 <button
                   onClick={handleSave}
                   disabled={saving || !dirty}
-                  className="inline-flex items-center gap-2 rounded-lg bg-violet px-4 py-2 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90 disabled:opacity-60"
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                   {dirty ? "Save changes" : "Saved"}

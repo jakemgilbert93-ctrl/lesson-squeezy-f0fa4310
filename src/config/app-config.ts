@@ -1,9 +1,9 @@
 /**
- * Teacher's Pet — single source of truth for limits and option lists.
+ * Lesson Squeezy — single source of truth for limits and option lists.
  * Change values here; no other code needs to change.
  */
 export const APP_CONFIG = {
-  appName: "Teacher's Pet",
+  appName: "Lesson Squeezy",
 
   /** AI model used for lesson generation and section regeneration. */
   aiModel: "google/gemini-3.7-flash",

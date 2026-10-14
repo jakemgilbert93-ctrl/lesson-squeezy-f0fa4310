@@ -6,7 +6,7 @@ import type { StandardSnapshot } from "@/lib/lesson-schema";
 export function StandardCard({ standard }: { standard: StandardSnapshot }) {
   return (
     <section aria-label="Standard" className="rounded-xl border border-border bg-muted/40 p-4">
-      <h3 className="text-sm font-semibold uppercase tracking-wide text-violet">Standard</h3>
+      <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">Standard</h3>
       <p className="mt-2 font-mono text-sm font-semibold text-foreground">{standard.code}</p>
       <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-foreground">{standard.standardText}</p>
       {standard.notes && (
@@ -17,7 +17,7 @@ export function StandardCard({ standard }: { standard: StandardSnapshot }) {
           href={standard.sourceUrl}
           target="_blank"
           rel="noopener"
-          className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-violet hover:underline"
+          className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
         >
           View on corestandards.org <ExternalLink className="h-3.5 w-3.5" />
         </a>

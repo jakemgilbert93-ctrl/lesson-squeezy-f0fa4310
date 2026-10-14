@@ -34,7 +34,7 @@ type Props = {
 };
 
 const fieldClass =
-  "w-full resize-y rounded-md border border-transparent bg-transparent px-2 py-1 text-sm leading-relaxed text-foreground outline-none transition hover:border-border focus:border-violet focus:bg-card focus:ring-2 focus:ring-violet/20";
+  "w-full resize-y rounded-md border border-transparent bg-transparent px-2 py-1 text-sm leading-relaxed text-foreground outline-none transition hover:border-border focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20";
 
 /** Shared 7-section lesson editor used by the generator and the saved-lesson page. */
 export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
@@ -122,7 +122,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
             return (
               <section key={key}>
                 <div className="mb-2 flex flex-wrap items-center gap-2 px-2">
-                  <h3 className="text-sm font-semibold uppercase tracking-wide text-violet">{SECTION_LABELS[key]}</h3>
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">{SECTION_LABELS[key]}</h3>
                   {isTimed(key) && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
                       <Clock className="h-3 w-3" /> {plan[key].minutes} min
