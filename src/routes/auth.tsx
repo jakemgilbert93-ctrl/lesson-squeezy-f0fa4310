@@ -7,10 +7,10 @@ import { Sparkles } from "lucide-react";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Teacher's Pet" },
+      { title: "Sign in — Lesson Squeezy" },
       {
         name: "description",
-        content: "Sign in or create your Teacher's Pet account to generate standards-aligned lesson plans.",
+        content: "Sign in or create your Lesson Squeezy account to generate standards-aligned lesson plans.",
       },
     ],
   }),
@@ -71,22 +71,22 @@ function AuthPage() {
     <div className="flex min-h-screen flex-col md:flex-row">
       {/* Brand panel */}
       <div className="relative hidden overflow-hidden md:block md:w-1/2">
-        <div className="rainbow-gradient absolute inset-0 opacity-90" />
-        <div className="relative flex h-full flex-col justify-between p-12 text-white">
+        <div className="bg-secondary absolute inset-0 opacity-90" />
+        <div className="relative flex h-full flex-col justify-between p-12 text-secondary-foreground">
           <Link to="/" className="flex items-center gap-2 text-2xl font-bold">
             <Sparkles className="h-7 w-7" />
-            Teacher's Pet
+            Lesson Squeezy
           </Link>
           <div>
             <h2 className="text-4xl font-bold leading-tight">
               Build lessons your standards will love.
             </h2>
-            <p className="mt-4 max-w-md text-white/90">
+            <p className="mt-4 max-w-md text-secondary-foreground/90">
               Pick your state standards, and let AI draft a complete, classroom-ready
               lesson plan in seconds — editable, exportable, and yours.
             </p>
           </div>
-          <p className="text-white/80">Aligned to Common Core, NGSS, and more.</p>
+          <p className="text-secondary-foreground/80">Aligned to Common Core, NGSS, and more.</p>
         </div>
       </div>
 
@@ -95,8 +95,8 @@ function AuthPage() {
         <div className="w-full max-w-md">
           <div className="mb-8 text-center md:hidden">
             <Link to="/" className="inline-flex items-center gap-2 text-2xl font-bold text-foreground">
-              <Sparkles className="h-7 w-7 text-violet" />
-              Teacher's <span className="rainbow-text">Pet</span>
+              <Sparkles className="h-7 w-7 text-primary" />
+              Lesson <span className="text-primary">Squeezy</span>
             </Link>
           </div>
 
@@ -110,7 +110,7 @@ function AuthPage() {
           </p>
 
           {confirmationNeeded ? (
-            <div className="mt-6 rounded-xl border border-mint/40 bg-mint/10 p-4 text-sm text-foreground">
+            <div className="mt-6 rounded-xl border border-primary/40 bg-primary/10 p-4 text-sm text-foreground">
               <p className="font-semibold">Check your email</p>
               <p className="mt-1 text-muted-foreground">
                 We sent a confirmation link to <span className="font-medium">{email}</span>.
@@ -118,7 +118,7 @@ function AuthPage() {
               </p>
               <button
                 onClick={() => setMode("signin")}
-                className="mt-3 text-sm font-medium text-violet hover:underline"
+                className="mt-3 text-sm font-medium text-primary hover:underline"
               >
                 I've confirmed — sign in
               </button>
@@ -135,7 +135,7 @@ function AuthPage() {
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     placeholder="Ms. Rivera"
-                    className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-violet focus:ring-2 focus:ring-violet/30"
+                    className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
                   />
                 </div>
               )}
@@ -147,7 +147,7 @@ function AuthPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@school.edu"
-                  className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-violet focus:ring-2 focus:ring-violet/30"
+                  className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
                 />
               </div>
               <div>
@@ -159,14 +159,14 @@ function AuthPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-violet focus:ring-2 focus:ring-violet/30"
+                  className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-lg bg-violet px-4 py-2.5 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90 disabled:opacity-60"
+                className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
               >
                 {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
               </button>
@@ -180,7 +180,7 @@ function AuthPage() {
                 setMode(mode === "signin" ? "signup" : "signin");
                 setConfirmationNeeded(false);
               }}
-              className="font-semibold text-violet hover:underline"
+              className="font-semibold text-primary hover:underline"
             >
               {mode === "signin" ? "Sign up" : "Sign in"}
             </button>

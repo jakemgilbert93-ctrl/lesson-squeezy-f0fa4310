@@ -6,8 +6,8 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Reset password — Teacher's Pet" },
-      { name: "description", content: "Reset your Teacher's Pet account password." },
+      { title: "Reset password — Lesson Squeezy" },
+      { name: "description", content: "Reset your Lesson Squeezy account password." },
     ],
   }),
   component: ResetPasswordPage,
@@ -74,12 +74,12 @@ function ResetPasswordPage() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="New password"
-              className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-violet focus:ring-2 focus:ring-violet/30"
+              className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
             />
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-violet px-4 py-2.5 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90 disabled:opacity-60"
+              className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
             >
               {loading ? "Updating…" : "Update password"}
             </button>
@@ -100,12 +100,12 @@ function ResetPasswordPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@school.edu"
-              className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-violet focus:ring-2 focus:ring-violet/30"
+              className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
             />
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-violet px-4 py-2.5 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90 disabled:opacity-60"
+              className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
             >
               {loading ? "Sending…" : "Send reset link"}
             </button>

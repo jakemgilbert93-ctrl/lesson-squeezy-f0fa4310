@@ -4,13 +4,13 @@ import { Sparkles, FileText, Layers, Download, ArrowRight, Check } from "lucide-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Teacher's Pet — AI lesson plans aligned to your standards" },
+      { title: "Lesson Squeezy — AI lesson plans aligned to your standards" },
       {
         name: "description",
         content:
           "Generate creative, classroom-ready lesson plans from state and district standards with AI. Editable, exportable, and built for teachers.",
       },
-      { property: "og:title", content: "Teacher's Pet — AI lesson plans aligned to your standards" },
+      { property: "og:title", content: "Lesson Squeezy — AI lesson plans aligned to your standards" },
       {
         property: "og:description",
         content:
@@ -29,12 +29,12 @@ function Index() {
       {/* Nav */}
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <Link to="/" className="flex items-center gap-2 text-xl font-bold text-foreground">
-          <Sparkles className="h-6 w-6 text-violet" />
-          Teacher's <span className="rainbow-text">Pet</span>
+          <Sparkles className="h-6 w-6 text-primary" />
+          Lesson <span className="text-primary">Squeezy</span>
         </Link>
         <Link
           to="/auth"
-          className="rounded-lg bg-violet px-4 py-2 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90"
+          className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
         >
           Sign in
         </Link>
@@ -43,21 +43,21 @@ function Index() {
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 pb-20 pt-12 text-center">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm text-muted-foreground">
-          <span className="h-2 w-2 rounded-full bg-mint" />
+          <span className="h-2 w-2 rounded-full bg-primary" />
           Aligned to Common Core, NGSS & state standards
         </div>
         <h1 className="mx-auto max-w-3xl text-5xl font-bold leading-tight tracking-tight text-foreground sm:text-6xl">
           Lesson plans that write themselves —{" "}
-          <span className="rainbow-text">aligned to your standards.</span>
+          <span className="text-primary">aligned to your standards.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Pick your state and district standards, and Teacher's Pet drafts a complete,
+          Pick your state and district standards, and Lesson Squeezy drafts a complete,
           creative, classroom-ready lesson plan in seconds. Edit it, save it, export it.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             to="/auth"
-            className="inline-flex items-center gap-2 rounded-lg bg-violet px-6 py-3 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
           >
             Start planning — it's free
             <ArrowRight className="h-4 w-4" />
@@ -78,22 +78,22 @@ function Index() {
           {[
             {
               icon: Layers,
-              color: "text-coral",
-              bg: "bg-coral/10",
+              color: "text-primary",
+              bg: "bg-primary/10",
               title: "Pick your standards",
               desc: "Filter by state, subject, and grade to select the exact standards your lesson must hit.",
             },
             {
               icon: FileText,
-              color: "text-mint",
-              bg: "bg-mint/10",
+              color: "text-primary",
+              bg: "bg-primary/10",
               title: "AI drafts the plan",
               desc: "Objectives, hook, activities, assessment, differentiation, and closure — generated and aligned.",
             },
             {
               icon: Download,
-              color: "text-sky",
-              bg: "bg-sky/10",
+              color: "text-primary",
+              bg: "bg-primary/10",
               title: "Edit & export",
               desc: "Tweak any section, save to your library, and print or export to PDF for your lesson binder.",
             },
@@ -128,8 +128,8 @@ function Index() {
               "One-click PDF export for your binder",
             ].map((f) => (
               <div key={f} className="flex items-center gap-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-mint/15">
-                  <Check className="h-4 w-4 text-mint" />
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/15">
+                  <Check className="h-4 w-4 text-primary" />
                 </span>
                 <span className="text-sm text-foreground">{f}</span>
               </div>
@@ -146,7 +146,7 @@ function Index() {
         </p>
         <Link
           to="/auth"
-          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-violet px-6 py-3 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
         >
           Get started free
           <ArrowRight className="h-4 w-4" />
@@ -155,7 +155,7 @@ function Index() {
 
       <footer className="border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Teacher's Pet. Built for teachers.
+          © {new Date().getFullYear()} Lesson Squeezy. Built for teachers.
         </div>
       </footer>
     </div>

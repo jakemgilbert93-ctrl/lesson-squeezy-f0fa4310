@@ -21,7 +21,7 @@ import { isTimed, type LessonPlanData, type SectionKey } from "@/lib/lesson-sche
 export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
     meta: [
-      { title: "New lesson — Teacher's Pet" },
+      { title: "New lesson — Lesson Squeezy" },
       { name: "description", content: "Turn a standard or topic into a ready-to-teach lesson plan." },
     ],
   }),
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/_authenticated/app")({
 });
 
 const inputClass =
-  "w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-violet focus:ring-2 focus:ring-violet/30";
+  "w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/30";
 
 function GeneratorPage() {
   const [grade, setGrade] = useState<string>("3");
@@ -264,7 +264,7 @@ function GeneratorPage() {
               <button
                 onClick={handleGenerate}
                 disabled={!canGenerate}
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-violet px-4 py-2.5 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
                 {generating ? "Writing your lesson…" : "Generate lesson"}
@@ -311,7 +311,7 @@ function GeneratorPage() {
                 <button
                   onClick={handleSave}
                   disabled={saving || (!dirty && !!savedId)}
-                  className="inline-flex items-center gap-2 rounded-lg bg-violet px-4 py-2 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90 disabled:opacity-60"
+                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                   {savedId ? (dirty ? "Save changes" : "Saved") : "Save lesson"}
@@ -327,7 +327,7 @@ function GeneratorPage() {
             />
           ) : (
             <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
-              <Wand2 className="h-8 w-8 text-violet" />
+              <Wand2 className="h-8 w-8 text-primary" />
               <h3 className="mt-4 text-lg font-semibold text-foreground">Your lesson will appear here</h3>
               <p className="mt-1.5 max-w-sm text-sm text-muted-foreground">
                 Pick a grade, subject, and length, type a standard or topic, then hit Generate.

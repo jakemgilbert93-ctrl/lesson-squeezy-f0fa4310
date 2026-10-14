@@ -19,7 +19,7 @@ type PlanRow = {
 export const Route = createFileRoute("/_authenticated/plans")({
   head: () => ({
     meta: [
-      { title: "My Lessons — Teacher's Pet" },
+      { title: "My Lessons — Lesson Squeezy" },
       { name: "description", content: "Your saved lessons." },
     ],
   }),
@@ -56,7 +56,7 @@ function PlansPage() {
           <h1 className="text-2xl font-bold text-foreground">My Lessons</h1>
           <Link
             to="/app"
-            className="inline-flex items-center gap-2 rounded-lg bg-violet px-4 py-2 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
           >
             <Plus className="h-4 w-4" /> New lesson
           </Link>
@@ -75,7 +75,7 @@ function PlansPage() {
             </p>
             <Link
               to="/app"
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-violet px-4 py-2 text-sm font-semibold text-violet-foreground transition hover:bg-violet/90"
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
             >
               <Plus className="h-4 w-4" /> Create a lesson
             </Link>
@@ -92,7 +92,7 @@ function PlansPage() {
                   params={{ id: p.id }}
                   className="block"
                 >
-                  <h3 className="font-semibold text-foreground group-hover:text-violet">{p.title}</h3>
+                  <h3 className="font-semibold text-foreground group-hover:text-primary">{p.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {p.subject} · Grade {p.grade} · {p.duration_min} min
                   </p>
