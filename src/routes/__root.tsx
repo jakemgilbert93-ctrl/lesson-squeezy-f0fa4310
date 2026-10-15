@@ -82,18 +82,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lesson Squeezy — AI lesson plans aligned to your standards" },
+      { title: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
       {
         name: "description",
         content:
-          "Generate creative, classroom-ready lesson plans from state and district standards with AI. Editable, exportable, and built for teachers.",
+          "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard. Save it, edit it, and download it as .docx.",
       },
       { name: "author", content: "Lesson Squeezy" },
-      { property: "og:title", content: "Lesson Squeezy — AI lesson plans aligned to your standards" },
+      { property: "og:title", content: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
       {
         property: "og:description",
-        content:
-          "Generate creative, classroom-ready lesson plans from state and district standards with AI.",
+        content: "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
