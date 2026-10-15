@@ -4,6 +4,8 @@
  */
 export const APP_CONFIG = {
   appName: "Lesson Squeezy",
+  /** Address used by the footer "Send feedback" link. */
+  feedbackEmail: "team@lessonsqueezy.com",
 
   /** AI model used for lesson generation and section regeneration. */
   aiModel: "google/gemini-3.7-flash",

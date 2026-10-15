@@ -16,7 +16,7 @@ type PlanRow = {
   updated_at: string;
 };
 
-export const Route = createFileRoute("/_authenticated/plans")({
+export const Route = createFileRoute("/_authenticated/plans/")({
   head: () => ({
     meta: [
       { title: "My Lessons — Lesson Squeezy" },
