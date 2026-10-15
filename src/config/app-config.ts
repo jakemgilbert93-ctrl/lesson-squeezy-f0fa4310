@@ -7,6 +7,15 @@ export const APP_CONFIG = {
   /** Address used by the footer "Send feedback" link. */
   feedbackEmail: "team@lessonsqueezy.com",
 
+  /** True while nothing can be purchased. */
+  beta: true as boolean,
+
+  /** Plan names and prices shown on /pricing. price null = not announced yet. */
+  plans: {
+    free: { name: "Free", monthlyPriceUsd: 0 as number | null },
+    pro: { name: "Pro", monthlyPriceUsd: null as number | null },
+  },
+
   /** AI model used for lesson generation and section regeneration. */
   aiModel: "google/gemini-3.7-flash",
 
