@@ -1,6 +1,7 @@
+import { Logo } from "@/components/Logo";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { Sparkles, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { toast } from "sonner";
 
 export function AppHeader() {
@@ -15,7 +16,7 @@ export function AppHeader() {
   return (
     <header className="flex items-center justify-between border-b border-border bg-card px-6 py-3.5">
       <Link to="/app" className="flex items-center gap-2 text-lg font-bold text-foreground">
-        <Sparkles className="h-5 w-5 text-primary" />
+        <Logo size={32} />
         Lesson <span className="text-primary">Squeezy</span>
       </Link>
       <nav className="flex items-center gap-4">

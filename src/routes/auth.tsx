@@ -1,8 +1,8 @@
+import { Logo } from "@/components/Logo";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -74,7 +74,7 @@ function AuthPage() {
         <div className="bg-secondary absolute inset-0 opacity-90" />
         <div className="relative flex h-full flex-col justify-between p-12 text-secondary-foreground">
           <Link to="/" className="flex items-center gap-2 text-2xl font-bold">
-            <Sparkles className="h-7 w-7" />
+            <Logo size={32} />
             Lesson Squeezy
           </Link>
           <div>
@@ -94,7 +94,7 @@ function AuthPage() {
         <div className="w-full max-w-md">
           <div className="mb-8 text-center md:hidden">
             <Link to="/" className="inline-flex items-center gap-2 text-2xl font-bold text-foreground">
-              <Sparkles className="h-7 w-7 text-primary" />
+              <Logo size={32} />
               Lesson <span className="text-primary">Squeezy</span>
             </Link>
           </div>
