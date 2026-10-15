@@ -50,13 +50,15 @@ function PlanDetailPage() {
     enableBeforeUnload: () => dirty,
   });
 
+  const [justSaved, setJustSaved] = useState(false);
+
   async function handleSave() {
     if (!plan || !meta) return;
     setSaving(true);
     try {
       await saveFn({ data: { id, ...meta, plan: plan as unknown as Record<string, unknown> } });
       setDirty(false);
-      toast.success("Changes saved.");
+      setJustSaved(true);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not save.");
     } finally {
@@ -104,7 +106,10 @@ function PlanDetailPage() {
               onChange={(p) => {
                 setPlan(p);
                 setDirty(true);
+                setJustSaved(false);
               }}
+              saved
+              showSavedNotice={justSaved}
               actions={
                 <button
                   onClick={handleSave}
@@ -112,7 +117,7 @@ function PlanDetailPage() {
                   className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                  {dirty ? "Save changes" : "Saved"}
+                  Save lesson
                 </button>
               }
               regen={{ ...regen, enabled: true, busy, onRegenerate: handleRegenerate }}

@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Copy, FileDown, Loader2, RefreshCw, Clock, Info } from "lucide-react";
+import { Copy, FileDown, Loader2, RefreshCw, Clock, Info, Check, Pencil } from "lucide-react";
 import {
   SECTION_KEYS,
   SECTION_LABELS,
@@ -23,6 +24,10 @@ type Props = {
   onChange: (plan: LessonPlanData) => void;
   /** Extra buttons (e.g. Save) shown in the toolbar. */
   actions?: ReactNode;
+  /** True once the lesson exists in My Lessons; Copy is shown only then. */
+  saved: boolean;
+  /** Show the "Saved to My Lessons" confirmation (right after a save). */
+  showSavedNotice?: boolean;
   regen: {
     used: number;
     limit: number;
@@ -37,8 +42,9 @@ const fieldClass =
   "w-full resize-y rounded-md border border-transparent bg-transparent px-2 py-1 text-sm leading-relaxed text-foreground outline-none transition hover:border-border focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20";
 
 /** Shared 7-section lesson editor used by the generator and the saved-lesson page. */
-export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
+export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNotice, regen }: Props) {
   const [exporting, setExporting] = useState(false);
+  const [editingMaterials, setEditingMaterials] = useState(false);
   const edited = new Set(plan.editedSections ?? []);
   const std = visibleStandard(plan);
   const left = Math.max(0, regen.limit - regen.used);
@@ -91,18 +97,28 @@ export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
           {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileDown className="h-4 w-4" />}
           Download .docx
         </button>
-        <button
-          onClick={copy}
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-accent"
-        >
-          <Copy className="h-4 w-4" /> Copy
-        </button>
+        {saved && (
+          <button
+            onClick={copy}
+            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-accent"
+          >
+            <Copy className="h-4 w-4" /> Copy
+          </button>
+        )}
         <span className="text-xs text-muted-foreground">
           {regen.enabled
             ? `${left} of ${regen.limit} section regenerations left`
             : "Save the lesson to regenerate sections"}
         </span>
       </div>
+      {showSavedNotice && (
+        <p role="status" className="flex flex-wrap items-center gap-2 rounded-lg bg-muted px-3 py-2 text-sm text-foreground">
+          <Check className="h-4 w-4 shrink-0 text-success" aria-hidden="true" /> Saved to My Lessons.
+          <Link to="/plans" className="font-semibold text-primary hover:underline">
+            Go to My Lessons
+          </Link>
+        </p>
+      )}
 
       <article className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
         <input
@@ -110,7 +126,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
           maxLength={100}
           onChange={(e) => onChange({ ...plan, title: e.target.value })}
           aria-label="Lesson title"
-          className={`${fieldClass} text-2xl font-bold`}
+          className={`${fieldClass} text-3xl font-extrabold leading-tight md:text-4xl`}
         />
         <p className="mt-1 px-2 text-sm text-muted-foreground">{metaLine(meta)}</p>
 
@@ -144,13 +160,29 @@ export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
                     <div className="h-3 w-5/6 animate-pulse rounded bg-muted" />
                     <div className="h-3 w-2/3 animate-pulse rounded bg-muted" />
                   </div>
+                ) : key === "materials" && !editingMaterials ? (
+                  <div className="px-2">
+                    <ul className="list-disc space-y-1 pl-5 text-sm leading-relaxed text-foreground">
+                      {materialItems(text).map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => setEditingMaterials(true)}
+                      className="mt-2 inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                    >
+                      <Pencil className="h-3.5 w-3.5" aria-hidden="true" /> Edit materials
+                    </button>
+                  </div>
                 ) : (
                   <textarea
+                    onBlur={key === "materials" ? () => setEditingMaterials(false) : undefined}
+                    autoFocus={key === "materials"}
                     value={text}
                     onChange={(e) => setText(key, e.target.value)}
                     rows={Math.max(2, text.split("\n").length + 1)}
                     aria-label={SECTION_LABELS[key]}
-                    className={fieldClass}
+                    className={`${fieldClass} [field-sizing:content] min-h-16`}
                   />
                 )}
               </section>
@@ -164,4 +196,13 @@ export function LessonCanvas({ plan, meta, onChange, actions, regen }: Props) {
       </article>
     </div>
   );
+}
+
+/** Split the materials text into one item per line, dropping bullet markers and blanks. */
+function materialItems(text: string): string[] {
+  const items = text
+    .split("\n")
+    .map((l) => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim())
+    .filter(Boolean);
+  return items.length ? items : ["—"];
 }
