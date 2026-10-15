@@ -1,20 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Sparkles, FileText, Layers, Download, ArrowRight, Check } from "lucide-react";
+import { FileText, Pencil, Download, ArrowRight, Check, Clock } from "lucide-react";
+import { PublicHeader } from "@/components/PublicHeader";
+import { APP_CONFIG } from "@/config/app-config";
+import { SECTION_KEYS, SECTION_LABELS, isTimed, type SectionKey } from "@/lib/lesson-schema";
+import { lessonsLine, priceLabel } from "@/lib/plan-copy";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Lesson Squeezy — AI lesson plans aligned to your standards" },
+      { title: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
       {
         name: "description",
         content:
-          "Generate creative, classroom-ready lesson plans from state and district standards with AI. Editable, exportable, and built for teachers.",
+          "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard. Save it, edit it, and download it as .docx.",
       },
-      { property: "og:title", content: "Lesson Squeezy — AI lesson plans aligned to your standards" },
+      { property: "og:title", content: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
       {
         property: "og:description",
-        content:
-          "Generate creative, classroom-ready lesson plans from state and district standards with AI.",
+        content: "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -23,36 +26,41 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/** Static, hand-written sample shown on the landing page. No AI call. */
+const SAMPLE: { title: string; meta: string; sections: Record<SectionKey, string>; minutes: Partial<Record<SectionKey, number>> } = {
+  title: "Sample: Subtracting Fractions with Like Denominators",
+  meta: "Grade 3 · Math · 45 minutes",
+  minutes: { warmUp: 8, directInstruction: 15, practice: 17 },
+  sections: {
+    objective: "Students will subtract fractions with like denominators using fraction strips and equations.",
+    materials: "Fraction strips\nWhiteboards and markers\nExit ticket slips",
+    warmUp: "Show a pizza cut into 6 slices with 5 shaded. Students write the fraction on whiteboards.",
+    directInstruction: "Model 6/8 − 2/8 with a bar cut into 8 parts. Cross out 2 parts and count what's left.",
+    practice: "Partners solve three problems with fraction strips, then four on their own.",
+    exitTicket: "Solve 5/8 − 2/8 = ___ and draw a model to show your answer.",
+    differentiation: "Support: pre-cut fraction strips with halves and fourths.\nExtension: write your own fraction word problem.",
+  },
+};
+
 function Index() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Nav */}
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-foreground">
-          <Sparkles className="h-6 w-6 text-primary" />
-          Lesson <span className="text-primary">Squeezy</span>
-        </Link>
-        <Link
-          to="/auth"
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
-        >
-          Sign in
-        </Link>
-      </header>
+      <PublicHeader />
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 pb-20 pt-12 text-center">
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm text-muted-foreground">
-          <span className="h-2 w-2 rounded-full bg-primary" />
-          Aligned to Common Core, NGSS & state standards
-        </div>
-        <h1 className="mx-auto max-w-3xl text-5xl font-bold leading-tight tracking-tight text-foreground sm:text-6xl">
-          Lesson plans that write themselves —{" "}
-          <span className="text-primary">aligned to your standards.</span>
+      <section className="mx-auto max-w-6xl px-4 pb-16 pt-10 text-center sm:px-6 sm:pt-12">
+        {APP_CONFIG.beta && (
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm text-muted-foreground">
+            <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
+            Now in beta
+          </div>
+        )}
+        <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          Lesson plans, <span className="text-primary">drafted for you.</span>
         </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Pick your state and district standards, and Lesson Squeezy drafts a complete,
-          creative, classroom-ready lesson plan in seconds. Edit it, save it, export it.
+        <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg">
+          Enter a topic or pick a standard, and Lesson Squeezy drafts a complete,
+          classroom-ready lesson plan. Edit it, save it, download it.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
@@ -60,50 +68,29 @@ function Index() {
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
           >
             Start planning — it's free
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
           <a
-            href="#how"
+            href="#sample"
             className="inline-flex items-center rounded-lg border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-accent"
           >
-            See how it works
+            See a sample lesson
           </a>
         </div>
       </section>
 
       {/* How it works */}
-      <section id="how" className="mx-auto max-w-6xl px-6 pb-20">
-        <h2 className="text-center text-3xl font-bold text-foreground">Three steps to a finished plan</h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+        <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">Three steps to a finished plan</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[
-            {
-              icon: Layers,
-              color: "text-primary",
-              bg: "bg-primary/10",
-              title: "Pick your standards",
-              desc: "Filter by state, subject, and grade to select the exact standards your lesson must hit.",
-            },
-            {
-              icon: FileText,
-              color: "text-primary",
-              bg: "bg-primary/10",
-              title: "AI drafts the plan",
-              desc: "Objectives, hook, activities, assessment, differentiation, and closure — generated and aligned.",
-            },
-            {
-              icon: Download,
-              color: "text-primary",
-              bg: "bg-primary/10",
-              title: "Edit & export",
-              desc: "Tweak any section, save to your library, and print or export to PDF for your lesson binder.",
-            },
+            { icon: FileText, title: "Choose grade and subject", desc: "Enter a topic, or pick a standard where available." },
+            { icon: Pencil, title: "Review the draft", desc: "Edit any section, or regenerate one section at a time." },
+            { icon: Download, title: "Save and download", desc: "Keep it in My Lessons, download a .docx, or copy the text." },
           ].map((step) => (
-            <div
-              key={step.title}
-              className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm"
-            >
-              <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${step.bg}`}>
-                <step.icon className={`h-6 w-6 ${step.color}`} />
+            <div key={step.title} className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <step.icon className="h-6 w-6 text-primary" aria-hidden="true" />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-foreground">{step.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{step.desc}</p>
@@ -112,47 +99,66 @@ function Index() {
         </div>
       </section>
 
-      {/* Features */}
-      <section className="mx-auto max-w-6xl px-6 pb-20">
-        <div className="rounded-3xl border border-border bg-card p-8 md:p-12">
-          <h2 className="text-2xl font-bold text-foreground">Everything in one lesson plan</h2>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {[
-              "Measurable objectives tied to your standards",
-              "An engaging hook to open the lesson",
-              "Sequenced activities with realistic timing",
-              "Assessment that checks for understanding",
-              "Differentiation for diverse learners",
-              "A strong, reflective closure",
-              "Editable sections you control",
-              "One-click PDF export for your binder",
-            ].map((f) => (
-              <div key={f} className="flex items-center gap-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/15">
-                  <Check className="h-4 w-4 text-primary" />
-                </span>
-                <span className="text-sm text-foreground">{f}</span>
+      {/* Sample lesson */}
+      <section id="sample" className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
+        <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">A sample lesson</h2>
+        <p className="mt-2 text-center text-sm text-muted-foreground">Every lesson has these seven sections.</p>
+        <article className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+          <h3 className="font-bold text-foreground">{SAMPLE.title}</h3>
+          <p className="mt-1 text-sm text-muted-foreground">{SAMPLE.meta}</p>
+          <div className="mt-6 space-y-5">
+            {SECTION_KEYS.map((key) => (
+              <div key={key}>
+                <h4 className="flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
+                  {SECTION_LABELS[key]}
+                  {isTimed(key) && SAMPLE.minutes[key] && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2 py-0.5 text-xs font-medium normal-case text-accent-foreground">
+                      <Clock className="h-3 w-3" aria-hidden="true" /> {SAMPLE.minutes[key]} min
+                    </span>
+                  )}
+                </h4>
+                <p className="mt-1.5 whitespace-pre-line text-sm text-foreground">{SAMPLE.sections[key]}</p>
               </div>
             ))}
           </div>
+        </article>
+      </section>
+
+      {/* Pricing teaser */}
+      <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
+        <div className="rounded-3xl border border-border bg-card p-6 text-center sm:p-10">
+          <h2 className="text-2xl font-bold text-foreground">Start free</h2>
+          <ul className="mx-auto mt-4 max-w-md space-y-2 text-left text-sm text-foreground">
+            <li className="flex items-center gap-2">
+              <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+              {APP_CONFIG.plans.free.name} ({priceLabel("free")}): {lessonsLine("free")}
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+              {APP_CONFIG.plans.pro.name}: {APP_CONFIG.beta ? "coming after beta" : priceLabel("pro")}
+            </li>
+          </ul>
+          <Link
+            to="/pricing"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-accent"
+          >
+            See pricing
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-6xl px-6 pb-24 text-center">
-        <h2 className="text-3xl font-bold text-foreground">Ready to reclaim your planning time?</h2>
-        <p className="mt-3 text-muted-foreground">
-          Create a free account and generate your first lesson plan today.
-        </p>
+      <section className="mx-auto max-w-6xl px-4 pb-20 text-center sm:px-6">
+        <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Ready to plan your next lesson?</h2>
         <Link
           to="/auth"
           className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
         >
           Get started free
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </section>
-
     </div>
   );
 }
