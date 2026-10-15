@@ -1,12 +1,13 @@
+import { Logo } from "@/components/Logo";
 import { Link } from "@tanstack/react-router";
-import { Sparkles } from "lucide-react";
+
 import { APP_CONFIG } from "@/config/app-config";
 
 export function PublicHeader() {
   return (
     <header className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-5 sm:px-6">
       <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground sm:text-xl">
-        <Sparkles className="h-6 w-6 text-primary" aria-hidden="true" />
+        <Logo size={32} />
         <span>
           Lesson <span className="text-primary">Squeezy</span>
         </span>
