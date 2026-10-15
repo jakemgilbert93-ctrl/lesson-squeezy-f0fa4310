@@ -16,7 +16,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
-import { Route as AuthenticatedPlansRouteImport } from './routes/_authenticated/plans'
+import { Route as AuthenticatedPlansIndexRouteImport } from './routes/_authenticated/plans.index'
 import { Route as AuthenticatedPlansIdRouteImport } from './routes/_authenticated/plans.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -53,15 +53,15 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedPlansRoute = AuthenticatedPlansRouteImport.update({
-  id: '/plans',
-  path: '/plans',
+const AuthenticatedPlansIndexRoute = AuthenticatedPlansIndexRouteImport.update({
+  id: '/plans/',
+  path: '/plans/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedPlansIdRoute = AuthenticatedPlansIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => AuthenticatedPlansRoute,
+  id: '/plans/$id',
+  path: '/plans/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -71,8 +71,8 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/app': typeof AuthenticatedAppRoute
-  '/plans': typeof AuthenticatedPlansRouteWithChildren
   '/plans/$id': typeof AuthenticatedPlansIdRoute
+  '/plans/': typeof AuthenticatedPlansIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -81,8 +81,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/app': typeof AuthenticatedAppRoute
-  '/plans': typeof AuthenticatedPlansRouteWithChildren
   '/plans/$id': typeof AuthenticatedPlansIdRoute
+  '/plans': typeof AuthenticatedPlansIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,8 +93,8 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/_authenticated/app': typeof AuthenticatedAppRoute
-  '/_authenticated/plans': typeof AuthenticatedPlansRouteWithChildren
   '/_authenticated/plans/$id': typeof AuthenticatedPlansIdRoute
+  '/_authenticated/plans/': typeof AuthenticatedPlansIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,8 +105,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/app'
-    | '/plans'
     | '/plans/$id'
+    | '/plans/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -115,8 +115,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/app'
-    | '/plans'
     | '/plans/$id'
+    | '/plans'
   id:
     | '__root__'
     | '/'
@@ -126,8 +126,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/_authenticated/app'
-    | '/_authenticated/plans'
     | '/_authenticated/plans/$id'
+    | '/_authenticated/plans/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -190,42 +190,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/plans': {
-      id: '/_authenticated/plans'
+    '/_authenticated/plans/': {
+      id: '/_authenticated/plans/'
       path: '/plans'
-      fullPath: '/plans'
-      preLoaderRoute: typeof AuthenticatedPlansRouteImport
+      fullPath: '/plans/'
+      preLoaderRoute: typeof AuthenticatedPlansIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/plans/$id': {
       id: '/_authenticated/plans/$id'
-      path: '/$id'
+      path: '/plans/$id'
       fullPath: '/plans/$id'
       preLoaderRoute: typeof AuthenticatedPlansIdRouteImport
-      parentRoute: typeof AuthenticatedPlansRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
-interface AuthenticatedPlansRouteChildren {
-  AuthenticatedPlansIdRoute: typeof AuthenticatedPlansIdRoute
-}
-
-const AuthenticatedPlansRouteChildren: AuthenticatedPlansRouteChildren = {
-  AuthenticatedPlansIdRoute: AuthenticatedPlansIdRoute,
-}
-
-const AuthenticatedPlansRouteWithChildren =
-  AuthenticatedPlansRoute._addFileChildren(AuthenticatedPlansRouteChildren)
-
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRoute
-  AuthenticatedPlansRoute: typeof AuthenticatedPlansRouteWithChildren
+  AuthenticatedPlansIdRoute: typeof AuthenticatedPlansIdRoute
+  AuthenticatedPlansIndexRoute: typeof AuthenticatedPlansIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRoute,
-  AuthenticatedPlansRoute: AuthenticatedPlansRouteWithChildren,
+  AuthenticatedPlansIdRoute: AuthenticatedPlansIdRoute,
+  AuthenticatedPlansIndexRoute: AuthenticatedPlansIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
