@@ -44,8 +44,9 @@ export const APP_CONFIG = {
 
   /** Official Common Core standards picker. Fails closed without a real notice. */
   standards: {
-    enabled: false as boolean,
-    copyrightNotice: "NOTICE_PENDING" as string,
+    enabled: true as boolean,
+    copyrightNotice:
+      "© Copyright 2010. National Governors Association Center for Best Practices and Council of Chief State School Officers. All rights reserved." as string,
     pickerGrades: ["K", "1", "2", "3", "4", "5"],
     /** App subject -> subject value stored in the standards table. */
     pickerSubjects: { Math: "Math", "English Language Arts": "ELA" } as Record<string, string>,
