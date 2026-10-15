@@ -19,7 +19,7 @@ export const Route = createFileRoute("/pricing")({
 });
 
 function Features({ tier }: { tier: PlanTier }) {
-  const items = [lessonsLine(tier), regensLine(tier), ".docx download and copy to clipboard"];
+  const items = [lessonsLine(tier), regensLine(tier), ".docx download and saved lessons on your account"];
   return (
     <ul className="mt-6 space-y-3">
       {items.map((f) => (
