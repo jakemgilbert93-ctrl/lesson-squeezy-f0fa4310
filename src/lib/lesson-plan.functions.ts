@@ -128,12 +128,13 @@ ${data.title ? `Teacher's title: <title>${data.title}</title>` : "No title given
 
 The three timed sections (warmUp, directInstruction, practice) MUST add up to exactly ${data.durationMin} minutes.
 "practice" covers both guided and independent practice.
+The objective MUST be two or more complete sentences.
 
 Respond with ONLY one JSON object, no markdown, in this exact shape:
 {
   "title": string,
-  "objective": string,
-  "materials": string (one item per line),
+  "objective": string (at least two complete sentences),
+  "materials": string (one item per line, no bullet symbols),
   "warmUp": { "minutes": integer, "content": string },
   "directInstruction": { "minutes": integer, "content": string },
   "practice": { "minutes": integer, "content": string },
@@ -201,7 +202,7 @@ ${JSON.stringify(current)}
 Grade: ${gradeLabel(row.grade ?? "")}
 Subject: ${row.subject ?? ""}
 
-Rewrite ONLY the "${label}" section with a fresh, different approach that stays consistent with the rest of the lesson.${timing}
+Rewrite ONLY the "${label}" section with a fresh, different approach that stays consistent with the rest of the lesson.${timing}${key === "objective" ? " Write at least two complete sentences." : ""}${key === "materials" ? " List one item per line with no bullet symbols." : ""}
 Respond with ONLY one JSON object: { "content": string }`;
 
     const out = await generateValidatedJson(z.object({ content: z.string().min(1) }), prompt);

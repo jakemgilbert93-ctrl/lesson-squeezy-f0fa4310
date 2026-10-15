@@ -42,6 +42,7 @@ function GeneratorPage() {
   const [plan, setPlan] = useState<LessonPlanData | null>(null);
   const [planMeta, setPlanMeta] = useState({ grade, subject, durationMin });
   const [savedId, setSavedId] = useState<string | null>(null);
+  const [justSaved, setJustSaved] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [regenUsed, setRegenUsed] = useState(0);
   const [busySection, setBusySection] = useState<SectionKey | null>(null);
@@ -106,6 +107,7 @@ function GeneratorPage() {
       setPlanMeta({ grade, subject, durationMin });
       setUsage(res.usage);
       setSavedId(null);
+      setJustSaved(false);
       setRegenUsed(0);
       setDirty(true);
       setReady(true);
@@ -129,7 +131,7 @@ function GeneratorPage() {
       });
       setSavedId(row.id);
       setDirty(false);
-      toast.success("Saved to My Lessons.");
+      setJustSaved(true);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not save.");
     } finally {
@@ -327,7 +329,10 @@ function GeneratorPage() {
               onChange={(p) => {
                 setPlan(p);
                 setDirty(true);
+                setJustSaved(false);
               }}
+              saved={!!savedId}
+              showSavedNotice={justSaved}
               actions={
                 <button
                   onClick={handleSave}
@@ -335,7 +340,7 @@ function GeneratorPage() {
                   className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-                  {savedId ? (dirty ? "Save changes" : "Saved") : "Save lesson"}
+                  Save lesson
                 </button>
               }
               regen={{
