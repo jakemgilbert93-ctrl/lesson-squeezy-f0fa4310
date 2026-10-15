@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -13,16 +13,34 @@ export const Route = createFileRoute("/reset-password")({
   component: ResetPasswordPage,
 });
 
+type Mode = "unknown" | "email" | "recovery";
+
+function detectRecovery(): boolean {
+  if (typeof window === "undefined") return false;
+  const hash = new URLSearchParams(window.location.hash.replace("#", "?"));
+  const query = new URLSearchParams(window.location.search);
+  return hash.get("type") === "recovery" || query.get("type") === "recovery";
+}
+
 function ResetPasswordPage() {
-  const navigate = useNavigate();
+  const [mode, setMode] = useState<Mode>("unknown");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [sent, setSent] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const isRecovery =
-    typeof window !== "undefined" &&
-    new URLSearchParams(window.location.hash.replace("#", "?")).get("type") === "recovery";
+  useEffect(() => {
+    // Detect recovery mode immediately, before the auth client clears the code from the URL.
+    setMode(detectRecovery() ? "recovery" : "email");
+    // Also listen for the sign-in service's password-recovery event.
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") setMode("recovery");
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   async function handleRequest(e: React.FormEvent) {
     e.preventDefault();
@@ -51,8 +69,8 @@ function ResetPasswordPage() {
     try {
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       if (error) throw error;
+      setUpdated(true);
       toast.success("Password updated!");
-      navigate({ to: "/app" });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -64,26 +82,40 @@ function ResetPasswordPage() {
     <div className="flex min-h-screen items-center justify-center bg-background p-6">
       <div className="w-full max-w-md">
         <h1 className="text-2xl font-bold text-foreground">Reset password</h1>
-        {isRecovery ? (
-          <form onSubmit={handleUpdate} className="mt-6 space-y-4">
-            <p className="text-sm text-muted-foreground">Enter your new password below.</p>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="New password"
-              className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
-            >
-              {loading ? "Updating…" : "Update password"}
-            </button>
-          </form>
+        {mode === "unknown" ? null : mode === "recovery" ? (
+          updated ? (
+            <div className="mt-6 space-y-4">
+              <p className="text-sm text-muted-foreground">
+                Your password has been updated. You can now sign in with your new password.
+              </p>
+              <Link
+                to="/auth"
+                className="block w-full rounded-lg bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+              >
+                Go to sign in
+              </Link>
+            </div>
+          ) : (
+            <form onSubmit={handleUpdate} className="mt-6 space-y-4">
+              <p className="text-sm text-muted-foreground">Enter your new password below.</p>
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="New password"
+                className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
+              >
+                {loading ? "Updating…" : "Update password"}
+              </button>
+            </form>
+          )
         ) : sent ? (
           <p className="mt-6 text-sm text-muted-foreground">
             If an account exists for <span className="font-medium text-foreground">{email}</span>,
