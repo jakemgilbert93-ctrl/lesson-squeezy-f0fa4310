@@ -135,7 +135,8 @@ function Index() {
             </li>
             <li className="flex items-center gap-2">
               <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-              {APP_CONFIG.plans.pro.name}: {APP_CONFIG.beta ? "coming after beta" : priceLabel("pro")}
+              {APP_CONFIG.plans.pro.name}:{" "}
+              {APP_CONFIG.beta ? `${priceLabel("pro")} — planned price during beta` : priceLabel("pro")}
             </li>
           </ul>
           <Link

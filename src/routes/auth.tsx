@@ -83,10 +83,9 @@ function AuthPage() {
             </h2>
             <p className="mt-4 max-w-md text-secondary-foreground/90">
               Pick your state standards, and let AI draft a complete, classroom-ready
-              lesson plan in seconds — editable, exportable, and yours.
+              lesson plan — editable, exportable, and yours.
             </p>
           </div>
-          <p className="text-secondary-foreground/80">Aligned to Common Core, NGSS, and more.</p>
         </div>
       </div>
 

@@ -13,7 +13,7 @@ export const APP_CONFIG = {
   /** Plan names and prices shown on /pricing. price null = not announced yet. */
   plans: {
     free: { name: "Free", monthlyPriceUsd: 0 as number | null },
-    pro: { name: "Pro", monthlyPriceUsd: null as number | null },
+    pro: { name: "Pro", monthlyPriceUsd: 5 as number | null },
   },
 
   /** AI model used for lesson generation and section regeneration. */

@@ -86,6 +86,9 @@ function PricingPage() {
           <section className="rounded-2xl border-2 border-primary bg-card p-6 shadow-sm sm:p-8">
             <h2 className="text-xl font-bold text-foreground">{plans.pro.name}</h2>
             <p className="mt-2 text-3xl font-bold text-foreground">{priceLabel("pro")}</p>
+            {beta && (
+              <p className="mt-1 text-sm text-muted-foreground">Planned price during beta.</p>
+            )}
             <Features tier="pro" />
             {beta && (
               <>
