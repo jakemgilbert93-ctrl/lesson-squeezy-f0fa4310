@@ -90,7 +90,7 @@ function AuthPage() {
       </div>
 
       {/* Form panel */}
-      <div className="flex flex-1 items-center justify-center bg-background p-6">
+      <div className="flex flex-1 items-center justify-center p-6">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center md:hidden">
             <Link to="/" className="inline-flex items-center gap-2 text-2xl font-bold text-foreground">

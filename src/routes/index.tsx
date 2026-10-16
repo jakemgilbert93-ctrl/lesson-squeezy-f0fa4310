@@ -3,6 +3,7 @@ import { FileText, Pencil, Download, ArrowRight, Check, Clock } from "lucide-rea
 import { PublicHeader } from "@/components/PublicHeader";
 import { APP_CONFIG } from "@/config/app-config";
 import { SECTION_KEYS, SECTION_LABELS, isTimed, type SectionKey } from "@/lib/lesson-schema";
+import { chipFill } from "@/lib/chip-fill";
 import { lessonsLine, priceLabel } from "@/lib/plan-copy";
 
 export const Route = createFileRoute("/")({
@@ -44,7 +45,7 @@ const SAMPLE: { title: string; meta: string; sections: Record<SectionKey, string
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <PublicHeader />
 
       {/* Hero */}
@@ -88,9 +89,9 @@ function Index() {
             { icon: Pencil, title: "Review the draft", desc: "Edit any section, or regenerate one section at a time." },
             { icon: Download, title: "Save and download", desc: "Keep it in My Lessons, download a .docx, or copy the text." },
           ].map((step) => (
-            <div key={step.title} className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-                <step.icon className="h-6 w-6 text-primary" aria-hidden="true" />
+            <div key={step.title} className="rounded-xl border border-border bg-card p-6 text-left shadow-sm">
+              <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-icon">
+                <step.icon className="h-6 w-6 text-foreground" aria-hidden="true" />
               </div>
               <h3 className="mt-4 text-lg font-semibold text-foreground">{step.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{step.desc}</p>
@@ -103,16 +104,16 @@ function Index() {
       <section id="sample" className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
         <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">A sample lesson</h2>
         <p className="mt-2 text-center text-sm text-muted-foreground">Every lesson has these seven sections.</p>
-        <article className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+        <article className="mt-8 rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
           <h3 className="font-bold text-foreground">{SAMPLE.title}</h3>
           <p className="mt-1 text-sm text-muted-foreground">{SAMPLE.meta}</p>
           <div className="mt-6 space-y-5">
-            {SECTION_KEYS.map((key) => (
+            {SECTION_KEYS.map((key, idx) => (
               <div key={key}>
                 <h4 className="flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
                   {SECTION_LABELS[key]}
                   {isTimed(key) && SAMPLE.minutes[key] && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-accent px-2 py-0.5 text-xs font-medium normal-case text-accent-foreground">
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium normal-case ${chipFill(SECTION_KEYS.filter(isTimed).indexOf(key))}`}>
                       <Clock className="h-3 w-3" aria-hidden="true" /> {SAMPLE.minutes[key]} min
                     </span>
                   )}
@@ -126,7 +127,7 @@ function Index() {
 
       {/* Pricing teaser */}
       <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
-        <div className="rounded-3xl border border-border bg-card p-6 text-center sm:p-10">
+        <div className="rounded-xl border border-border bg-card p-6 text-center sm:p-10">
           <h2 className="text-2xl font-bold text-foreground">Start free</h2>
           <ul className="mx-auto mt-4 max-w-md space-y-2 text-left text-sm text-foreground">
             <li className="flex items-center gap-2">
@@ -141,7 +142,7 @@ function Index() {
           </ul>
           <Link
             to="/pricing"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition hover:bg-accent"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary px-5 py-2.5 text-sm font-semibold text-secondary-foreground transition hover:bg-secondary/80"
           >
             See pricing
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

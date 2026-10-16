@@ -52,6 +52,9 @@
   --color-cheer: var(--cheer);
   --color-blush: var(--blush);
   --color-babyblue: var(--babyblue);
+  --color-lavender: var(--lavender);
+  --color-pink: var(--pink);
+  --color-skyblue: var(--skyblue);
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -81,6 +84,13 @@
   --cheer: hsl(209 100% 82%);
   --blush: hsl(338 100% 89%);
   --babyblue: hsl(208 97% 87%);
+  --lavender: hsl(280 34% 78%);
+  --pink: hsl(338 100% 84%);
+  --skyblue: hsl(209 100% 82%);
+  --page-tint: hsl(210 100% 96%);
+  --gradient-header: linear-gradient(90deg, var(--lavender), var(--blush), var(--babyblue), var(--skyblue));
+  --gradient-page: linear-gradient(180deg, var(--background), var(--page-tint));
+  --gradient-icon: linear-gradient(135deg, var(--lavender), var(--babyblue));
   --chart-1: oklch(0.65 0.22 25);
   --chart-2: oklch(0.7 0.17 60);
   --chart-3: oklch(0.65 0.16 160);
@@ -138,6 +148,9 @@
 
   body {
     background-color: var(--color-background);
+    background-image: var(--gradient-page);
+    background-attachment: fixed;
+    min-height: 100vh;
     color: var(--color-foreground);
   }
 }
@@ -149,3 +162,7 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-pop-in, .animate-star { animation: none; }
 }
+
+@utility bg-gradient-header { background-image: var(--gradient-header); }
+@utility bg-gradient-page { background-image: var(--gradient-page); }
+@utility bg-gradient-icon { background-image: var(--gradient-icon); }

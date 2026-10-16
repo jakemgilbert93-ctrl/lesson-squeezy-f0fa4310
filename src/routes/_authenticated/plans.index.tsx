@@ -49,7 +49,7 @@ function PlansPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <AppHeader />
       <main className="mx-auto max-w-6xl px-6 py-8">
         <div className="flex items-center justify-between">
@@ -68,7 +68,7 @@ function PlansPage() {
           </p>
         ) : plans.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
-            <FileText className="mx-auto h-10 w-10 text-muted-foreground" />
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-icon"><FileText className="h-8 w-8 text-foreground" aria-hidden="true" /></div>
             <h2 className="mt-3 text-lg font-semibold text-foreground">No saved lessons yet</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Generate a lesson and save it to see it here.
@@ -85,7 +85,7 @@ function PlansPage() {
             {plans.map((p) => (
               <div
                 key={p.id}
-                className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:shadow-md"
+                className="group rounded-xl border border-border bg-card p-5 shadow-sm transition hover:shadow-md"
               >
                 <Link
                   to="/plans/$id"

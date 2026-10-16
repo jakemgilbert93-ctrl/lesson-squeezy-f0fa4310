@@ -5,14 +5,15 @@ import { APP_CONFIG } from "@/config/app-config";
 
 export function PublicHeader() {
   return (
-    <header className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-5 sm:px-6">
+    <header className="border-b border-border bg-gradient-header">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-5 sm:px-6">
       <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground sm:text-xl">
         <Logo size={32} />
         <span>
           Lesson <span className="text-primary">Squeezy</span>
         </span>
         {APP_CONFIG.beta && (
-          <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold text-secondary-foreground">
+          <span className="rounded-full bg-card px-2 py-0.5 text-xs font-semibold text-foreground">
             Beta
           </span>
         )}
@@ -20,8 +21,8 @@ export function PublicHeader() {
       <nav className="flex items-center gap-3 sm:gap-5">
         <Link
           to="/pricing"
-          activeProps={{ className: "text-primary font-semibold" }}
-          className="text-sm text-muted-foreground transition hover:text-foreground"
+          activeProps={{ className: "font-bold underline underline-offset-4" }}
+          className="text-sm font-medium text-foreground transition hover:text-foreground/80"
         >
           Pricing
         </Link>
@@ -32,6 +33,7 @@ export function PublicHeader() {
           Sign in
         </Link>
       </nav>
+      </div>
     </header>
   );
 }

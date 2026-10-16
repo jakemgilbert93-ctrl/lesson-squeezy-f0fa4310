@@ -196,16 +196,16 @@ function GeneratorPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col">
       <AppHeader />
 
       <div className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-4 py-6 lg:grid-cols-[360px_1fr] md:px-6">
         <aside className="lg:sticky lg:top-6 lg:self-start">
-          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-foreground">New lesson</h2>
               {usage && (
-                <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                <span className="rounded-full bg-blush px-2.5 py-1 text-xs font-medium text-foreground">
                   {usage.monthlyLimit === null
                     ? "Pro · unlimited"
                     : `${usage.lessonsUsed} / ${usage.monthlyLimit} this month`}
@@ -319,7 +319,7 @@ function GeneratorPage() {
             </div>
           )}
           {generating ? (
-            <div className="space-y-4 rounded-2xl border border-border bg-card p-8">
+            <div className="space-y-4 rounded-xl border border-border bg-card p-8">
               <div className="h-7 w-2/3 animate-pulse rounded bg-muted" />
               {Array.from({ length: 7 }).map((_, i) => (
                 <div key={i} className="space-y-2">
@@ -330,7 +330,7 @@ function GeneratorPage() {
               ))}
             </div>
           ) : plan && ready ? (
-            <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-border bg-card p-10 text-center">
+            <div className="flex min-h-80 flex-col items-center justify-center rounded-xl border border-border bg-card p-10 text-center">
               <div className="animate-pop-in flex h-16 w-16 items-center justify-center rounded-full bg-success">
                 <Check className="h-8 w-8 text-success-foreground" />
               </div>
@@ -378,8 +378,10 @@ function GeneratorPage() {
               }}
             />
           ) : (
-            <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
-              <Wand2 className="h-8 w-8 text-primary" />
+            <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-10 text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-icon">
+                <Wand2 className="h-8 w-8 text-foreground" aria-hidden="true" />
+              </div>
               <h3 className="mt-4 text-lg font-semibold text-foreground">Your lesson will appear here</h3>
               <p className="mt-1.5 max-w-sm text-sm text-muted-foreground">
                 Pick a grade, subject, and length, type a standard or topic, then hit Generate.

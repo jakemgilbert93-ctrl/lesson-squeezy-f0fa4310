@@ -24,8 +24,8 @@ function Features({ tier }: { tier: PlanTier }) {
     <ul className="mt-6 space-y-3">
       {items.map((f) => (
         <li key={f} className="flex items-start gap-3 text-sm text-foreground">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15">
-            <Check className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-icon">
+            <Check className="h-3.5 w-3.5 text-foreground" aria-hidden="true" />
           </span>
           {f}
         </li>
@@ -60,7 +60,7 @@ function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <PublicHeader />
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-8 sm:px-6">
         <h1 className="text-center text-3xl font-bold text-foreground sm:text-4xl">Pricing</h1>
@@ -71,7 +71,7 @@ function PricingPage() {
         )}
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
-          <section className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+          <section className="rounded-xl border border-border bg-card p-6 shadow-sm sm:p-8">
             <h2 className="text-xl font-bold text-foreground">{plans.free.name}</h2>
             <p className="mt-2 text-3xl font-bold text-foreground">{priceLabel("free")}</p>
             <Features tier="free" />

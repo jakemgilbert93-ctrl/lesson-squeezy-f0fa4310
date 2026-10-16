@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from "react";
+import { chipFill } from "@/lib/chip-fill";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Copy, FileDown, Loader2, RefreshCw, Clock, Info, Check, Pencil } from "lucide-react";
@@ -120,7 +121,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
         </p>
       )}
 
-      <article className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
+      <article className="rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
         <input
           value={plan.title}
           maxLength={100}
@@ -140,7 +141,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
                 <div className="mb-2 flex flex-wrap items-center gap-2 px-2">
                   <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">{SECTION_LABELS[key]}</h3>
                   {isTimed(key) && (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${chipFill(SECTION_KEYS.filter(isTimed).indexOf(key))}`}>
                       <Clock className="h-3 w-3" /> {plan[key].minutes} min
                     </span>
                   )}
