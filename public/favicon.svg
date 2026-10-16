@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Lesson Squeezy logo">
   <rect width="64" height="64" rx="16" fill="#BEE0FE"/>
   <g transform="translate(30 36)">
-    <circle r="19" fill="#FFD84D"/>
-    <circle r="16.5" fill="#FFF3B8"/>
-    <circle r="14.5" fill="#FFE27A"/>
-    <line x1="0" y1="0" x2="14.50" y2="0.00" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="10.25" y2="10.25" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="0.00" y2="14.50" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="-10.25" y2="10.25" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="-14.50" y2="0.00" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="-10.25" y2="-10.25" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="0.00" y2="-14.50" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="0" y1="0" x2="10.25" y2="-10.25" stroke="#FFF3B8" stroke-width="1.8" stroke-linecap="round"/>
-    <circle r="1.8" fill="#FFF3B8"/>
+    <circle r="19" fill="#FFADCB"/>
+    <circle r="16.5" fill="#FFC7DB"/>
+    <circle r="14.5" fill="#FFADCB"/>
+    <line x1="0" y1="0" x2="14.50" y2="0.00" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="10.25" y2="10.25" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="0.00" y2="14.50" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="-10.25" y2="10.25" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="-14.50" y2="0.00" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="-10.25" y2="-10.25" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="0.00" y2="-14.50" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="10.25" y2="-10.25" stroke="#FFC7DB" stroke-width="1.8" stroke-linecap="round"/>
+    <circle r="1.8" fill="#FFC7DB"/>
   </g>
-  <path transform="translate(48 17) scale(1.15)" d="M0,-10 Q1.5,-1.5 10,0 Q1.5,1.5 0,10 Q-1.5,1.5 -10,0 Q-1.5,-1.5 0,-10Z" fill="#FFAFCC" stroke="#BEE0FE" stroke-width="2.174" stroke-linejoin="round"/>
+  <path transform="translate(48 17) scale(1.15)" d="M0,-10 Q1.5,-1.5 10,0 Q1.5,1.5 0,10 Q-1.5,1.5 -10,0 Q-1.5,-1.5 0,-10Z" fill="#7C5B95" stroke="#BEE0FE" stroke-width="2.174" stroke-linejoin="round"/>
   <path transform="translate(14 15) scale(0.55)" d="M0,-10 Q1.5,-1.5 10,0 Q1.5,1.5 0,10 Q-1.5,1.5 -10,0 Q-1.5,-1.5 0,-10Z" fill="#FFFFFF" stroke="#BEE0FE" stroke-width="4.545" stroke-linejoin="round"/>
 </svg>
