@@ -50,6 +50,8 @@
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
   --color-cheer: var(--cheer);
+  --color-blush: var(--blush);
+  --color-babyblue: var(--babyblue);
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
