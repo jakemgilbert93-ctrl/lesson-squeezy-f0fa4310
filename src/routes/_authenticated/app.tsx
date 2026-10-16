@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useBlocker } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { Loader2, Save, Wand2, AlertCircle, Check, Star } from "lucide-react";
+import { Loader2, Save, Wand2, AlertCircle, Check, Star, ChevronDown } from "lucide-react";
 
 import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
@@ -30,6 +30,41 @@ export const Route = createFileRoute("/_authenticated/app")({
 
 const inputClass =
   "w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/30";
+
+// Native select arrows sit against the border, so the picker draws its own
+// chevron with the same inset as the text padding on the other side.
+const selectClass = `${inputClass} cursor-pointer appearance-none pr-9`;
+
+function Picker({
+  id,
+  label,
+  value,
+  onChange,
+  children,
+}: {
+  id: string;
+  label: ReactNode;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  children: ReactNode;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="mb-1 block text-xs font-medium text-muted-foreground">
+        {label}
+      </label>
+      <span className="relative block">
+        <select id={id} value={value} onChange={onChange} className={selectClass}>
+          {children}
+        </select>
+        <ChevronDown
+          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+          aria-hidden="true"
+        />
+      </span>
+    </div>
+  );
+}
 
 function GeneratorPage() {
   const [grade, setGrade] = useState<string>("3");
@@ -180,49 +215,40 @@ function GeneratorPage() {
 
             <div className="mt-4 space-y-3">
               <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label htmlFor="grade" className="mb-1 block text-xs font-medium text-muted-foreground">Grade</label>
-                  <select id="grade" value={grade} onChange={(e) => setGrade(e.target.value)} className={inputClass}>
-                    {APP_CONFIG.grades.map((g) => (
-                      <option key={g} value={g}>{gradeLabel(g)}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="length" className="mb-1 block text-xs font-medium text-muted-foreground">Lesson length</label>
-                  <select id="length" value={durationMin} onChange={(e) => setDurationMin(Number(e.target.value))} className={inputClass}>
-                    {APP_CONFIG.lessonLengths.map((m) => (
-                      <option key={m} value={m}>{m} minutes</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label htmlFor="subject" className="mb-1 block text-xs font-medium text-muted-foreground">Subject</label>
-                <select id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} className={inputClass}>
-                  {APP_CONFIG.subjects.map((s) => (
-                    <option key={s} value={s}>{s}</option>
+                <Picker id="grade" label="Grade" value={grade} onChange={(e) => setGrade(e.target.value)}>
+                  {APP_CONFIG.grades.map((g) => (
+                    <option key={g} value={g}>{gradeLabel(g)}</option>
                   ))}
-                </select>
+                </Picker>
+                <Picker id="length" label="Lesson length" value={String(durationMin)} onChange={(e) => setDurationMin(Number(e.target.value))}>
+                  {APP_CONFIG.lessonLengths.map((m) => (
+                    <option key={m} value={m}>{m} minutes</option>
+                  ))}
+                </Picker>
               </div>
+              <Picker id="subject" label="Subject" value={subject} onChange={(e) => setSubject(e.target.value)}>
+                {APP_CONFIG.subjects.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </Picker>
               {pickerOn && (
-                <div>
-                  <label htmlFor="standard" className="mb-1 block text-xs font-medium text-muted-foreground">
-                    Standard <span className="font-normal">(optional)</span>
-                  </label>
-                  <select id="standard" value={ccssId} onChange={(e) => setCcssId(e.target.value)} className={inputClass}>
-                    <option value="">No standard</option>
-                    {stdGroups.map(([group, opts]) => (
-                      <optgroup key={group} label={group}>
-                        {opts.map((o) => (
-                          <option key={o.ccssId} value={o.ccssId}>
-                            {o.code} — {o.standardText.length > 60 ? `${o.standardText.slice(0, 60)}…` : o.standardText}
-                          </option>
-                        ))}
-                      </optgroup>
-                    ))}
-                  </select>
-                </div>
+                <Picker
+                  id="standard"
+                  label={<>Standard <span className="font-normal">(optional)</span></>}
+                  value={ccssId}
+                  onChange={(e) => setCcssId(e.target.value)}
+                >
+                  <option value="">No standard</option>
+                  {stdGroups.map(([group, opts]) => (
+                    <optgroup key={group} label={group}>
+                      {opts.map((o) => (
+                        <option key={o.ccssId} value={o.ccssId}>
+                          {o.code} — {o.standardText.length > 60 ? `${o.standardText.slice(0, 60)}…` : o.standardText}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </Picker>
               )}
               <div>
                 <label htmlFor="topic" className="mb-1 block text-xs font-medium text-muted-foreground">
