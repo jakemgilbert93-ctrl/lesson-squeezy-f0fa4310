@@ -205,7 +205,7 @@ function GeneratorPage() {
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-foreground">New lesson</h2>
               {usage && (
-                <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+                <span className="rounded-full bg-blush px-2.5 py-1 text-xs font-medium text-foreground">
                   {usage.monthlyLimit === null
                     ? "Pro · unlimited"
                     : `${usage.lessonsUsed} / ${usage.monthlyLimit} this month`}

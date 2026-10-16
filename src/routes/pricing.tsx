@@ -24,7 +24,7 @@ function Features({ tier }: { tier: PlanTier }) {
     <ul className="mt-6 space-y-3">
       {items.map((f) => (
         <li key={f} className="flex items-start gap-3 text-sm text-foreground">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/15">
+          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-icon">
             <Check className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
           </span>
           {f}

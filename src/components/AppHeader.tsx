@@ -14,7 +14,7 @@ export function AppHeader() {
   }
 
   return (
-    <header className="flex items-center justify-between border-b border-border bg-card px-6 py-3.5">
+    <header className="flex items-center justify-between border-b border-border bg-gradient-header px-6 py-3.5">
       <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground">
         <Logo size={32} />
         Lesson <span className="text-primary">Squeezy</span>
@@ -22,29 +22,29 @@ export function AppHeader() {
       <nav className="flex items-center gap-4">
         <Link
           to="/"
-          activeProps={{ className: "text-primary font-semibold" }}
-          className="text-sm text-muted-foreground transition hover:text-foreground"
+          activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
+          className="text-sm font-medium text-foreground/80 transition hover:text-foreground"
         >
           Home
         </Link>
         <Link
           to="/app"
           activeOptions={{ exact: true }}
-          activeProps={{ className: "text-primary font-semibold" }}
-          className="text-sm text-muted-foreground transition hover:text-foreground"
+          activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
+          className="text-sm font-medium text-foreground/80 transition hover:text-foreground"
         >
           New Lesson
         </Link>
         <Link
           to="/plans"
-          activeProps={{ className: "text-primary font-semibold" }}
-          className="text-sm text-muted-foreground transition hover:text-foreground"
+          activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
+          className="text-sm font-medium text-foreground/80 transition hover:text-foreground"
         >
           My Lessons
         </Link>
         <button
           onClick={signOut}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground transition hover:bg-accent"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm text-foreground transition hover:bg-accent"
         >
           <LogOut className="h-4 w-4" />
           Sign out
