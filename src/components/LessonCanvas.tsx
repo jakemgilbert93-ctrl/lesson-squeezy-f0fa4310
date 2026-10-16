@@ -121,7 +121,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
         </p>
       )}
 
-      <article className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8">
+      <article className="rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
         <input
           value={plan.title}
           maxLength={100}

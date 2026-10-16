@@ -201,7 +201,7 @@ function GeneratorPage() {
 
       <div className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-4 py-6 lg:grid-cols-[360px_1fr] md:px-6">
         <aside className="lg:sticky lg:top-6 lg:self-start">
-          <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-foreground">New lesson</h2>
               {usage && (
@@ -319,7 +319,7 @@ function GeneratorPage() {
             </div>
           )}
           {generating ? (
-            <div className="space-y-4 rounded-2xl border border-border bg-card p-8">
+            <div className="space-y-4 rounded-xl border border-border bg-card p-8">
               <div className="h-7 w-2/3 animate-pulse rounded bg-muted" />
               {Array.from({ length: 7 }).map((_, i) => (
                 <div key={i} className="space-y-2">
@@ -330,7 +330,7 @@ function GeneratorPage() {
               ))}
             </div>
           ) : plan && ready ? (
-            <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-border bg-card p-10 text-center">
+            <div className="flex min-h-80 flex-col items-center justify-center rounded-xl border border-border bg-card p-10 text-center">
               <div className="animate-pop-in flex h-16 w-16 items-center justify-center rounded-full bg-success">
                 <Check className="h-8 w-8 text-success-foreground" />
               </div>

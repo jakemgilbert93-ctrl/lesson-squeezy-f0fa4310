@@ -85,7 +85,7 @@ function PlansPage() {
             {plans.map((p) => (
               <div
                 key={p.id}
-                className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition hover:shadow-md"
+                className="group rounded-xl border border-border bg-card p-5 shadow-sm transition hover:shadow-md"
               >
                 <Link
                   to="/plans/$id"

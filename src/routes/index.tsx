@@ -89,7 +89,7 @@ function Index() {
             { icon: Pencil, title: "Review the draft", desc: "Edit any section, or regenerate one section at a time." },
             { icon: Download, title: "Save and download", desc: "Keep it in My Lessons, download a .docx, or copy the text." },
           ].map((step) => (
-            <div key={step.title} className="rounded-2xl border border-border bg-card p-6 text-left shadow-sm">
+            <div key={step.title} className="rounded-xl border border-border bg-card p-6 text-left shadow-sm">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-icon">
                 <step.icon className="h-6 w-6 text-foreground" aria-hidden="true" />
               </div>
@@ -104,7 +104,7 @@ function Index() {
       <section id="sample" className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
         <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">A sample lesson</h2>
         <p className="mt-2 text-center text-sm text-muted-foreground">Every lesson has these seven sections.</p>
-        <article className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-8">
+        <article className="mt-8 rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
           <h3 className="font-bold text-foreground">{SAMPLE.title}</h3>
           <p className="mt-1 text-sm text-muted-foreground">{SAMPLE.meta}</p>
           <div className="mt-6 space-y-5">
@@ -127,7 +127,7 @@ function Index() {
 
       {/* Pricing teaser */}
       <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
-        <div className="rounded-3xl border border-border bg-card p-6 text-center sm:p-10">
+        <div className="rounded-xl border border-border bg-card p-6 text-center sm:p-10">
           <h2 className="text-2xl font-bold text-foreground">Start free</h2>
           <ul className="mx-auto mt-4 max-w-md space-y-2 text-left text-sm text-foreground">
             <li className="flex items-center gap-2">

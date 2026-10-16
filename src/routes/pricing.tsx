@@ -71,7 +71,7 @@ function PricingPage() {
         )}
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
-          <section className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+          <section className="rounded-xl border border-border bg-card p-6 shadow-sm sm:p-8">
             <h2 className="text-xl font-bold text-foreground">{plans.free.name}</h2>
             <p className="mt-2 text-3xl font-bold text-foreground">{priceLabel("free")}</p>
             <Features tier="free" />
