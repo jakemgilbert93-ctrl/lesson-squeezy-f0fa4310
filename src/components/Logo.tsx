@@ -2,8 +2,7 @@ type LogoProps = { size?: number; className?: string; decorative?: boolean };
 
 /**
  * Lesson Squeezy brand mark. Colors are fixed so it looks the same in every theme.
- * Hexes mirror the light-mode theme tokens in src/styles.css:
- * babyblue #BEE0FE, success #FFADCB, blush #FFF3C6, primary #7C5B95, card #FFFFFF.
+ * Babyblue tile, lemon-yellow slice, pink and white sparkles.
  */
 export function Logo({ size = 32, className, decorative = true }: LogoProps) {
   return (
