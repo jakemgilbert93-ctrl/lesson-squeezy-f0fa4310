@@ -378,8 +378,10 @@ function GeneratorPage() {
               }}
             />
           ) : (
-            <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
-              <Wand2 className="h-8 w-8 text-primary" />
+            <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-10 text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-icon">
+                <Wand2 className="h-8 w-8 text-foreground" aria-hidden="true" />
+              </div>
               <h3 className="mt-4 text-lg font-semibold text-foreground">Your lesson will appear here</h3>
               <p className="mt-1.5 max-w-sm text-sm text-muted-foreground">
                 Pick a grade, subject, and length, type a standard or topic, then hit Generate.
