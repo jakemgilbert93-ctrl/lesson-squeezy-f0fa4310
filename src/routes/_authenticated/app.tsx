@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useBlocker } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { Loader2, Save, Wand2, AlertCircle, Check, Star } from "lucide-react";
+import { Loader2, Save, Wand2, AlertCircle, Check, Star, ChevronDown } from "lucide-react";
 
 import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
@@ -30,6 +30,41 @@ export const Route = createFileRoute("/_authenticated/app")({
 
 const inputClass =
   "w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/30";
+
+// Native select arrows sit against the border, so the picker draws its own
+// chevron with the same inset as the text padding on the other side.
+const selectClass = `${inputClass} cursor-pointer appearance-none pr-9`;
+
+function Picker({
+  id,
+  label,
+  value,
+  onChange,
+  children,
+}: {
+  id: string;
+  label: ReactNode;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  children: ReactNode;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="mb-1 block text-xs font-medium text-muted-foreground">
+        {label}
+      </label>
+      <span className="relative block">
+        <select id={id} value={value} onChange={onChange} className={selectClass}>
+          {children}
+        </select>
+        <ChevronDown
+          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+          aria-hidden="true"
+        />
+      </span>
+    </div>
+  );
+}
 
 function GeneratorPage() {
   const [grade, setGrade] = useState<string>("3");
