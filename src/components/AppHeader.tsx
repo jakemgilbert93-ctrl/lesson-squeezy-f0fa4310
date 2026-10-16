@@ -15,11 +15,18 @@ export function AppHeader() {
 
   return (
     <header className="flex items-center justify-between border-b border-border bg-card px-6 py-3.5">
-      <Link to="/app" className="flex items-center gap-2 text-lg font-bold text-foreground">
+      <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground">
         <Logo size={32} />
         Lesson <span className="text-primary">Squeezy</span>
       </Link>
       <nav className="flex items-center gap-4">
+        <Link
+          to="/"
+          activeProps={{ className: "text-primary font-semibold" }}
+          className="text-sm text-muted-foreground transition hover:text-foreground"
+        >
+          Home
+        </Link>
         <Link
           to="/app"
           activeOptions={{ exact: true }}
