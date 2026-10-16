@@ -49,7 +49,7 @@ function PlansPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <AppHeader />
       <main className="mx-auto max-w-6xl px-6 py-8">
         <div className="flex items-center justify-between">

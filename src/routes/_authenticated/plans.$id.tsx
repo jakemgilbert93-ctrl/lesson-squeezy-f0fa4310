@@ -86,7 +86,7 @@ function PlanDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <AppHeader />
       <main className="mx-auto max-w-4xl px-4 py-8 md:px-6">
         <Link to="/plans" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground">

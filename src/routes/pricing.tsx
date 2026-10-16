@@ -60,7 +60,7 @@ function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <PublicHeader />
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-8 sm:px-6">
         <h1 className="text-center text-3xl font-bold text-foreground sm:text-4xl">Pricing</h1>

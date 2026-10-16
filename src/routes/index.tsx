@@ -44,7 +44,7 @@ const SAMPLE: { title: string; meta: string; sections: Record<SectionKey, string
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <PublicHeader />
 
       {/* Hero */}
