@@ -358,6 +358,10 @@ function GeneratorPage() {
                 onRegenerate: handleRegenerate,
               }}
             />
+            {savedId && (
+              <LessonRating lessonId={savedId} grade={planMeta.grade} subject={planMeta.subject} />
+            )}
+            </div>
           ) : (
             <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-10 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-icon">
