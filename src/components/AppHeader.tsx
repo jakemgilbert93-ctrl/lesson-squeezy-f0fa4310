@@ -10,7 +10,7 @@ export function AppHeader() {
   async function signOut() {
     await supabase.auth.signOut();
     toast.success("Signed out");
-    navigate({ to: "/" });
+    navigate({ to: "/auth" });
   }
 
   return (
