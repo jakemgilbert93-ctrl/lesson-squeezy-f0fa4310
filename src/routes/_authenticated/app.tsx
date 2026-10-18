@@ -2,10 +2,11 @@ import { createFileRoute, Link, useBlocker } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { Loader2, Save, Wand2, AlertCircle, Check, Star, ChevronDown } from "lucide-react";
+import { Loader2, Save, Wand2, AlertCircle, ChevronDown } from "lucide-react";
 
 import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
+import { LessonRating } from "@/components/LessonRating";
 import { APP_CONFIG, gradeLabel, standardsSubjectFor } from "@/config/app-config";
 import { listStandards, type StandardOption } from "@/lib/standards.functions";
 import { StandardCard } from "@/components/StandardCard";
@@ -82,7 +83,6 @@ function GeneratorPage() {
   const [regenUsed, setRegenUsed] = useState(0);
   const [busySection, setBusySection] = useState<SectionKey | null>(null);
   const [generating, setGenerating] = useState(false);
-  const [ready, setReady] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -145,7 +145,6 @@ function GeneratorPage() {
       setJustSaved(false);
       setRegenUsed(0);
       setDirty(true);
-      setReady(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Generation failed. Please try again.");
     } finally {
@@ -329,26 +328,8 @@ function GeneratorPage() {
                 </div>
               ))}
             </div>
-          ) : plan && ready ? (
-            <div className="flex min-h-80 flex-col items-center justify-center rounded-xl border border-border bg-card p-10 text-center">
-              <div className="animate-pop-in flex h-16 w-16 items-center justify-center rounded-full bg-success">
-                <Check className="h-8 w-8 text-success-foreground" />
-              </div>
-              <div className="mt-4 flex gap-1.5" aria-hidden="true">
-                {[0, 1, 2].map((i) => (
-                  <Star key={i} className="animate-star h-4 w-4 fill-cheer text-cheer" style={{ animationDelay: `${300 + i * 150}ms` }} />
-                ))}
-              </div>
-              <h3 className="mt-3 text-lg font-bold text-foreground">Your lesson is ready</h3>
-              <p className="mt-1 text-sm text-muted-foreground">Nice work — your class is going to love this one.</p>
-              <button
-                onClick={() => setReady(false)}
-                className="mt-5 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
-              >
-                View lesson
-              </button>
-            </div>
           ) : plan ? (
+            <div className="space-y-4">
             <LessonCanvas
               plan={plan}
               meta={planMeta}
@@ -377,6 +358,10 @@ function GeneratorPage() {
                 onRegenerate: handleRegenerate,
               }}
             />
+            {savedId && (
+              <LessonRating lessonId={savedId} grade={planMeta.grade} subject={planMeta.subject} />
+            )}
+            </div>
           ) : (
             <div className="flex h-full min-h-80 flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card p-10 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-icon">
