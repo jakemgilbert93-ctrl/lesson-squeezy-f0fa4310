@@ -2,10 +2,11 @@ import { createFileRoute, Link, useBlocker } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { Loader2, Save, Wand2, AlertCircle, Check, Star, ChevronDown } from "lucide-react";
+import { Loader2, Save, Wand2, AlertCircle, ChevronDown } from "lucide-react";
 
 import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
+import { LessonRating } from "@/components/LessonRating";
 import { APP_CONFIG, gradeLabel, standardsSubjectFor } from "@/config/app-config";
 import { listStandards, type StandardOption } from "@/lib/standards.functions";
 import { StandardCard } from "@/components/StandardCard";
@@ -82,7 +83,6 @@ function GeneratorPage() {
   const [regenUsed, setRegenUsed] = useState(0);
   const [busySection, setBusySection] = useState<SectionKey | null>(null);
   const [generating, setGenerating] = useState(false);
-  const [ready, setReady] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
