@@ -85,14 +85,14 @@ function PlansPage() {
             {plans.map((p) => (
               <div
                 key={p.id}
-                className="group rounded-xl border border-border bg-card p-5 shadow-sm transition hover:shadow-md"
+                className="group min-w-0 rounded-xl border border-border bg-card p-5 shadow-sm transition hover:shadow-md"
               >
                 <Link
                   to="/plans/$id"
                   params={{ id: p.id }}
                   className="block"
                 >
-                  <h3 className="font-semibold text-foreground group-hover:text-primary">{p.title}</h3>
+                  <h3 className="break-words font-semibold text-foreground group-hover:text-primary">{p.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {p.subject} · Grade {p.grade} · {p.duration_min} min
                   </p>
