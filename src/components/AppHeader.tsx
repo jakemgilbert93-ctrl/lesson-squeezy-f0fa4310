@@ -14,12 +14,12 @@ export function AppHeader() {
   }
 
   return (
-    <header className="flex items-center justify-between border-b border-border bg-gradient-header px-6 py-3.5">
-      <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground">
+    <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-border bg-gradient-header px-4 py-3 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:px-6 sm:py-3.5">
+      <Link to="/" className="flex min-w-0 items-center gap-2 text-lg font-bold text-foreground">
         <Logo size={32} />
         Lesson <span className="text-primary">Squeezy</span>
       </Link>
-      <nav className="flex items-center gap-4">
+      <nav className="col-span-2 flex flex-wrap items-center gap-x-4 gap-y-2 sm:col-span-1 sm:flex-nowrap">
         <Link
           to="/"
           activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
