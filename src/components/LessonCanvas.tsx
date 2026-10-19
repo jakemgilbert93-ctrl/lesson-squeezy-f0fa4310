@@ -122,12 +122,13 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
       )}
 
       <article className="rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
-        <input
+        <textarea
           value={plan.title}
           maxLength={100}
+          rows={1}
           onChange={(e) => onChange({ ...plan, title: e.target.value })}
           aria-label="Lesson title"
-          className={`${fieldClass} text-3xl font-extrabold leading-tight md:text-4xl`}
+          className={`${fieldClass} [field-sizing:content] min-h-0 resize-none overflow-hidden break-words text-3xl font-extrabold leading-tight md:text-4xl`}
         />
         <p className="mt-1 px-2 text-sm text-muted-foreground">{metaLine(meta)}</p>
 
