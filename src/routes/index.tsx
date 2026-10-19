@@ -5,6 +5,8 @@ import { APP_CONFIG } from "@/config/app-config";
 import { SECTION_KEYS, SECTION_LABELS, isTimed, type SectionKey } from "@/lib/lesson-schema";
 import { chipFill } from "@/lib/chip-fill";
 import { lessonsLine, priceLabel } from "@/lib/plan-copy";
+import { useHomeSession } from "@/hooks/use-home-session";
+import { HomeWorkspace } from "@/components/HomeWorkspace";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,7 +32,7 @@ export const Route = createFileRoute("/")({
 /** Static, hand-written sample shown on the landing page. No AI call. */
 const SAMPLE: { title: string; meta: string; sections: Record<SectionKey, string>; minutes: Partial<Record<SectionKey, number>> } = {
   title: "Sample: Subtracting Fractions with Like Denominators",
-  meta: "Grade 3 · Math · 45 minutes",
+  meta: "Grade 4 · Math · 45 minutes",
   minutes: { warmUp: 8, directInstruction: 15, practice: 17 },
   sections: {
     objective: "Students will subtract fractions with like denominators using fraction strips and equations.",
@@ -44,6 +46,9 @@ const SAMPLE: { title: string; meta: string; sections: Record<SectionKey, string
 };
 
 function Index() {
+  const userId = useHomeSession();
+  if (userId === null) return <div className="min-h-screen"><PublicHeader /><main aria-busy="true" aria-label="Loading homepage" className="mx-auto max-w-6xl px-4 py-10"><div className="h-10 w-60 rounded-lg bg-muted" /></main></div>;
+  if (userId) return <div className="min-h-screen"><PublicHeader /><HomeWorkspace userId={userId} /></div>;
   return (
     <div className="min-h-screen">
       <PublicHeader />
@@ -56,7 +61,7 @@ function Index() {
             Now in beta
           </div>
         )}
-        <h1 className="mx-auto max-w-3xl text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
+        <h1 className="mx-auto max-w-3xl text-balance text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
           Lesson plans, <span className="text-primary">drafted for you.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg">
@@ -78,6 +83,7 @@ function Index() {
             See a sample lesson
           </a>
         </div>
+        <p className="mt-4 text-sm text-muted-foreground">Built for teachers. No student information needed.</p>
       </section>
 
       {/* How it works */}
@@ -118,7 +124,7 @@ function Index() {
                     </span>
                   )}
                 </h4>
-                <p className="mt-1.5 whitespace-pre-line text-sm text-foreground">{SAMPLE.sections[key]}</p>
+                {key === "materials" ? <ul className="mt-1.5 list-disc space-y-1 pl-5 text-sm text-foreground">{SAMPLE.sections[key].split("\n").map((item) => <li key={item}>{item}</li>)}</ul> : <p className="mt-1.5 whitespace-pre-line text-sm text-foreground">{SAMPLE.sections[key]}</p>}
               </div>
             ))}
           </div>

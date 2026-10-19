@@ -1,32 +1,14 @@
-import { useEffect, useState } from "react";
 import { Logo } from "@/components/Logo";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
 import { APP_CONFIG } from "@/config/app-config";
+import { useHomeSession } from "@/hooks/use-home-session";
+import { Button } from "@/components/ui/button";
 
 export function PublicHeader() {
   const navigate = useNavigate();
-  // null = session state not known yet; avoid flashing the wrong nav.
-  const [signedIn, setSignedIn] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    let active = true;
-    supabase.auth.getSession().then(({ data }) => {
-      if (active) setSignedIn(!!data.session);
-    });
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT" || event === "INITIAL_SESSION") {
-        setSignedIn(!!session);
-      }
-    });
-    return () => {
-      active = false;
-      subscription.unsubscribe();
-    };
-  }, []);
+  const signedIn = useHomeSession();
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -35,7 +17,7 @@ export function PublicHeader() {
 
   return (
     <header className="border-b border-border bg-gradient-header">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-5 sm:px-6">
+      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-4 py-5 sm:flex-row sm:items-center sm:px-6">
       <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground sm:text-xl">
         <Logo size={32} />
         <span>
@@ -47,14 +29,14 @@ export function PublicHeader() {
           </span>
         )}
       </Link>
-      <nav className="flex items-center gap-3 sm:gap-5">
-        <Link
+      <nav className="flex flex-wrap items-center gap-3 sm:gap-5">
+        {signedIn === false && <Link
           to="/pricing"
           activeProps={{ className: "font-bold underline underline-offset-4" }}
           className="text-sm font-medium text-foreground transition hover:text-foreground/80"
         >
           Pricing
-        </Link>
+        </Link>}
         {signedIn === null ? (
           // Neutral placeholder while the session loads — no state flash.
           <span className="inline-block h-9 w-20 rounded-lg bg-muted" aria-hidden="true" />
@@ -66,21 +48,24 @@ export function PublicHeader() {
             >
               My Lessons
             </Link>
-            <button
+            <Button variant="ghost"
               type="button"
               onClick={signOut}
               className="text-sm font-medium text-foreground transition hover:text-foreground/80"
             >
               Sign out
-            </button>
+            </Button>
           </>
         ) : (
-          <Link
+          <>
+          <Link to="/auth" className="text-sm font-medium text-foreground">Sign in</Link>
+          <Button asChild><Link
             to="/auth"
             className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
           >
-            Sign in
-          </Link>
+            Get started
+          </Link></Button>
+          </>
         )}
       </nav>
       </div>
