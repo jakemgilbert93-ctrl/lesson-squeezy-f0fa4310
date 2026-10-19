@@ -6,6 +6,7 @@ export const APP_CONFIG = {
   appName: "Lesson Squeezy",
   /** Address used by the footer "Send feedback" link. */
   feedbackEmail: "team@lessonsqueezy.com",
+  homepage: { recentLessons: 3 },
 
   /** True while nothing can be purchased. */
   beta: true as boolean,
