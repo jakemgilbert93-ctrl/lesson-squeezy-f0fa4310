@@ -47,7 +47,7 @@ export function HomeWorkspace({ userId }: { userId: string }) {
               {current.monthlyLimit !== null && <progress aria-label="Monthly lesson usage" className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted accent-primary" max={Math.max(1, current.monthlyLimit)} value={current.lessonsUsed} />}
             </div>
             {current.plan === "free" && <Dialog><DialogTrigger asChild><Button variant="outline">Upgrade</Button></DialogTrigger>
-              <DialogContent className="max-h-[85dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto">
+              <DialogContent className="max-h-[85dvh] w-[calc(100%_-_2rem)] max-w-2xl overflow-y-auto">
                 <DialogHeader><DialogTitle>Free and Pro</DialogTitle><DialogDescription>{APP_CONFIG.beta ? "Lesson Squeezy is in beta. Nothing can be purchased yet." : "Your lesson planning options."}</DialogDescription></DialogHeader>
                 <div className="grid gap-6 sm:grid-cols-2">{(["free", "pro"] as const).map((tier) => <div key={tier} className="min-w-0">
                   <h3 className="text-lg font-bold">{APP_CONFIG.plans[tier].name}</h3><p className="mt-2 text-2xl font-bold">{priceLabel(tier)}</p>

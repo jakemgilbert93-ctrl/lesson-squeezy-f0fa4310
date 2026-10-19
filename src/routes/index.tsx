@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FileText, Pencil, Download, ArrowRight, Check, Clock } from "lucide-react";
 import { PublicHeader } from "@/components/PublicHeader";
-import { APP_CONFIG } from "@/config/app-config";
+import { APP_CONFIG, standardsActive } from "@/config/app-config";
 import { SECTION_KEYS, SECTION_LABELS, isTimed, type SectionKey } from "@/lib/lesson-schema";
 import { chipFill } from "@/lib/chip-fill";
 import { lessonsLine, priceLabel } from "@/lib/plan-copy";
 import { useHomeSession } from "@/hooks/use-home-session";
 import { HomeWorkspace } from "@/components/HomeWorkspace";
+import { StandardCard } from "@/components/StandardCard";
+import sampleStandard from "@/lib/home-sample-standard.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -113,6 +115,7 @@ function Index() {
         <article className="mt-8 rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
           <h3 className="font-bold text-foreground">{SAMPLE.title}</h3>
           <p className="mt-1 text-sm text-muted-foreground">{SAMPLE.meta}</p>
+          {standardsActive() && <div className="mt-6"><StandardCard standard={sampleStandard} /></div>}
           <div className="mt-6 space-y-5">
             {SECTION_KEYS.map((key, idx) => (
               <div key={key}>

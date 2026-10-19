@@ -17,3 +17,4 @@
 - Section regeneration requires a saved lesson, because the per-lesson counter is stored on the lesson row.
 - Standards display is gated by standardsActive() in app-config; standard snapshots are always (re)built server-side from the DB, never from browser text.
 - The public homepage resolves identity before mounting its signed-in workspace; private reads use existing protected server functions from client queries keyed by user ID, never the public loader.
+- The static public sample standard is an exact source-file extract verified against the database, avoiding anonymous access to the protected standards table; live lesson snapshots remain server-built.
