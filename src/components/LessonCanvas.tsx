@@ -142,7 +142,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
                 <div className="mb-2 flex flex-wrap items-center gap-2 px-2">
                   <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">{SECTION_LABELS[key]}</h3>
                   {isTimed(key) && (
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${key === "guidedPractice" ? "bg-lavender text-foreground" : chipFill(SECTION_KEYS.filter(isTimed).indexOf(key))}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${key === "practice" ? "bg-lavender text-foreground" : chipFill(SECTION_KEYS.filter(isTimed).indexOf(key))}`}>
                       <Clock className="h-3 w-3" /> {plan[key].minutes} min
                     </span>
                   )}
