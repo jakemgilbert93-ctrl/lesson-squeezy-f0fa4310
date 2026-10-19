@@ -113,7 +113,7 @@ function Index() {
                 <h4 className="flex flex-wrap items-center gap-2 text-sm font-semibold uppercase tracking-wide text-primary">
                   {SECTION_LABELS[key]}
                   {isTimed(key) && SAMPLE.minutes[key] && (
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium normal-case ${chipFill(SECTION_KEYS.filter(isTimed).indexOf(key))}`}>
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium normal-case ${key === "practice" ? "bg-lavender text-foreground" : chipFill(SECTION_KEYS.filter(isTimed).indexOf(key))}`}>
                       <Clock className="h-3 w-3" aria-hidden="true" /> {SAMPLE.minutes[key]} min
                     </span>
                   )}
