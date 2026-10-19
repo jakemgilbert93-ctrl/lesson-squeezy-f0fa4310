@@ -1,0 +1,7 @@
+{
+  "ccssId": "CCSS.Math.Content.4.NF.B.3",
+  "code": "4.NF.B.3",
+  "standardText": "Understand a fraction a/b with a > 1 as a sum of fractions 1/b.\na. Understand addition and subtraction of fractions as joining and separating parts referring to the same whole.\nb. Decompose a fraction into a sum of fractions with the same denominator in more than one way, recording each decomposition by an equation. Justify decompositions, e.g., by using a visual fraction model. Examples: 3/8 = 1/8 + 1/8 + 1/8 ; 3/8 = 1/8 + 2/8 ; 2 1/8 = 1 + 1 + 1/8 = 8/8 + 8/8 + 1/8.\nc. Add and subtract mixed numbers with like denominators, e.g., by replacing each mixed number with an equivalent fraction, and/or by using properties of operations and the relationship between addition and subtraction.\nd. Solve word problems involving addition and subtraction of fractions referring to the same whole and having like denominators, e.g., by using visual fraction models and equations to represent the problem.",
+  "notes": "Grade 4 expectations in this domain are limited to fractions with denominators 2, 3, 4, 5, 6, 8, 10, 12, and 100.",
+  "sourceUrl": "https://thecorestandards.org/Math/Content/4/NF/"
+}
