@@ -89,6 +89,7 @@
   --skyblue: hsl(209 100% 82%);
   --page-tint: hsl(210 100% 96%);
   --gradient-header: linear-gradient(90deg, var(--lavender), var(--blush), var(--babyblue), var(--skyblue));
+  --gradient-panel: linear-gradient(135deg, var(--lavender), var(--blush), var(--pink), var(--babyblue), var(--skyblue));
   --gradient-page: linear-gradient(180deg, var(--background), var(--page-tint));
   --gradient-icon: linear-gradient(135deg, var(--lavender), var(--babyblue));
   --chart-1: oklch(0.65 0.22 25);
@@ -164,5 +165,6 @@
 }
 
 @utility bg-gradient-header { background-image: var(--gradient-header); }
+@utility bg-gradient-panel { background-image: var(--gradient-panel); }
 @utility bg-gradient-page { background-image: var(--gradient-page); }
 @utility bg-gradient-icon { background-image: var(--gradient-icon); }
