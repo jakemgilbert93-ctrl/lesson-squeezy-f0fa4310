@@ -70,20 +70,48 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
       {/* Brand panel */}
-      <div className="relative hidden overflow-hidden md:block md:w-1/2">
-        <div className="bg-secondary absolute inset-0 opacity-90" />
-        <div className="relative flex h-full flex-col justify-between p-12 text-secondary-foreground">
-          <Link to="/" className="flex items-center gap-2 text-2xl font-bold">
-            <Logo size={32} />
+      <div className="bg-gradient-panel relative hidden overflow-hidden md:block md:w-1/2">
+        <div className="relative flex h-full flex-col p-12 text-secondary-foreground">
+          <Link to="/" className="flex items-center gap-2 text-3xl font-bold">
+            <Logo size={40} />
             Lesson Squeezy
           </Link>
-          <div>
-            <h2 className="text-4xl font-bold leading-tight">
-              Build lessons your standards will love.
+
+          {/* Decorative lesson-card preview */}
+          <div className="pointer-events-none relative mx-auto my-8 w-full max-w-sm select-none" aria-hidden="true">
+            <div className="absolute inset-0 translate-x-4 translate-y-4 -rotate-2 rounded-2xl bg-white/40 shadow-lg" />
+            <div className="relative rounded-2xl border border-border/60 bg-card p-5 shadow-xl">
+              <h3 className="break-words text-lg font-extrabold leading-snug text-foreground">
+                Subtracting Fractions with Like Denominators
+              </h3>
+              <p className="mt-1 text-xs text-muted-foreground">Grade 4 · Math · 45 min</p>
+              <div className="mt-4 space-y-3">
+                {[
+                  { label: "Warm-up", chip: "bg-blush text-foreground", text: "Quick review of equivalent fractions" },
+                  { label: "Direct Instruction", chip: "bg-babyblue text-foreground", text: "Model subtracting with like denominators" },
+                  { label: "Guided & Independent Practice", chip: "bg-lavender text-foreground", text: "Partner work with fraction strips" },
+                ].map((s) => (
+                  <div key={s.label}>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-primary">{s.label}</span>
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${s.chip}`}>
+                        <Clock className="h-3 w-3" /> 10 min
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{s.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-auto">
+            <h2 className="text-balance text-4xl font-bold leading-tight">
+              Lesson plans, drafted for you.
             </h2>
             <p className="mt-4 max-w-md text-secondary-foreground/90">
-              Pick your state standards, and let AI draft a complete, classroom-ready
-              lesson plan — editable, exportable, and yours.
+              Enter a topic or pick a standard, and Lesson Squeezy drafts a complete,
+              classroom-ready lesson plan. Edit it, save it, download it.
             </p>
           </div>
         </div>
