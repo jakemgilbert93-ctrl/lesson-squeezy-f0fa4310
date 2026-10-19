@@ -1,4 +1,4 @@
 - [x] Load CCSS file into standards; delete null ccss_id rows; NOT NULL ccss_id/standard_text; UNIQUE ccss_id
 - [x] Picker fix not needed (no page reads standards yet)
 - [x] Standards picker + Standard section (behind standards.enabled, fail-closed notice)
-- [ ] Build and verify the signed-in and signed-out homepage updates.
+- [x] Build and verify the signed-in and signed-out homepage updates.
