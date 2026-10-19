@@ -3,6 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Clock } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -87,15 +88,15 @@ function AuthPage() {
               <p className="mt-1 text-xs text-muted-foreground">Grade 4 · Math · 45 min</p>
               <div className="mt-4 space-y-3">
                 {[
-                  { label: "Warm-up", chip: "bg-blush text-foreground", text: "Quick review of equivalent fractions" },
-                  { label: "Direct Instruction", chip: "bg-babyblue text-foreground", text: "Model subtracting with like denominators" },
-                  { label: "Guided & Independent Practice", chip: "bg-lavender text-foreground", text: "Partner work with fraction strips" },
+                  { label: "Warm-up", chip: "bg-blush text-foreground", text: "Quick review of equivalent fractions", min: "10 min" },
+                  { label: "Direct Instruction", chip: "bg-babyblue text-foreground", text: "Model subtracting with like denominators", min: "15 min" },
+                  { label: "Guided & Independent Practice", chip: "bg-lavender text-foreground", text: "Partner work with fraction strips", min: "20 min" },
                 ].map((s) => (
                   <div key={s.label}>
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-xs font-semibold uppercase tracking-wide text-primary">{s.label}</span>
                       <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${s.chip}`}>
-                        <Clock className="h-3 w-3" /> 10 min
+                        <Clock className="h-3 w-3" /> {s.min}
                       </span>
                     </div>
                     <p className="mt-0.5 text-xs text-muted-foreground">{s.text}</p>
