@@ -151,3 +151,17 @@ export function lessonFilename(title: string) {
   const base = title.trim().replace(/[\\/:*?"<>|]/g, "").replace(/\s+/g, "-") || "lesson";
   return `${base}.docx`;
 }
+
+/** Official Common Core page for a verified standard, built from its code. */
+export function officialStandardUrl(std: StandardSnapshot): string | null {
+  const parts = std.code.split(".");
+  if (std.ccssId.startsWith("CCSS.Math.Content.") && parts.length === 4) {
+    const [grade, domain, , num] = parts;
+    return `https://thecorestandards.org/2010/math/content/${grade}/${domain}/${num}`;
+  }
+  if (std.ccssId.startsWith("CCSS.ELA-Literacy.") && parts.length === 3) {
+    const [strand, grade, num] = parts;
+    return `https://thecorestandards.org/ELA-Literacy/${strand}/${grade}/${num}`;
+  }
+  return null;
+}
