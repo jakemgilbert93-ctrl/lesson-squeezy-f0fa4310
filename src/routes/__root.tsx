@@ -82,14 +82,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
+      { title: "Lesson Squeezy — AI lesson plans for teachers" },
       {
         name: "description",
         content:
           "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard. Save it, edit it, and download it as .docx.",
       },
       { name: "author", content: "Lesson Squeezy" },
-      { property: "og:title", content: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
+      { property: "og:title", content: "Lesson Squeezy — AI lesson plans for teachers" },
       {
         property: "og:description",
         content: "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard.",
