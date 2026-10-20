@@ -1,5 +1,16 @@
-/// <reference types="bun" />
-import { describe, expect, test } from "bun:test";
+import { describe, test } from "node:test";
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+
+function expect(actual: unknown) {
+  const contains = (value: unknown) => Array.isArray(actual) ? actual.includes(value) : typeof actual === "string" && actual.includes(String(value));
+  return {
+    toBe: (value: unknown) => assert.equal(actual, value),
+    toBeNull: () => assert.equal(actual, null),
+    toContain: (value: unknown) => assert.ok(contains(value)),
+    not: { toContain: (value: unknown) => assert.ok(!contains(value)) },
+  };
+}
 import { standardsSubjectFor } from "../config/app-config";
 import { enteredStandard, lessonToPlainText, normalizeLesson, visibleStandard, type LessonPlanData } from "./lesson-schema";
 import { createLessonDocx } from "./lesson-docx";
@@ -14,14 +25,13 @@ const base: LessonPlanData = {
 const meta = { grade: "4", subject: "Math", durationMin: 45 };
 async function documentParagraphs(plan: LessonPlanData): Promise<string[]> {
   const blob = await createLessonDocx(plan, meta);
-  const proc = Bun.spawn(["python3", "-c", `import sys,io,zipfile,json,xml.etree.ElementTree as E
+  const proc = spawnSync("python3", ["-c", `import sys,io,zipfile,json,xml.etree.ElementTree as E
 root=E.fromstring(zipfile.ZipFile(io.BytesIO(sys.stdin.buffer.read())).read('word/document.xml'))
 ns={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
 print(json.dumps([''.join(p.itertext()) for p in root.findall('.//w:p',ns)]))`],
-    { stdin: new Uint8Array(await blob.arrayBuffer()), stdout: "pipe", stderr: "pipe" });
-  const output = await new Response(proc.stdout).text();
-  expect(await proc.exited).toBe(0);
-  return JSON.parse(output);
+    { input: Buffer.from(await blob.arrayBuffer()) });
+  expect(proc.status).toBe(0);
+  return JSON.parse(proc.stdout.toString());
 }
 describe("standards provenance", () => {
   test("Grade 4 Math uses verified standards", () => expect(standardsSubjectFor("4", "Math")).toBe("Math"));
