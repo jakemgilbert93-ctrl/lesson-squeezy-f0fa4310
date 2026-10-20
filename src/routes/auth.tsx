@@ -11,8 +11,12 @@ export const Route = createFileRoute("/auth")({
       { title: "Sign in — Lesson Squeezy" },
       {
         name: "description",
-        content: "Sign in or create your Lesson Squeezy account to generate standards-aligned lesson plans.",
+        content: "Create lesson drafts with verified Common Core standards for K–5 Math and ELA. More grades and subjects coming.",
       },
+      { property: "og:title", content: "Sign in — Lesson Squeezy" },
+      { property: "og:description", content: "Create lesson drafts with verified Common Core standards for K–5 Math and ELA. More grades and subjects coming." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AuthPage,
@@ -132,7 +136,7 @@ function AuthPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signin"
               ? "Sign in to generate and manage your lesson plans."
-              : "Start crafting standards-aligned lesson plans today."}
+              : "Draft lessons with verified Common Core standards for K–5 Math and ELA. More grades and subjects coming."}
           </p>
 
           {confirmationNeeded ? (

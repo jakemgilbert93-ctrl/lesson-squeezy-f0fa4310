@@ -21,6 +21,10 @@ export const Route = createFileRoute("/_authenticated/plans/")({
     meta: [
       { title: "My Lessons — Lesson Squeezy" },
       { name: "description", content: "Your saved lessons." },
+      { property: "og:title", content: "My Lessons — Lesson Squeezy" },
+      { property: "og:description", content: "Your saved Lesson Squeezy lessons." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PlansPage,

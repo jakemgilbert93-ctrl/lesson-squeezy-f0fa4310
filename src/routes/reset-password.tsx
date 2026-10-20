@@ -8,6 +8,10 @@ export const Route = createFileRoute("/reset-password")({
     meta: [
       { title: "Reset password — Lesson Squeezy" },
       { name: "description", content: "Reset your Lesson Squeezy account password." },
+      { property: "og:title", content: "Reset password — Lesson Squeezy" },
+      { property: "og:description", content: "Reset your Lesson Squeezy account password." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ResetPasswordPage,

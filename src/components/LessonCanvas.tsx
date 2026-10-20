@@ -15,6 +15,7 @@ import {
   type LessonPlanData,
   type SectionKey,
   visibleStandard,
+  enteredStandard,
 } from "@/lib/lesson-schema";
 import { downloadLessonDocx } from "@/lib/lesson-docx";
 import { StandardCard } from "./StandardCard";
@@ -48,6 +49,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
   const [editingMaterials, setEditingMaterials] = useState(false);
   const edited = new Set(plan.editedSections ?? []);
   const std = visibleStandard(plan);
+  const entered = enteredStandard(plan);
   const left = Math.max(0, regen.limit - regen.used);
 
   function markEdited(key: SectionKey, next: LessonPlanData) {
@@ -134,6 +136,12 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
 
         <div className="mt-6 space-y-6">
           {std && <StandardCard standard={std} />}
+          {entered && (
+            <section aria-label="Standard (entered by you)" className="rounded-xl border border-border bg-muted/40 p-4">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">Standard (entered by you)</h3>
+              <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground">{entered}</p>
+            </section>
+          )}
           {SECTION_KEYS.map((key) => {
             const text = sectionText(plan, key);
             const busy = regen.busy === key;

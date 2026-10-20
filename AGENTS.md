@@ -15,6 +15,7 @@
 - Lesson cap is checked before the AI call and incremented only after validated output; failed generations never count.
 - The 7-section lesson shape lives in `src/lib/lesson-schema.ts` and one shared `LessonCanvas` component renders it for both new and saved lessons.
 - Section regeneration requires a saved lesson, because the per-lesson counter is stored on the lesson row.
-- Standards display is gated by standardsActive() in app-config; standard snapshots are always (re)built server-side from the DB, never from browser text.
+- Verified standards display is gated by standardsActive() in app-config; snapshots are refreshed server-side with grade/subject validation on generation, save and read. Teacher-entered text is stored separately as teacherStandard for unsupported grades/subjects, so user text can never be labeled verified.
+- Lesson document creation is separate from browser download so automated tests can inspect the same Word document users receive.
 - The public homepage resolves identity before mounting its signed-in workspace; private reads use existing protected server functions from client queries keyed by user ID, never the public loader.
 - The static public sample standard is an exact source-file extract verified against the database, avoiding anonymous access to the protected standards table; live lesson snapshots remain server-built.

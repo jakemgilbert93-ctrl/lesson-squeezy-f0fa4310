@@ -93,7 +93,7 @@ function Index() {
         <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">Three steps to a finished plan</h2>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[
-            { icon: FileText, title: "Choose grade and subject", desc: "Enter a topic, or pick a standard where available." },
+            { icon: FileText, title: "Choose grade and subject", desc: "Enter a topic, or pick a verified Common Core standard for K–5 Math and ELA. More grades and subjects coming." },
             { icon: Pencil, title: "Review the draft", desc: "Edit any section, or regenerate one section at a time." },
             { icon: Download, title: "Save and download", desc: "Keep it in My Lessons, download a .docx, or copy the text." },
           ].map((step) => (
@@ -112,7 +112,7 @@ function Index() {
       <section id="sample" className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
         <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">A sample lesson</h2>
         <p className="mt-2 text-center text-sm text-muted-foreground">
-          Every lesson has these {standardsActive() ? "eight" : "seven"} sections.
+          This sample has {standardsActive() ? "eight" : "seven"} sections{standardsActive() ? ", including its verified standard" : ""}.
         </p>
         <article className="mt-8 rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
           <h3 className="font-bold text-foreground">{SAMPLE.title}</h3>
