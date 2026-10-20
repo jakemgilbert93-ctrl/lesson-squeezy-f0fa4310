@@ -87,9 +87,9 @@ function AuthPage() {
               <p className="mt-1 text-xs text-muted-foreground">Grade 4 · Math · 45 min</p>
               <div className="mt-4 space-y-3">
                 {[
-                  { label: "Warm-up", chip: "bg-blush text-foreground", text: "Quick review of equivalent fractions", min: "10 min" },
+                  { label: "Warm-up", chip: "bg-blush text-foreground", text: "Quick review of equivalent fractions", min: "8 min" },
                   { label: "Direct Instruction", chip: "bg-babyblue text-foreground", text: "Model subtracting with like denominators", min: "15 min" },
-                  { label: "Guided & Independent Practice", chip: "bg-lavender text-foreground", text: "Partner work with fraction strips", min: "20 min" },
+                  { label: "Guided & Independent Practice", chip: "bg-lavender text-foreground", text: "Partner work with fraction strips", min: "17 min" },
                 ].map((s) => (
                   <div key={s.label}>
                     <div className="flex flex-wrap items-center gap-2">
@@ -153,11 +153,14 @@ function AuthPage() {
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               {mode === "signup" && (
                 <div>
-                  <label className="mb-1.5 block text-sm font-medium text-foreground">
+                  <label htmlFor="display-name" className="mb-1.5 block text-sm font-medium text-foreground">
                     Display name
                   </label>
                   <input
+                    id="display-name"
                     type="text"
+                    name="name"
+                    autoComplete="name"
                     value={displayName}
                     onChange={(e) => setDisplayName(e.target.value)}
                     placeholder="Ms. Rivera"
@@ -166,9 +169,12 @@ function AuthPage() {
                 </div>
               )}
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-foreground">Email</label>
+                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-foreground">Email</label>
                 <input
+                  id="email"
                   type="email"
+                  name="email"
+                  autoComplete="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -177,9 +183,12 @@ function AuthPage() {
                 />
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-foreground">Password</label>
+                <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-foreground">Password</label>
                 <input
+                  id="password"
                   type="password"
+                  name="password"
+                  autoComplete={mode === "signin" ? "current-password" : "new-password"}
                   required
                   minLength={6}
                   value={password}

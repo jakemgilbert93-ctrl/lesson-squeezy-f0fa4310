@@ -13,13 +13,13 @@ import sampleStandard from "@/lib/home-sample-standard.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
+      { title: "Lesson Squeezy — AI lesson plans for teachers" },
       {
         name: "description",
         content:
           "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard. Save it, edit it, and download it as .docx.",
       },
-      { property: "og:title", content: "Lesson Squeezy — AI lesson plans for TK-12 teachers" },
+      { property: "og:title", content: "Lesson Squeezy — AI lesson plans for teachers" },
       {
         property: "og:description",
         content: "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard.",
@@ -111,7 +111,9 @@ function Index() {
       {/* Sample lesson */}
       <section id="sample" className="mx-auto max-w-4xl px-4 pb-16 sm:px-6">
         <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">A sample lesson</h2>
-        <p className="mt-2 text-center text-sm text-muted-foreground">Every lesson has these seven sections.</p>
+        <p className="mt-2 text-center text-sm text-muted-foreground">
+          Every lesson has these {standardsActive() ? "eight" : "seven"} sections.
+        </p>
         <article className="mt-8 rounded-xl border border-border bg-card p-5 shadow-sm sm:p-8">
           <h3 className="font-bold text-foreground">{SAMPLE.title}</h3>
           <p className="mt-1 text-sm text-muted-foreground">{SAMPLE.meta}</p>
