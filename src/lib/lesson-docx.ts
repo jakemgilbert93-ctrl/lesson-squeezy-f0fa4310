@@ -8,7 +8,8 @@ import {
   sectionText,
   visibleStandard,
   enteredStandard,
-  officialStandardUrl,
+  STANDARDS_SOURCE_LABEL,
+  standardsSourceUrl,
   type LessonMeta,
   type LessonPlanData,
 } from "./lesson-schema";
@@ -31,9 +32,9 @@ export async function createLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
     children.push(new Paragraph({ children: [new TextRun({ text: `${std.code} — Verified standard`, bold: true })] }));
     children.push(...body(std.standardText));
     if (std.notes) children.push(...body(std.notes));
-    const url = officialStandardUrl(std);
+    const url = standardsSourceUrl(std);
     if (url) {
-      children.push(new Paragraph({ children: [new ExternalHyperlink({ link: url, children: [new TextRun({ text: "View on the official Common Core site", style: "Hyperlink" })] })] }));
+      children.push(new Paragraph({ children: [new ExternalHyperlink({ link: url, children: [new TextRun({ text: STANDARDS_SOURCE_LABEL, style: "Hyperlink" })] })] }));
     }
     children.push(new Paragraph({ children: [new TextRun({ text: APP_CONFIG.standards.copyrightNotice, italics: true, size: 18 })] }));
   }

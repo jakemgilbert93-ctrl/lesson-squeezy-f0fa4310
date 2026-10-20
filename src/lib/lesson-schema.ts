@@ -134,7 +134,8 @@ export function lessonToPlainText(plan: LessonPlanData, meta: LessonMeta): strin
   if (std) {
     parts.push("STANDARD", `${std.code} — Verified standard`, std.standardText);
     if (std.notes) parts.push(std.notes);
-    if (std.sourceUrl) parts.push(std.sourceUrl);
+    const src = standardsSourceUrl(std);
+    if (src) parts.push(`${STANDARDS_SOURCE_LABEL}: ${src}`);
     parts.push(APP_CONFIG.standards.copyrightNotice, "");
   }
   const entered = enteredStandard(plan);
@@ -152,16 +153,17 @@ export function lessonFilename(title: string) {
   return `${base}.docx`;
 }
 
-/** Official Common Core page for a verified standard, built from its code. */
-export function officialStandardUrl(std: StandardSnapshot): string | null {
-  const parts = std.code.split(".");
-  if (std.ccssId.startsWith("CCSS.Math.Content.") && parts.length === 4) {
-    const [grade, domain, , num] = parts;
-    return `https://thecorestandards.org/2010/math/content/${grade}/${domain}/${num}`;
-  }
-  if (std.ccssId.startsWith("CCSS.ELA-Literacy.") && parts.length === 3) {
-    const [strand, grade, num] = parts;
-    return `https://thecorestandards.org/ELA-Literacy/${strand}/${grade}/${num}`;
-  }
+/** Link text shown with a verified standard. */
+export const STANDARDS_SOURCE_LABEL = "View the Common Core State Standards (PDF)";
+
+const STANDARDS_SOURCE_PDF = {
+  Math: "https://corestandards.org/wp-content/uploads/2023/09/Math_Standards1.pdf",
+  ELA: "https://corestandards.org/wp-content/uploads/2023/09/ELA_Standards1.pdf",
+} as const;
+
+/** Official source document for a verified standard: one PDF per subject. */
+export function standardsSourceUrl(std: StandardSnapshot): string | null {
+  if (std.ccssId.startsWith("CCSS.Math.Content.")) return STANDARDS_SOURCE_PDF.Math;
+  if (std.ccssId.startsWith("CCSS.ELA-Literacy.")) return STANDARDS_SOURCE_PDF.ELA;
   return null;
 }
