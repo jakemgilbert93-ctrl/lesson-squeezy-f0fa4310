@@ -12,7 +12,7 @@ function expect(actual: unknown) {
   };
 }
 import { standardsSubjectFor } from "../config/app-config";
-import { enteredStandard, lessonToPlainText, normalizeLesson, visibleStandard, type LessonPlanData } from "./lesson-schema";
+import { enteredStandard, lessonToPlainText, normalizeLesson, standardsSourceUrl, visibleStandard, type LessonPlanData } from "./lesson-schema";
 import { createLessonDocx } from "./lesson-docx";
 import standard from "./home-sample-standard.json";
 
@@ -45,6 +45,28 @@ describe("standards provenance", () => {
     const paragraphs = await documentParagraphs(plan);
     expect(paragraphs).toContain(`${standard.code} — Verified standard`);
     for (const line of standard.standardText.split("\n")) expect(paragraphs).toContain(line);
+  });
+  test("verified standards link to the subject PDF, never to a per-standard page", async () => {
+    const MATH_PDF = "https://corestandards.org/wp-content/uploads/2023/09/Math_Standards1.pdf";
+    const ELA_PDF = "https://corestandards.org/wp-content/uploads/2023/09/ELA_Standards1.pdf";
+    const LABEL = "View the Common Core State Standards (PDF)";
+    const mathPlan = normalizeLesson({ ...base, standard });
+    expect(standardsSourceUrl(visibleStandard(mathPlan)!)).toBe(MATH_PDF);
+    expect(lessonToPlainText(mathPlan, meta)).toContain(`${LABEL}: ${MATH_PDF}`);
+    expect(lessonToPlainText(mathPlan, meta)).not.toContain("thecorestandards.org");
+    const mathParagraphs = await documentParagraphs(mathPlan);
+    expect(mathParagraphs).toContain(LABEL);
+    expect(mathParagraphs.join("\n")).toContain(MATH_PDF);
+    expect(mathParagraphs.join("\n")).not.toContain("thecorestandards.org");
+    const elaPlan = normalizeLesson({ ...base, standard: {
+      ccssId: "CCSS.ELA-Literacy.RL.4.1", code: "RL.4.1",
+      standardText: "Refer to details and examples in a text.", notes: null, sourceUrl: null,
+    } });
+    expect(standardsSourceUrl(visibleStandard(elaPlan)!)).toBe(ELA_PDF);
+    expect(lessonToPlainText(elaPlan, meta)).toContain(`${LABEL}: ${ELA_PDF}`);
+    const elaParagraphs = await documentParagraphs(elaPlan);
+    expect(elaParagraphs.join("\n")).toContain(ELA_PDF);
+    expect(elaParagraphs.join("\n")).not.toContain("thecorestandards.org");
   });
   test("teacher text stays verbatim in saved shape, clipboard and Word, without verified/source metadata", async () => {
     const text = "  Explain changes in energy.\nUse evidence from an investigation.  ";
