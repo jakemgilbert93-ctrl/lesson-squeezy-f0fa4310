@@ -1,3 +1,4 @@
+/// <reference types="bun" />
 import { describe, expect, test } from "bun:test";
 import { standardsSubjectFor } from "../config/app-config";
 import { enteredStandard, lessonToPlainText, normalizeLesson, visibleStandard, type LessonPlanData } from "./lesson-schema";
