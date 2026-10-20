@@ -10,6 +10,9 @@ import {
   enteredStandard,
   STANDARDS_SOURCE_LABEL,
   standardsSourceUrl,
+  STANDARD_ONLINE_LABEL,
+  STANDARD_LINK_NOTE,
+  standardOnlineUrl,
   type LessonMeta,
   type LessonPlanData,
 } from "./lesson-schema";
@@ -32,9 +35,16 @@ export async function createLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
     children.push(new Paragraph({ children: [new TextRun({ text: `${std.code} — Verified standard`, bold: true })] }));
     children.push(...body(std.standardText));
     if (std.notes) children.push(...body(std.notes));
+    const online = standardOnlineUrl(std);
+    if (online) {
+      children.push(new Paragraph({ children: [new ExternalHyperlink({ link: online, children: [new TextRun({ text: STANDARD_ONLINE_LABEL, style: "Hyperlink" })] })] }));
+    }
     const url = standardsSourceUrl(std);
     if (url) {
-      children.push(new Paragraph({ children: [new ExternalHyperlink({ link: url, children: [new TextRun({ text: STANDARDS_SOURCE_LABEL, style: "Hyperlink" })] })] }));
+      children.push(new Paragraph({ children: [new ExternalHyperlink({ link: url, children: [new TextRun({ text: STANDARDS_SOURCE_LABEL, style: "Hyperlink", size: 18 })] })] }));
+    }
+    if (online || url) {
+      children.push(new Paragraph({ children: [new TextRun({ text: STANDARD_LINK_NOTE, italics: true, size: 18, color: "6B6B6B" })] }));
     }
     children.push(new Paragraph({ children: [new TextRun({ text: APP_CONFIG.standards.copyrightNotice, italics: true, size: 18 })] }));
   }
