@@ -15,6 +15,7 @@ export function SiteFooter() {
           </a>
         </nav>
       </div>
+      <p className="mx-auto max-w-6xl px-6 pb-6 text-xs text-muted-foreground">{APP_CONFIG.standards.copyrightNotice}</p>
     </footer>
   );
 }

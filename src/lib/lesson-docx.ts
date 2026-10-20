@@ -8,6 +8,7 @@ import {
   sectionText,
   visibleStandard,
   enteredStandard,
+  officialStandardUrl,
   type LessonMeta,
   type LessonPlanData,
 } from "./lesson-schema";
@@ -15,7 +16,7 @@ import { APP_CONFIG } from "@/config/app-config";
 
 /** Builds a Word document in the browser and triggers a download. */
 export async function createLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
-  const { Document, Packer, Paragraph, TextRun, HeadingLevel } = await import("docx");
+  const { Document, Packer, Paragraph, TextRun, HeadingLevel, ExternalHyperlink, Footer } = await import("docx");
 
   const body = (text: string) =>
     text.split("\n").map((line) => new Paragraph({ children: [new TextRun(line)], spacing: { after: 80 } }));
@@ -30,7 +31,10 @@ export async function createLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
     children.push(new Paragraph({ children: [new TextRun({ text: `${std.code} — Verified standard`, bold: true })] }));
     children.push(...body(std.standardText));
     if (std.notes) children.push(...body(std.notes));
-    if (std.sourceUrl) children.push(...body(std.sourceUrl));
+    const url = officialStandardUrl(std);
+    if (url) {
+      children.push(new Paragraph({ children: [new ExternalHyperlink({ link: url, children: [new TextRun({ text: "View on the official Common Core site", style: "Hyperlink" })] })] }));
+    }
     children.push(new Paragraph({ children: [new TextRun({ text: APP_CONFIG.standards.copyrightNotice, italics: true, size: 18 })] }));
   }
   const entered = enteredStandard(plan);
@@ -52,6 +56,9 @@ export async function createLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
     sections: [
       {
         properties: { page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } },
+        ...(std
+          ? { footers: { default: new Footer({ children: [new Paragraph({ children: [new TextRun({ text: APP_CONFIG.standards.copyrightNotice, size: 16 })] })] }) } }
+          : {}),
         children,
       },
     ],
