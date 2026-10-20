@@ -1,4 +1,4 @@
-type LogoProps = { size?: number; className?: string; decorative?: boolean };
+type LogoProps = { size?: number; className?: string | undefined; decorative?: boolean };
 
 /**
  * Lesson Squeezy brand mark. Colors are fixed so it looks the same in every theme.
