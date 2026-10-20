@@ -36,6 +36,13 @@
       "when": 1792471078533,
       "tag": "0004_cascade_usage_and_ai_logs_on_user_delete",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792472291588,
+      "tag": "0005_keep_optional_display_names_empty",
+      "breakpoints": true
     }
   ]
 }
