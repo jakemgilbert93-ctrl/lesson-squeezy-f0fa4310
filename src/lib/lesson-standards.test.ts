@@ -67,8 +67,10 @@ describe("standards provenance", () => {
     expect(lessonToPlainText(mathPlan, meta)).not.toContain("thecorestandards.org");
     const mathParagraphs = await documentParagraphs(mathPlan);
     expect(mathParagraphs).toContain(LABEL);
-    expect(mathParagraphs.join("\n")).toContain(MATH_PDF);
     expect(mathParagraphs.join("\n")).not.toContain("thecorestandards.org");
+    const mathLinks = await documentLinks(mathPlan);
+    expect(mathLinks).toContain(MATH_PDF);
+    expect(mathLinks.join(" ")).not.toContain("thecorestandards.org");
     const elaPlan = normalizeLesson({ ...base, standard: {
       ccssId: "CCSS.ELA-Literacy.RL.4.1", code: "RL.4.1",
       standardText: "Refer to details and examples in a text.", notes: null, sourceUrl: null,
@@ -76,8 +78,10 @@ describe("standards provenance", () => {
     expect(standardsSourceUrl(visibleStandard(elaPlan)!)).toBe(ELA_PDF);
     expect(lessonToPlainText(elaPlan, meta)).toContain(`${LABEL}: ${ELA_PDF}`);
     const elaParagraphs = await documentParagraphs(elaPlan);
-    expect(elaParagraphs.join("\n")).toContain(ELA_PDF);
-    expect(elaParagraphs.join("\n")).not.toContain("thecorestandards.org");
+    expect(elaParagraphs).toContain(LABEL);
+    const elaLinks = await documentLinks(elaPlan);
+    expect(elaLinks).toContain(ELA_PDF);
+    expect(elaLinks.join(" ")).not.toContain("thecorestandards.org");
   });
   test("teacher text stays verbatim in saved shape, clipboard and Word, without verified/source metadata", async () => {
     const text = "  Explain changes in energy.\nUse evidence from an investigation.  ";
