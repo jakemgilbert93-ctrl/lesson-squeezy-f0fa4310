@@ -1,21 +1,28 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { LegalPage, type LegalSection } from "@/components/LegalPage";
+
+/** Placeholder policy text — replace each body string with the final wording. */
+const SECTIONS: LegalSection[] = [
+  { heading: "What we collect", body: "[Text to be added]" },
+  { heading: "How we use it", body: "[Text to be added]" },
+  { heading: "AI processing of lesson content", body: "[Text to be added]" },
+  { heading: "Service providers", body: "[Text to be added]" },
+  { heading: "Data retention and deletion", body: "[Text to be added]" },
+  { heading: "Children and student information", body: "[Text to be added]" },
+  { heading: "Your choices", body: "[Text to be added]" },
+  { heading: "Contact", body: "[Text to be added]" },
+];
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
       { title: "Privacy — Lesson Squeezy" },
-      { name: "description", content: "Lesson Squeezy privacy policy." },
+      { name: "description", content: "How Lesson Squeezy handles your data." },
       { property: "og:title", content: "Privacy — Lesson Squeezy" },
-      { property: "og:description", content: "Lesson Squeezy privacy policy." },
+      { property: "og:description", content: "How Lesson Squeezy handles your data." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: () => (
-    <main className="mx-auto flex min-h-[70vh] max-w-2xl flex-col justify-center px-6 py-16">
-      <Link to="/" className="text-sm text-muted-foreground hover:text-primary">← Lesson Squeezy</Link>
-      <h1 className="mt-4 text-3xl font-bold text-foreground">Privacy</h1>
-      <p className="mt-3 text-muted-foreground">Coming soon.</p>
-    </main>
-  ),
+  component: () => <LegalPage title="Privacy" updated="October 20, 2026" sections={SECTIONS} />,
 });
