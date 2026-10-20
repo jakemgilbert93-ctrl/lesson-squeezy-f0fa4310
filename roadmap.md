@@ -2,3 +2,4 @@
 - [x] Picker fix not needed (no page reads standards yet)
 - [x] Standards picker + Standard section (behind standards.enabled, fail-closed notice)
 - [x] Build and verify the signed-in and signed-out homepage updates.
+- [ ] Update standards provenance, teacher-entered standards, exports and claims; verify all four requested lesson cases.
