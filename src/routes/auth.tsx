@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Clock } from "lucide-react";
+import { normalizeDisplayName } from "@/lib/display-name";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -48,7 +49,7 @@ function AuthPage() {
           email,
           password,
           options: {
-            data: { display_name: displayName || undefined },
+            data: { display_name: normalizeDisplayName(displayName) ?? undefined },
             emailRedirectTo: window.location.origin,
           },
         });

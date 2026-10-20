@@ -19,3 +19,4 @@
 - Lesson document creation is separate from browser download so automated tests can inspect the same Word document users receive.
 - The public homepage resolves identity before mounting its signed-in workspace; private reads use existing protected server functions from client queries keyed by user ID, never the public loader.
 - The static public sample standard is an exact source-file extract verified against the database, avoiding anonymous access to the protected standards table; live lesson snapshots remain server-built.
+- Display names are read and edited through authenticated owner-scoped profile functions; profiles are the canonical current name, and the greeting and Account dialog share a user-ID-keyed query so edits stay private and refresh together.

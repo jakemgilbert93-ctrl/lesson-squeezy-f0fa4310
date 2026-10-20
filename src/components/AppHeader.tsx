@@ -3,9 +3,12 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { LogOut } from "lucide-react";
 import { toast } from "sonner";
+import { AccountDialog } from "@/components/AccountDialog";
+import { useHomeSession } from "@/hooks/use-home-session";
 
 export function AppHeader() {
   const navigate = useNavigate();
+  const userId = useHomeSession();
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -45,6 +48,7 @@ export function AppHeader() {
         >
           My Lessons
         </Link>
+        {userId && <AccountDialog userId={userId} />}
         <button
           onClick={signOut}
           className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm text-foreground transition hover:bg-accent"

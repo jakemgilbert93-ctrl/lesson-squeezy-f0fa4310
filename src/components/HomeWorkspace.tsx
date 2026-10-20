@@ -7,8 +7,11 @@ import { getUsage, listLessonPlans } from "@/lib/lesson-plan.functions";
 import { lessonsLine, priceLabel, regensLine } from "@/lib/plan-copy";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useMyProfile } from "@/hooks/use-my-profile";
+import { welcomeGreeting } from "@/lib/display-name";
 
 export function HomeWorkspace({ userId }: { userId: string }) {
+  const profile = useMyProfile(userId);
   const fetchLessons = useServerFn(listLessonPlans);
   const fetchUsage = useServerFn(getUsage);
   const lessons = useQuery({ queryKey: ["home-lessons", userId], queryFn: () => fetchLessons() });
@@ -17,7 +20,7 @@ export function HomeWorkspace({ userId }: { userId: string }) {
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <div className="flex flex-wrap items-center justify-between gap-5">
-        <h1 className="text-3xl font-bold text-foreground sm:text-4xl">Welcome back</h1>
+        <h1 className="min-w-0 break-words text-3xl font-bold text-foreground sm:text-4xl [overflow-wrap:anywhere]">{welcomeGreeting(profile.data?.displayName)}</h1>
         <Button asChild size="lg"><Link to="/app"><Plus />Create a new lesson</Link></Button>
       </div>
       <section className="mt-12">
