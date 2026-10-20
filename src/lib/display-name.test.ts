@@ -1,18 +1,19 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
 import { normalizeDisplayName, welcomeGreeting } from "./display-name";
 
 describe("optional display names", () => {
   it("stores nothing for a blank name", () => {
-    expect(normalizeDisplayName("   ")).toBeNull();
-    expect(normalizeDisplayName(undefined)).toBeNull();
+    assert.equal(normalizeDisplayName("   "), null);
+    assert.equal(normalizeDisplayName(undefined), null);
   });
   it("preserves a supplied name without surrounding whitespace", () => {
-    expect(normalizeDisplayName(" Ms. Rivera ")).toBe("Ms. Rivera");
+    assert.equal(normalizeDisplayName(" Ms. Rivera "), "Ms. Rivera");
   });
   it("greets a named teacher", () => {
-    expect(welcomeGreeting("Ms. Rivera")).toBe("Welcome back, Ms. Rivera");
+    assert.equal(welcomeGreeting("Ms. Rivera"), "Welcome back, Ms. Rivera");
   });
   it("uses the plain greeting when no name exists", () => {
-    expect(welcomeGreeting(null)).toBe("Welcome back");
+    assert.equal(welcomeGreeting(null), "Welcome back");
   });
 });
