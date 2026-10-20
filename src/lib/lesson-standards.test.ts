@@ -33,6 +33,17 @@ print(json.dumps([''.join(p.itertext()) for p in root.findall('.//w:p',ns)]))`],
   expect(proc.status).toBe(0);
   return JSON.parse(proc.stdout.toString());
 }
+/** Hyperlink targets are stored in the document's relationships, not its visible text. */
+async function documentLinks(plan: LessonPlanData): Promise<string[]> {
+  const blob = await createLessonDocx(plan, meta);
+  const proc = spawnSync("python3", ["-c", `import sys,io,zipfile,json,xml.etree.ElementTree as E
+z=zipfile.ZipFile(io.BytesIO(sys.stdin.buffer.read()))
+root=E.fromstring(z.read('word/_rels/document.xml.rels'))
+print(json.dumps([r.get('Target') for r in root.iter() if r.get('Target')]))`],
+    { input: Buffer.from(await blob.arrayBuffer()) });
+  expect(proc.status).toBe(0);
+  return JSON.parse(proc.stdout.toString());
+}
 describe("standards provenance", () => {
   test("Grade 4 Math uses verified standards", () => expect(standardsSubjectFor("4", "Math")).toBe("Math"));
   test("Grade 4 ELA uses verified standards", () => expect(standardsSubjectFor("4", "English Language Arts")).toBe("ELA"));
