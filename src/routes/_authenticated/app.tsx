@@ -25,6 +25,10 @@ export const Route = createFileRoute("/_authenticated/app")({
     meta: [
       { title: "New lesson — Lesson Squeezy" },
       { name: "description", content: "Turn a standard or topic into a ready-to-teach lesson plan." },
+      { property: "og:title", content: "New lesson — Lesson Squeezy" },
+      { property: "og:description", content: "Draft lessons from a topic, verified standard, or your own standard." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: GeneratorPage,
