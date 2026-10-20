@@ -134,8 +134,11 @@ export function lessonToPlainText(plan: LessonPlanData, meta: LessonMeta): strin
   if (std) {
     parts.push("STANDARD", `${std.code} — Verified standard`, std.standardText);
     if (std.notes) parts.push(std.notes);
+    const online = standardOnlineUrl(std);
+    if (online) parts.push(`${STANDARD_ONLINE_LABEL}: ${online}`);
     const src = standardsSourceUrl(std);
     if (src) parts.push(`${STANDARDS_SOURCE_LABEL}: ${src}`);
+    if (online || src) parts.push(STANDARD_LINK_NOTE);
     parts.push(APP_CONFIG.standards.copyrightNotice, "");
   }
   const entered = enteredStandard(plan);
@@ -154,7 +157,10 @@ export function lessonFilename(title: string) {
 }
 
 /** Link text shown with a verified standard. */
-export const STANDARDS_SOURCE_LABEL = "View the Common Core State Standards (PDF)";
+export const STANDARDS_SOURCE_LABEL = "Official PDF";
+export const STANDARD_ONLINE_LABEL = "View this standard online";
+export const STANDARD_LINK_NOTE =
+  "Reference links may change or go out of date. Please confirm the standard in the official PDF or your state's standards.";
 
 const STANDARDS_SOURCE_PDF = {
   Math: "https://corestandards.org/wp-content/uploads/2023/09/Math_Standards1.pdf",
@@ -165,5 +171,20 @@ const STANDARDS_SOURCE_PDF = {
 export function standardsSourceUrl(std: StandardSnapshot): string | null {
   if (std.ccssId.startsWith("CCSS.Math.Content.")) return STANDARDS_SOURCE_PDF.Math;
   if (std.ccssId.startsWith("CCSS.ELA-Literacy.")) return STANDARDS_SOURCE_PDF.ELA;
+  return null;
+}
+
+/** Single place that builds the per-standard web link; return null to remove it. */
+export function standardOnlineUrl(std: StandardSnapshot): string | null {
+  const math = /^CCSS\.Math\.Content\.([K0-9]+)\.([A-Z]+)\.([A-Z])\.(\d+)$/.exec(std.ccssId);
+  if (math) {
+    const [, grade, domain, cluster, num] = math;
+    return `https://thecorestandards.org/Math/Content/${grade}/${domain}/#CCSS.Math.Content.${grade}.${domain}.${cluster}.${num}`;
+  }
+  const ela = /^CCSS\.ELA-Literacy\.([A-Z]+)\.([K0-9]+)\.(\d+)$/.exec(std.ccssId);
+  if (ela) {
+    const [, strand, grade, num] = ela;
+    return `https://www.thecorestandards.org/ELA-Literacy/${strand}/${grade}/${num}/`;
+  }
   return null;
 }
