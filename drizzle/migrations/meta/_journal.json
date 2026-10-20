@@ -29,6 +29,13 @@
       "when": 1792292069185,
       "tag": "0003_create_lesson_ratings",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792471078533,
+      "tag": "0004_cascade_usage_and_ai_logs_on_user_delete",
+      "breakpoints": true
     }
   ]
 }
