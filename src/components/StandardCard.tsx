@@ -1,10 +1,10 @@
 import { ExternalLink } from "lucide-react";
 import { APP_CONFIG } from "@/config/app-config";
-import { officialStandardUrl, type StandardSnapshot } from "@/lib/lesson-schema";
+import { STANDARDS_SOURCE_LABEL, standardsSourceUrl, type StandardSnapshot } from "@/lib/lesson-schema";
 
 /** Read-only official standard. Only render when standardsActive() is true. */
 export function StandardCard({ standard }: { standard: StandardSnapshot }) {
-  const url = officialStandardUrl(standard);
+  const url = standardsSourceUrl(standard);
   return (
     <section aria-label="Standard" className="rounded-xl border border-border bg-muted/40 p-4">
       <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">Standard</h3>
@@ -23,7 +23,7 @@ export function StandardCard({ standard }: { standard: StandardSnapshot }) {
           rel="noopener"
           className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
         >
-          View on the official Common Core site <ExternalLink className="h-3.5 w-3.5" />
+          {STANDARDS_SOURCE_LABEL} <ExternalLink className="h-3.5 w-3.5" />
         </a>
       )}
       <p className="mt-3 text-xs text-muted-foreground">{APP_CONFIG.standards.copyrightNotice}</p>
