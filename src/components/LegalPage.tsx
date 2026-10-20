@@ -65,7 +65,7 @@ export function LegalPage({
   sections,
 }: {
   title: string;
-  updated: string;
+  updated?: string;
   intro?: LegalBlock[];
   sections: LegalSection[];
 }) {
@@ -75,7 +75,7 @@ export function LegalPage({
         ← Lesson Squeezy
       </Link>
       <h1 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl">{title}</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Last updated {updated}</p>
+      {updated && <p className="mt-2 text-sm text-muted-foreground">Last updated {updated}</p>}
       {intro && intro.length > 0 && (
         <div className={`mt-6 space-y-4 ${BODY}`}>{intro.map((block, i) => <Block key={i} block={block} />)}</div>
       )}

@@ -175,7 +175,6 @@ export const Route = createFileRoute("/privacy")({
   component: () => (
     <LegalPage
       title="Lesson Squeezy Privacy Policy"
-      updated="October 20, 2026"
       intro={INTRO}
       sections={SECTIONS}
     />
