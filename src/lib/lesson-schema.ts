@@ -58,6 +58,7 @@ export type LessonPlanData = z.infer<typeof LessonSections> & {
   topic?: string | undefined;
   editedSections?: SectionKey[] | undefined;
   standard?: StandardSnapshot | undefined;
+  teacherStandard?: string | undefined;
 };
 
 export type LessonMeta = { grade: string; subject: string; durationMin: number };
@@ -67,6 +68,11 @@ export const VERIFY_NOTE = "Verify standard alignment before teaching.";
 /** The standard to display, or null when standards are off / none attached. */
 export function visibleStandard(plan: LessonPlanData): StandardSnapshot | null {
   return plan.standard && standardsActive() ? plan.standard : null;
+}
+
+/** Teacher text is kept verbatim, separate from database-verified snapshots. */
+export function enteredStandard(plan: LessonPlanData): string | null {
+  return !visibleStandard(plan) && plan.teacherStandard?.trim() ? plan.teacherStandard : null;
 }
 
 export function sectionText(plan: LessonPlanData, key: SectionKey): string {
@@ -87,6 +93,8 @@ export function normalizeLesson(raw: unknown): LessonPlanData {
         ? (r["editedSections"] as SectionKey[])
         : [],
       ...(std.success ? { standard: std.data } : {}),
+      ...(typeof r["teacherStandard"] === "string" && r["teacherStandard"].trim()
+        ? { teacherStandard: r["teacherStandard"] } : {}),
     };
   }
   const r = (raw ?? {}) as Record<string, unknown>;
@@ -124,11 +132,13 @@ export function lessonToPlainText(plan: LessonPlanData, meta: LessonMeta): strin
   const parts = [plan.title, metaLine(meta), ""];
   const std = visibleStandard(plan);
   if (std) {
-    parts.push("STANDARD", std.code, std.standardText);
+    parts.push("STANDARD", `${std.code} — Verified standard`, std.standardText);
     if (std.notes) parts.push(std.notes);
     if (std.sourceUrl) parts.push(std.sourceUrl);
     parts.push(APP_CONFIG.standards.copyrightNotice, "");
   }
+  const entered = enteredStandard(plan);
+  if (entered) parts.push("Standard (entered by you)", entered, "");
   for (const key of SECTION_KEYS) {
     const label = isTimed(key) ? `${SECTION_LABELS[key]} (${plan[key].minutes} min)` : SECTION_LABELS[key];
     parts.push(label.toUpperCase(), sectionText(plan, key), "");

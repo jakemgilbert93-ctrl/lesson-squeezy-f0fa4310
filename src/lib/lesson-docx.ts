@@ -7,13 +7,14 @@ import {
   metaLine,
   sectionText,
   visibleStandard,
+  enteredStandard,
   type LessonMeta,
   type LessonPlanData,
 } from "./lesson-schema";
 import { APP_CONFIG } from "@/config/app-config";
 
 /** Builds a Word document in the browser and triggers a download. */
-export async function downloadLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
+export async function createLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
   const { Document, Packer, Paragraph, TextRun, HeadingLevel } = await import("docx");
 
   const body = (text: string) =>
@@ -26,11 +27,16 @@ export async function downloadLessonDocx(plan: LessonPlanData, meta: LessonMeta)
   const std = visibleStandard(plan);
   if (std) {
     children.push(new Paragraph({ text: "Standard", heading: HeadingLevel.HEADING_1, spacing: { before: 240 } }));
-    children.push(new Paragraph({ children: [new TextRun({ text: std.code, bold: true })] }));
+    children.push(new Paragraph({ children: [new TextRun({ text: `${std.code} — Verified standard`, bold: true })] }));
     children.push(...body(std.standardText));
     if (std.notes) children.push(...body(std.notes));
     if (std.sourceUrl) children.push(...body(std.sourceUrl));
     children.push(new Paragraph({ children: [new TextRun({ text: APP_CONFIG.standards.copyrightNotice, italics: true, size: 18 })] }));
+  }
+  const entered = enteredStandard(plan);
+  if (entered) {
+    children.push(new Paragraph({ text: "Standard (entered by you)", heading: HeadingLevel.HEADING_1, spacing: { before: 240 } }));
+    children.push(...body(entered));
   }
   for (const key of SECTION_KEYS) {
     const heading = isTimed(key) ? `${SECTION_LABELS[key]} (${plan[key].minutes} min)` : SECTION_LABELS[key];
@@ -51,7 +57,11 @@ export async function downloadLessonDocx(plan: LessonPlanData, meta: LessonMeta)
     ],
   });
 
-  const blob = await Packer.toBlob(doc);
+  return Packer.toBlob(doc);
+}
+
+export async function downloadLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
+  const blob = await createLessonDocx(plan, meta);
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;

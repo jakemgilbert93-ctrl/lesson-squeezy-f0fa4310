@@ -37,6 +37,7 @@ export const APP_CONFIG = {
   input: {
     topicMaxChars: 200,
     titleMaxChars: 100,
+    standardMaxChars: 5000,
   },
 
   grades: ["TK", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],

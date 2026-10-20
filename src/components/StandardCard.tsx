@@ -7,8 +7,11 @@ export function StandardCard({ standard }: { standard: StandardSnapshot }) {
   return (
     <section aria-label="Standard" className="rounded-xl border border-border bg-muted/40 p-4">
       <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">Standard</h3>
-      <p className="mt-2 font-mono text-sm font-semibold text-foreground">{standard.code}</p>
-      <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-foreground">{standard.standardText}</p>
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <p className="break-words font-mono text-sm font-semibold text-foreground">{standard.code}</p>
+        <span className="text-xs font-medium text-muted-foreground">Verified standard</span>
+      </div>
+      <p className="mt-1 whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground">{standard.standardText}</p>
       {standard.notes && (
         <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">{standard.notes}</p>
       )}

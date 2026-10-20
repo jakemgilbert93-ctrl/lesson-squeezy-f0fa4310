@@ -10,6 +10,7 @@ import { LessonRating } from "@/components/LessonRating";
 import { APP_CONFIG, gradeLabel, standardsSubjectFor } from "@/config/app-config";
 import { listStandards, type StandardOption } from "@/lib/standards.functions";
 import { StandardCard } from "@/components/StandardCard";
+import { Textarea } from "@/components/ui/textarea";
 import {
   generateLessonPlan,
   getUsage,
@@ -73,6 +74,7 @@ function GeneratorPage() {
   const [durationMin, setDurationMin] = useState<number>(45);
   const [topic, setTopic] = useState("");
   const [title, setTitle] = useState("");
+  const [teacherStandard, setTeacherStandard] = useState("");
 
   const [usage, setUsage] = useState<Usage | null>(null);
   const [plan, setPlan] = useState<LessonPlanData | null>(null);
@@ -127,7 +129,7 @@ function GeneratorPage() {
   });
 
   const atCap = usage?.monthlyLimit != null && usage.lessonsUsed >= usage.monthlyLimit;
-  const canGenerate = (topic.trim().length > 0 || !!selectedStd) && !generating && !atCap;
+  const canGenerate = (topic.trim().length > 0 || !!selectedStd || (!pickerOn && teacherStandard.trim().length > 0)) && !generating && !atCap;
 
   async function handleGenerate() {
     if (!canGenerate) return;
@@ -136,7 +138,7 @@ function GeneratorPage() {
     setError(null);
     try {
       const res = await generateFn({
-        data: { grade, subject, durationMin, topic: topic.trim(), ...(selectedStd ? { ccssId: selectedStd.ccssId } : {}), ...(title.trim() ? { title: title.trim() } : {}) },
+        data: { grade, subject, durationMin, topic: topic.trim(), ...(!pickerOn && teacherStandard.trim() ? { teacherStandard } : {}), ...(selectedStd ? { ccssId: selectedStd.ccssId } : {}), ...(title.trim() ? { title: title.trim() } : {}) },
       });
       setPlan(res.plan);
       setPlanMeta({ grade, subject, durationMin });
@@ -242,23 +244,30 @@ function GeneratorPage() {
                     <optgroup key={group} label={group}>
                       {opts.map((o) => (
                         <option key={o.ccssId} value={o.ccssId}>
-                          {o.code} — {o.standardText.length > 60 ? `${o.standardText.slice(0, 60)}…` : o.standardText}
+                          {o.code} — Verified standard
                         </option>
                       ))}
                     </optgroup>
                   ))}
                 </Picker>
               )}
+              {!pickerOn && (
+                <div className="space-y-2">
+                  <p className="text-sm leading-relaxed text-muted-foreground">We don't have a verified standards set for this grade or subject yet. Add your own standard below, or generate without one.</p>
+                  <label htmlFor="teacher-standard" className="block text-xs font-medium text-muted-foreground">Add your standard (optional)</label>
+                  <Textarea id="teacher-standard" name="teacherStandard" value={teacherStandard} maxLength={APP_CONFIG.input.standardMaxChars} onChange={(e) => setTeacherStandard(e.target.value)} className={inputClass} />
+                </div>
+              )}
               <div>
                 <label htmlFor="topic" className="mb-1 block text-xs font-medium text-muted-foreground">
-                  {selectedStd ? "Additional focus (optional)" : "Standard or topic"}
+                  {selectedStd || (!pickerOn && teacherStandard.trim()) ? "Additional focus (optional)" : "Topic"}
                 </label>
                 <input
                   id="topic"
                   value={topic}
                   maxLength={APP_CONFIG.input.topicMaxChars}
                   onChange={(e) => setTopic(e.target.value)}
-                  placeholder='e.g. "3.OA.A.1" or "multiplying by 7s"'
+                  placeholder='e.g. "multiplying by 7s"'
                   className={inputClass}
                 />
                 <p className="mt-1 flex justify-between text-xs text-muted-foreground">
