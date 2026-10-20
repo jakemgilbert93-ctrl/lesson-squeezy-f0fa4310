@@ -1,4 +1,4 @@
-import { Logo } from "@/components/Logo";
+import { LogoWordmark } from "@/components/Logo";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -18,13 +18,14 @@ export function PublicHeader() {
   return (
     <header className="border-b border-border bg-gradient-header">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-3 px-4 py-5 sm:flex-row sm:items-center sm:px-6">
-      <Link to="/" className="flex items-center gap-2 text-lg font-bold text-foreground sm:text-xl">
-        <Logo size={32} />
-        <span>
-          Lesson <span className="text-primary">Squeezy</span>
-        </span>
+      <Link to="/" className="flex min-w-0 items-center gap-2 text-foreground">
+        <LogoWordmark
+          iconSize={44}
+          iconClassName="h-9 w-9 sm:h-11 sm:w-11"
+          textClassName="text-[1.375rem] sm:text-[1.75rem]"
+        />
         {APP_CONFIG.beta && (
-          <span className="rounded-full bg-card px-2 py-0.5 text-xs font-semibold text-foreground">
+          <span className="rounded-full bg-card px-2 py-0.5 text-xs font-semibold text-foreground sm:text-[0.9rem]">
             Beta
           </span>
         )}

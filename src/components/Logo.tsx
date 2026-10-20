@@ -1,4 +1,4 @@
-type LogoProps = { size?: number; className?: string; decorative?: boolean };
+type LogoProps = { size?: number; className?: string | undefined; decorative?: boolean };
 
 /**
  * Lesson Squeezy brand mark. Colors are fixed so it looks the same in every theme.
@@ -34,3 +34,36 @@ export function Logo({ size = 32, className, decorative = true }: LogoProps) {
     </svg>
   );
 }
+
+type LogoWordmarkProps = {
+  /** Base icon size in px. Use iconClassName to override per breakpoint. */
+  iconSize?: number;
+  /** e.g. "h-9 w-9 sm:h-11 sm:w-11" — CSS beats the SVG width/height attributes. */
+  iconClassName?: string;
+  textClassName?: string;
+  accentClassName?: string;
+  className?: string;
+};
+
+/**
+ * Lemon icon + "Lesson Squeezy" wordmark, the shared brand lockup.
+ * The two words live in one inline flow, so only a normal word space separates
+ * them — no flex gap, margin or padding between "Lesson" and "Squeezy".
+ */
+export function LogoWordmark({
+  iconSize = 32,
+  iconClassName,
+  textClassName = "text-lg",
+  accentClassName = "text-primary",
+  className = "",
+}: LogoWordmarkProps) {
+  return (
+    <span className={`flex min-w-0 items-center gap-2.5 ${className}`}>
+      <Logo size={iconSize} className={iconClassName} />
+      <span className={`whitespace-nowrap font-bold ${textClassName}`}>
+        Lesson <span className={accentClassName}>Squeezy</span>
+      </span>
+    </span>
+  );
+}
+

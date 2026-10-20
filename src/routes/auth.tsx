@@ -1,4 +1,4 @@
-import { Logo } from "@/components/Logo";
+import { LogoWordmark } from "@/components/Logo";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -73,9 +73,8 @@ function AuthPage() {
       {/* Brand panel */}
       <div className="bg-gradient-panel relative hidden overflow-hidden md:block md:w-1/2">
         <div className="relative flex h-full flex-col p-12 text-secondary-foreground">
-          <Link to="/" className="flex items-center gap-2 text-3xl font-bold">
-            <Logo size={40} />
-            Lesson Squeezy
+          <Link to="/" className="flex items-center text-secondary-foreground">
+            <LogoWordmark iconSize={56} iconClassName="h-14 w-14" textClassName="text-[2rem]" />
           </Link>
 
           {/* Decorative lesson-card preview */}
@@ -122,9 +121,8 @@ function AuthPage() {
       <div className="flex flex-1 items-center justify-center p-6">
         <div className="w-full max-w-md">
           <div className="mb-8 text-center md:hidden">
-            <Link to="/" className="inline-flex items-center gap-2 text-2xl font-bold text-foreground">
-              <Logo size={32} />
-              Lesson <span className="text-primary">Squeezy</span>
+            <Link to="/" className="inline-flex items-center text-foreground">
+              <LogoWordmark iconSize={40} iconClassName="h-10 w-10" textClassName="text-2xl" />
             </Link>
           </div>
 

@@ -1,4 +1,4 @@
-import { Logo } from "@/components/Logo";
+import { LogoWordmark } from "@/components/Logo";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { LogOut } from "lucide-react";
@@ -14,10 +14,13 @@ export function AppHeader() {
   }
 
   return (
-    <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-border bg-gradient-header px-4 py-3 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:px-6 sm:py-3.5">
-      <Link to="/" className="flex min-w-0 items-center gap-2 text-lg font-bold text-foreground">
-        <Logo size={32} />
-        Lesson <span className="text-primary">Squeezy</span>
+    <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-b border-border bg-gradient-header px-4 py-3.5 sm:flex sm:flex-wrap sm:items-center sm:justify-between sm:px-6 sm:py-4">
+      <Link to="/" className="flex min-w-0 items-center text-foreground">
+        <LogoWordmark
+          iconSize={44}
+          iconClassName="h-9 w-9 sm:h-11 sm:w-11"
+          textClassName="text-[1.375rem] sm:text-[1.75rem]"
+        />
       </Link>
       <nav className="col-span-2 flex flex-wrap items-center gap-x-4 gap-y-2 sm:col-span-1 sm:flex-nowrap">
         <Link
