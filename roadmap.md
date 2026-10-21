@@ -4,3 +4,6 @@
 - [x] Build and verify the signed-in and signed-out homepage updates.
 - [x] Update standards provenance, teacher-entered standards, exports and claims; automated text/Word tests pass.
 - [ ] Verify four real generated/saved lesson cases — blocked by the owner's exhausted monthly lesson allowance; do not bypass usage enforcement.
+- [x] Remove legal layout date lines and check Privacy placeholders.
+- [x] Install the owner's exact Terms policy and links.
+- [x] Add and verify required Sign Up legal agreement; checked requests intercepted without creating test accounts.

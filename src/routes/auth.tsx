@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Clock } from "lucide-react";
 import { normalizeDisplayName } from "@/lib/display-name";
+import { Checkbox } from "@/components/ui/checkbox";
+import { requireSignupAgreement } from "@/lib/signup-agreement";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -31,6 +33,7 @@ function AuthPage() {
   const [displayName, setDisplayName] = useState("");
   const [loading, setLoading] = useState(false);
   const [confirmationNeeded, setConfirmationNeeded] = useState(false);
+  const [agreed, setAgreed] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -45,6 +48,7 @@ function AuthPage() {
 
     try {
       if (mode === "signup") {
+        requireSignupAgreement(agreed);
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -203,9 +207,33 @@ function AuthPage() {
                 />
               </div>
 
+              {mode === "signup" && (
+                <div className="flex items-start gap-2.5">
+                  <Checkbox
+                    id="signup-agreement"
+                    name="agreement"
+                    required
+                    checked={agreed}
+                    onCheckedChange={(checked) => setAgreed(checked === true)}
+                    aria-labelledby="signup-agreement-label"
+                    className="mt-0.5"
+                  />
+                  <label id="signup-agreement-label" htmlFor="signup-agreement" className="text-sm leading-relaxed text-foreground">
+                    I agree to the{" "}
+                    <Link to="/terms" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                      Terms of Service
+                    </Link>{" "}
+                    and{" "}
+                    <Link to="/privacy" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
+                      Privacy Policy
+                    </Link>
+                  </label>
+                </div>
+              )}
+
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || (mode === "signup" && !agreed)}
                 className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
               >
                 {loading ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
@@ -219,6 +247,7 @@ function AuthPage() {
               onClick={() => {
                 setMode(mode === "signin" ? "signup" : "signin");
                 setConfirmationNeeded(false);
+                setAgreed(false);
               }}
               className="font-semibold text-primary hover:underline"
             >

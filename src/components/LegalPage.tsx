@@ -10,7 +10,7 @@ const BODY = "text-[15px] leading-relaxed text-foreground";
 
 /** **bold**, URLs, and email addresses are turned into strong/link nodes. */
 const INLINE =
-  /\*\*(.+?)\*\*|(https?:\/\/[^\s]+)|([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g;
+  /\*\*(.+?)\*\*|(https?:\/\/[^\s]+)|([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})|(Privacy Policy)/g;
 
 function inline(text: string): ReactNode[] {
   const nodes: ReactNode[] = [];
@@ -33,6 +33,12 @@ function inline(text: string): ReactNode[] {
         <a key={key} href={`mailto:${match[3]}`} className="font-medium text-primary hover:underline">
           {match[3]}
         </a>,
+      );
+    } else if (match[4]) {
+      nodes.push(
+        <Link key={key} to="/privacy" className="font-medium text-primary hover:underline">
+          {match[4]}
+        </Link>,
       );
     }
     last = match.index + match[0].length;
