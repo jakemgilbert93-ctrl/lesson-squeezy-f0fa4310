@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { LessonIdInput } from "./lesson-id";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Json } from "@/integrations/supabase/types";
 import { APP_CONFIG, gradeLabel, limitsFor, standardsActive, standardsSubjectFor, type PlanTier } from "@/config/app-config";
@@ -301,7 +302,7 @@ export const listLessonPlans = createServerFn({ method: "GET" })
 
 export const getLessonPlan = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: { id: string }) => data)
+  .inputValidator((data: unknown) => LessonIdInput.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const { data: row, error } = await supabase
@@ -325,7 +326,7 @@ export const getLessonPlan = createServerFn({ method: "GET" })
 
 export const deleteLessonPlan = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: { id: string }) => data)
+  .inputValidator((data: unknown) => LessonIdInput.parse(data))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const { error } = await supabase.from("lesson_plans").delete().eq("id", data.id).eq("user_id", userId);
