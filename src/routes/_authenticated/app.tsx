@@ -382,7 +382,7 @@ function GeneratorPage() {
               </div>
               <h3 className="mt-4 text-lg font-semibold text-foreground">Your lesson will appear here</h3>
               <p className="mt-1.5 max-w-sm text-sm text-muted-foreground">
-                Pick a grade, subject, and length, type a standard or topic, then hit Generate.
+                Pick a grade, subject, and length, enter a topic or standard, then hit Generate.
               </p>
             </div>
           )}
