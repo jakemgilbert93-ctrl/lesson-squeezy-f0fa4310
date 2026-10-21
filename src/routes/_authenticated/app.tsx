@@ -248,7 +248,7 @@ function GeneratorPage() {
                     <optgroup key={group} label={group}>
                       {opts.map((o) => (
                         <option key={o.ccssId} value={o.ccssId}>
-                          {o.code} — Verified standard
+                          {o.code} — Verified standard · Common Core State Standards
                         </option>
                       ))}
                     </optgroup>

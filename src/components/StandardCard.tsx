@@ -18,9 +18,10 @@ export function StandardCard({ standard }: { standard: StandardSnapshot }) {
       <h3 className="text-sm font-semibold uppercase tracking-wide text-primary">Standard</h3>
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <p className="break-words font-mono text-sm font-semibold text-foreground">{standard.code}</p>
-        <span className="text-xs font-medium text-muted-foreground">Verified standard</span>
+        <span className="text-xs font-medium text-muted-foreground">Verified standard · Common Core State Standards</span>
       </div>
       <p className="mt-1 whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground">{standard.standardText}</p>
+      <p className="mt-1 text-xs text-muted-foreground">Common Core standards. Your state may use different standards, so check yours.</p>
       {standard.notes && (
         <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">{standard.notes}</p>
       )}

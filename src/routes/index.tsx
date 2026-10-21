@@ -17,12 +17,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard. Save it, edit it, and download it as .docx.",
+          "Enter a topic or standard, and Lesson Squeezy drafts a ready-to-edit lesson plan. Review it, save it, download it as .docx.",
       },
       { property: "og:title", content: "Lesson Squeezy — AI lesson plans for teachers" },
       {
         property: "og:description",
-        content: "Lesson Squeezy drafts a complete, editable lesson plan from your topic or standard.",
+        content: "Enter a topic or standard, and Lesson Squeezy drafts a ready-to-edit lesson plan.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -152,7 +152,7 @@ function Index() {
           </ul>
           <Link
             to="/pricing"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border bg-secondary px-5 py-2.5 text-sm font-semibold text-secondary-foreground transition hover:bg-secondary/80"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border bg-pink px-5 py-2.5 text-sm font-semibold text-secondary-foreground transition hover:bg-pink-deep"
           >
             See pricing
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
