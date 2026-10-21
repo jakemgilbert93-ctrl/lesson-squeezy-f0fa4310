@@ -1,14 +1,11 @@
 import { LogoWordmark } from "@/components/Logo";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { LogOut } from "lucide-react";
+import { LogOut, UserRound } from "lucide-react";
 import { toast } from "sonner";
-import { AccountDialog } from "@/components/AccountDialog";
-import { useHomeSession } from "@/hooks/use-home-session";
 
 export function AppHeader() {
   const navigate = useNavigate();
-  const userId = useHomeSession();
 
   async function signOut() {
     await supabase.auth.signOut();
