@@ -52,7 +52,14 @@ export function AppHeader() {
           >
             My Lessons
           </Link>
-          {userId && <AccountDialog userId={userId} />}
+          <Link
+            to="/account"
+            activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
+            className="inline-flex items-center gap-1.5 text-[13px] font-medium text-foreground/80 transition hover:text-foreground sm:text-sm"
+          >
+            <UserRound className="h-4 w-4" />
+            Account
+          </Link>
         </nav>
         <button
           onClick={signOut}
