@@ -6,4 +6,4 @@
 - [ ] Verify four real generated/saved lesson cases — blocked by the owner's exhausted monthly lesson allowance; do not bypass usage enforcement.
 - [x] Remove legal layout date lines and check Privacy placeholders.
 - [x] Install the owner's exact Terms policy and links.
-- [ ] Add and verify required Sign Up legal agreement.
+- [x] Add and verify required Sign Up legal agreement; checked requests intercepted without creating test accounts.
