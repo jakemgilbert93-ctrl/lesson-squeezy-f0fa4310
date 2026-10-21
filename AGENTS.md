@@ -21,3 +21,4 @@
 - The static public sample standard is an exact source-file extract verified against the database, avoiding anonymous access to the protected standards table; live lesson snapshots remain server-built.
 - Display names are read and edited through authenticated owner-scoped profile functions; profiles are the canonical current name, and the greeting and Account dialog share a user-ID-keyed query so edits stay private and refresh together.
 - Sign Up checks legal agreement in the form and a shared submission guard before calling auth, so disabled-button bypasses cannot submit an unchecked form.
+- Authentication email templates share an email-safe brand module and PNG logo; keep the scaffolded managed handler responsible for verification and sending, because email clients and the Worker need compatible rendering.
