@@ -113,6 +113,13 @@ export type Database = {
             referencedRelation: "lesson_plans"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "lesson_ratings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
         ]
       }
       profiles: {
