@@ -51,7 +51,13 @@ export function validatePasswordChange(current: string, next: string, confirm: s
 type AuthErr = { code?: string | undefined; message?: string | undefined; reasons?: string[] | undefined };
 
 /** Maps a sign-in service rejection of a new password to a clear message. */
-export function passwordErrorMessage(error: AuthErr): string {
+export function passwordErrorMessage(raw: unknown): string {
+  const e = (raw ?? {}) as Record<string, unknown>;
+  const error: AuthErr = {
+    code: typeof e.code === "string" ? e.code : undefined,
+    message: typeof e.message === "string" ? e.message : undefined,
+    reasons: Array.isArray(e.reasons) ? e.reasons.filter((r): r is string => typeof r === "string") : undefined,
+  };
   const msg = (error.message ?? "").toLowerCase();
   const reasons = error.reasons ?? [];
   if (error.code === "same_password") return PASSWORD_MESSAGES.samePassword;

@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { PasswordRequirements } from "@/components/PasswordRequirements";
+import { passwordErrorMessage, passwordRuleError } from "@/lib/password-change";
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
@@ -65,8 +67,9 @@ function ResetPasswordPage() {
 
   async function handleUpdate(e: React.FormEvent) {
     e.preventDefault();
-    if (newPassword.length < 6) {
-      toast.error("Password must be at least 6 characters.");
+    const ruleError = passwordRuleError(newPassword);
+    if (ruleError) {
+      toast.error(ruleError);
       return;
     }
     setLoading(true);
@@ -76,7 +79,7 @@ function ResetPasswordPage() {
       setUpdated(true);
       toast.success("Password updated!");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Something went wrong.");
+      toast.error(passwordErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -105,12 +108,15 @@ function ResetPasswordPage() {
               <input
                 type="password"
                 required
-                minLength={6}
+                autoComplete="new-password"
+                aria-label="New password"
+                aria-describedby="reset-password-rules"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="New password"
                 className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
               />
+              <PasswordRequirements id="reset-password-rules" password={newPassword} />
               <button
                 type="submit"
                 disabled={loading}
