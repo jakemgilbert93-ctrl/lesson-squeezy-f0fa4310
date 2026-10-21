@@ -21,7 +21,7 @@ export const footer = { fontSize: '14px', color: colors.muted, lineHeight: '1.6'
 export const codeStyle = { fontFamily: 'Courier, monospace', fontSize: '26px', fontWeight: 'bold' as const, color: colors.primary, backgroundColor: colors.babyblue, padding: '16px', borderRadius: '8px', margin: '0 0 24px' }
 
 export function BrandFont() {
-  return <Font fontFamily="Nunito" fallbackFontFamily="Arial" webFont={{ url: 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap', format: 'woff2' }} fontWeight={400} fontStyle="normal" />
+  return <Font fontFamily="Nunito" fallbackFontFamily="Arial" webFont={{ url: 'https://fonts.gstatic.com/s/nunito/v32/XRXI3I6Li01BKofiOc5wtlZ2di8HDLshRTM.ttf', format: 'truetype' }} fontWeight={400} fontStyle="normal" />
 }
 
 export function EmailBrand() {
