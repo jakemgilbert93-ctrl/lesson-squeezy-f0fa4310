@@ -54,9 +54,9 @@ type AuthErr = { code?: string | undefined; message?: string | undefined; reason
 export function passwordErrorMessage(raw: unknown): string {
   const e = (raw ?? {}) as Record<string, unknown>;
   const error: AuthErr = {
-    code: typeof e.code === "string" ? e.code : undefined,
-    message: typeof e.message === "string" ? e.message : undefined,
-    reasons: Array.isArray(e.reasons) ? e.reasons.filter((r): r is string => typeof r === "string") : undefined,
+    code: typeof e["code"] === "string" ? e["code"] : undefined,
+    message: typeof e["message"] === "string" ? e["message"] : undefined,
+    reasons: Array.isArray(e["reasons"]) ? e["reasons"].filter((r): r is string => typeof r === "string") : undefined,
   };
   const msg = (error.message ?? "").toLowerCase();
   const reasons = error.reasons ?? [];
