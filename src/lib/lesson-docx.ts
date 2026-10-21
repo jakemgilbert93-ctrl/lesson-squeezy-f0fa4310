@@ -32,7 +32,7 @@ export async function createLessonDocx(plan: LessonPlanData, meta: LessonMeta) {
   const std = visibleStandard(plan);
   if (std) {
     children.push(new Paragraph({ text: "Standard", heading: HeadingLevel.HEADING_1, spacing: { before: 240 } }));
-    children.push(new Paragraph({ children: [new TextRun({ text: `${std.code} — Verified standard`, bold: true })] }));
+    children.push(new Paragraph({ children: [new TextRun({ text: `${std.code} — Verified standard · Common Core State Standards`, bold: true })] }));
     children.push(...body(std.standardText));
     if (std.notes) children.push(...body(std.notes));
     const online = standardOnlineUrl(std);

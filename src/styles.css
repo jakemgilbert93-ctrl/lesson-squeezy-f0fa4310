@@ -54,6 +54,7 @@
   --color-babyblue: var(--babyblue);
   --color-lavender: var(--lavender);
   --color-pink: var(--pink);
+  --color-pink-deep: var(--pink-deep);
   --color-skyblue: var(--skyblue);
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
@@ -86,6 +87,7 @@
   --babyblue: hsl(208 97% 87%);
   --lavender: hsl(280 34% 78%);
   --pink: hsl(338 100% 84%);
+  --pink-deep: hsl(338 90% 77%);
   --skyblue: hsl(209 100% 82%);
   --page-tint: hsl(210 100% 96%);
   --gradient-header: linear-gradient(90deg, var(--lavender), var(--blush), var(--babyblue), var(--skyblue));

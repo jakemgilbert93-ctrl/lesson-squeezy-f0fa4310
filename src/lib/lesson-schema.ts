@@ -132,7 +132,7 @@ export function lessonToPlainText(plan: LessonPlanData, meta: LessonMeta): strin
   const parts = [plan.title, metaLine(meta), ""];
   const std = visibleStandard(plan);
   if (std) {
-    parts.push("STANDARD", `${std.code} — Verified standard`, std.standardText);
+    parts.push("STANDARD", `${std.code} — Verified standard · Common Core State Standards`, std.standardText);
     if (std.notes) parts.push(std.notes);
     const online = standardOnlineUrl(std);
     if (online) parts.push(`${STANDARD_ONLINE_LABEL}: ${online}`);
