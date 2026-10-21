@@ -147,6 +147,10 @@ const SECTIONS: LegalSection[] = [
       },
       {
         kind: "p",
+        text: "**Security.** We use reasonable measures to protect your information, but no method of storage or transmission is completely secure. Each account can access only its own lessons, ratings, profile, and usage data.",
+      },
+      {
+        kind: "p",
         text: "**Links to other sites.** Lessons may link to other websites, such as the Common Core State Standards websites. We do not control those sites or their privacy practices.",
       },
       {
