@@ -30,7 +30,7 @@ export function HomeWorkspace({ userId }: { userId: string }) {
         </div>
         {lessons.isPending ? <p className="mt-6 text-muted-foreground" role="status">Loading lessons…</p>
           : lessons.isError ? <div className="mt-6"><p role="alert">Could not load your lessons.</p><Button variant="outline" className="mt-3" onClick={() => void lessons.refetch()}>Try again</Button></div>
-          : lessons.data.length === 0 ? <div className="py-10 text-center"><FileText className="mx-auto h-10 w-10 text-primary" /><p className="mt-4 text-muted-foreground">No saved lessons yet.</p><Button asChild className="mt-5"><Link to="/app"><Plus />Create your first lesson</Link></Button></div>
+          : lessons.data.length === 0 ? <div className="py-10 text-center"><FileText className="mx-auto h-10 w-10 text-primary" /><p className="mt-4 text-muted-foreground">No saved lessons yet.</p><p className="mt-2 text-muted-foreground">Lessons you save will show up here.</p><Button asChild className="mt-5"><Link to="/app"><Plus />Create a lesson</Link></Button></div>
           : <div className="mt-5 grid gap-6 md:grid-cols-3">{lessons.data.slice(0, APP_CONFIG.homepage.recentLessons).map((lesson) => (
             <Link key={lesson.id} to="/plans/$id" params={{ id: lesson.id }} className="min-w-0 rounded-xl border border-border bg-card p-6 shadow-sm transition hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <h3 className="whitespace-normal text-lg font-bold text-foreground [overflow-wrap:anywhere]">{lesson.title}</h3>

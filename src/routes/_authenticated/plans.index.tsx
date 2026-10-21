@@ -42,7 +42,7 @@ function PlansPage() {
   }, [listFn]);
 
   async function handleDelete(id: string) {
-    if (!window.confirm("Delete this lesson? This can't be undone.")) return;
+    if (!window.confirm("Delete this lesson? This can't be undone. Deleting a lesson doesn't give back one of your monthly lessons.")) return;
     try {
       await deleteFn({ data: { id } });
       setPlans((prev) => prev?.filter((p) => p.id !== id) ?? null);
@@ -73,9 +73,9 @@ function PlansPage() {
         ) : plans.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-icon"><FileText className="h-8 w-8 text-foreground" aria-hidden="true" /></div>
-            <h2 className="mt-3 text-lg font-semibold text-foreground">No saved lessons yet</h2>
+            <h2 className="mt-3 text-lg font-semibold text-foreground">No saved lessons yet.</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Generate a lesson and save it to see it here.
+              Lessons you save will show up here.
             </p>
             <Link
               to="/app"
