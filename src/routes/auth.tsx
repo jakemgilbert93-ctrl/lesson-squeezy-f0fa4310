@@ -7,6 +7,8 @@ import { Clock } from "lucide-react";
 import { normalizeDisplayName } from "@/lib/display-name";
 import { Checkbox } from "@/components/ui/checkbox";
 import { requireSignupAgreement } from "@/lib/signup-agreement";
+import { PasswordRequirements } from "@/components/PasswordRequirements";
+import { passwordErrorMessage, passwordRuleError } from "@/lib/password-change";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -49,6 +51,8 @@ function AuthPage() {
     try {
       if (mode === "signup") {
         requireSignupAgreement(agreed);
+        const ruleError = passwordRuleError(password);
+        if (ruleError) { toast.error(ruleError); return; }
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -57,6 +61,7 @@ function AuthPage() {
             emailRedirectTo: window.location.origin,
           },
         });
+        if (error?.code === "weak_password") { toast.error(passwordErrorMessage(error)); return; }
         if (error) throw error;
         if (data.session === null) {
           setConfirmationNeeded(true);
@@ -198,12 +203,13 @@ function AuthPage() {
                   name="password"
                   autoComplete={mode === "signin" ? "current-password" : "new-password"}
                   required
-                  minLength={6}
+                  aria-describedby={mode === "signup" ? "signup-password-rules" : undefined}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
                 />
+                {mode === "signup" && <PasswordRequirements id="signup-password-rules" password={password} />}
               </div>
 
               {mode === "signup" && (

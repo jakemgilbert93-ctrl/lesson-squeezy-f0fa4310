@@ -11,6 +11,7 @@ import { profileKey, useMyProfile } from "@/hooks/use-my-profile";
 import { saveMyDisplayName } from "@/lib/profile.functions";
 import { getUsage } from "@/lib/lesson-plan.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { PasswordRequirements } from "@/components/PasswordRequirements";
 import { PASSWORD_MESSAGES, passwordErrorMessage, validatePasswordChange } from "@/lib/password-change";
 
 export const Route = createFileRoute("/_authenticated/account")({
@@ -98,13 +99,13 @@ function ProfileCard({ userId, email }: { userId: string; email: string }) {
   );
 }
 
-function PasswordField({ id, label, value, onChange, autoComplete }: { id: string; label: string; value: string; onChange: (v: string) => void; autoComplete: string }) {
+function PasswordField({ id, label, value, onChange, autoComplete, describedBy }: { id: string; label: string; value: string; onChange: (v: string) => void; autoComplete: string; describedBy?: string }) {
   const [show, setShow] = useState(false);
   return (
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium">{label}</label>
       <div className="relative">
-        <Input id={id} type={show ? "text" : "password"} autoComplete={autoComplete} className="h-10 pr-12" value={value} onChange={(e) => onChange(e.target.value)} onFocus={scrollIntoView} />
+        <Input id={id} type={show ? "text" : "password"} autoComplete={autoComplete} className="h-10 pr-12" aria-describedby={describedBy} value={value} onChange={(e) => onChange(e.target.value)} onFocus={scrollIntoView} />
         <button type="button" onClick={() => setShow((s) => !s)} aria-label={show ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`} aria-pressed={show}
           className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-md text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -138,9 +139,9 @@ function PasswordCard() {
       <h2 id="password-heading" className="text-xl font-bold text-foreground">Change password</h2>
       <form onSubmit={submit} noValidate className="mt-4 space-y-4">
         <PasswordField id="current-password" label="Current password" autoComplete="current-password" value={current} onChange={(v) => { setCurrent(v); setStatus(null); }} />
-        <PasswordField id="new-password" label="New password" autoComplete="new-password" value={next} onChange={(v) => { setNext(v); setStatus(null); }} />
+        <PasswordField id="new-password" label="New password" autoComplete="new-password" value={next} describedBy="new-password-rules" onChange={(v) => { setNext(v); setStatus(null); }} />
+        <PasswordRequirements id="new-password-rules" password={next} />
         <PasswordField id="confirm-password" label="Confirm new password" autoComplete="new-password" value={confirm} onChange={(v) => { setConfirm(v); setStatus(null); }} />
-        <p className="text-xs text-muted-foreground">At least {APP_CONFIG.passwordMinLength} characters.</p>
         {status && <p role={status.ok ? "status" : "alert"} className={status.ok ? "text-sm text-success" : "text-sm text-destructive"}>{status.text}</p>}
         <Button type="submit" className="min-h-10" disabled={busy}>{busy ? "Changing…" : "Change password"}</Button>
       </form>
