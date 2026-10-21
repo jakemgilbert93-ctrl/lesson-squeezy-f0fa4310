@@ -132,7 +132,7 @@ export const generateLessonPlan = createServerFn({ method: "POST" })
     // 1. Check the cap BEFORE calling the AI
     const usage = await readUsage(sb);
     if (usage.monthlyLimit !== null && usage.lessonsUsed >= usage.monthlyLimit) {
-      throw new Error("You've used all your free lessons this month. Upgrade to Pro for unlimited lessons.");
+      throw new Error(`You've used all ${usage.monthlyLimit} free lessons this month. They reset on the 1st. Pro is coming after beta.`);
     }
     const standard = data.ccssId ? await loadStandard(sb, data.ccssId, data.grade, data.subject) : null;
     await reserveAiCall(sb);
@@ -183,7 +183,7 @@ Respond with ONLY one JSON object, no markdown, in this exact shape:
       p_limit: usage.monthlyLimit,
     });
     if (newCount === null) {
-      throw new Error("You've used all your free lessons this month. Upgrade to Pro for unlimited lessons.");
+      throw new Error(`You've used all ${usage.monthlyLimit} free lessons this month. They reset on the 1st. Pro is coming after beta.`);
     }
     return { plan, usage: { ...usage, lessonsUsed: newCount } };
   });

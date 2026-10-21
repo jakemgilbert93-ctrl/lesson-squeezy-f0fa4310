@@ -300,7 +300,7 @@ function GeneratorPage() {
                 onClick={(e) => e.preventDefault()}
                 className="mt-4 block rounded-lg bg-muted px-4 py-3 text-center text-sm text-muted-foreground"
               >
-                You've used all {usage?.monthlyLimit} free lessons this month. They reset on the 1st. Pro (coming soon) lifts the limit.
+                You've used all {usage?.monthlyLimit} free lessons this month. They reset on the 1st. Pro is coming after beta.
               </Link>
             ) : (
               <button
