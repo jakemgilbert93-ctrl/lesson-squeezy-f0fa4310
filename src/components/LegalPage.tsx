@@ -101,13 +101,6 @@ export function LegalPage({
           </section>
         ))}
       </div>
-      <p className="mt-10 text-sm text-muted-foreground">
-        Questions? Email{" "}
-        <a href="mailto:team@lessonsqueezy.com" className="font-medium text-primary hover:underline">
-          team@lessonsqueezy.com
-        </a>
-        .
-      </p>
     </main>
   );
 }
