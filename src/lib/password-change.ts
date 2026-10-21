@@ -19,7 +19,7 @@ export function validatePasswordChange(current: string, next: string, confirm: s
 }
 
 /** Maps an auth error to a teacher-friendly message. */
-export function passwordErrorMessage(error: { code?: string; message?: string }): string {
+export function passwordErrorMessage(error: { code?: string | undefined; message?: string | undefined }): string {
   const msg = (error.message ?? "").toLowerCase();
   if (error.code === "same_password") return PASSWORD_MESSAGES.samePassword;
   if (error.code === "weak_password") return PASSWORD_MESSAGES.tooShort;
