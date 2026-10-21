@@ -7,7 +7,7 @@ export function PasswordRequirements({ password, id }: { password: string; id: s
       <p>{PASSWORD_REQUIREMENT}</p>
       <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1" aria-label="Password checklist">
         {passwordChecks(password).map((c) => (
-          <li key={c.label} className={`inline-flex items-center gap-1 ${c.met ? "font-semibold text-success" : ""}`}>
+          <li key={c.label} className={`inline-flex items-center gap-1 ${c.met ? "font-semibold text-foreground" : ""}`}>
             {c.met ? <Check className="h-3.5 w-3.5" aria-hidden="true" /> : <Circle className="h-3 w-3" aria-hidden="true" />}
             {c.label}<span className="sr-only">{c.met ? " (done)" : " (not yet)"}</span>
           </li>
