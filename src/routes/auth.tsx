@@ -216,7 +216,7 @@ function AuthPage() {
                     checked={agreed}
                     onCheckedChange={(checked) => setAgreed(checked === true)}
                     aria-labelledby="signup-agreement-label"
-                    className="mt-0.5"
+                    className="mt-0.5 rounded-[4px]"
                   />
                   <label id="signup-agreement-label" htmlFor="signup-agreement" className="text-sm leading-relaxed text-foreground">
                     I agree to the{" "}
