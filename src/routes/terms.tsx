@@ -25,5 +25,5 @@ export const Route = createFileRoute("/terms")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: () => <LegalPage title="Terms" updated="October 20, 2026" sections={SECTIONS} />,
+  component: () => <LegalPage title="Terms" sections={SECTIONS} />,
 });
