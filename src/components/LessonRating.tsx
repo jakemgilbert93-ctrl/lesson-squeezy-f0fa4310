@@ -68,7 +68,7 @@ export function LessonRating({ lessonId, grade, subject }: Props) {
             onClick={() => pick(n)}
             onMouseEnter={() => setHover(n)}
             onMouseLeave={() => setHover(0)}
-            className="rounded p-0.5 transition hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-60"
+             className="inline-flex h-10 w-10 items-center justify-center rounded p-0.5 transition hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 disabled:opacity-60 sm:h-auto sm:w-auto"
           >
             <Star
               className={`h-5 w-5 ${n <= shown ? "fill-cheer text-cheer" : "text-border"}`}

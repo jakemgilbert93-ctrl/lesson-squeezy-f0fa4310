@@ -25,14 +25,14 @@ export function StandardCard({ standard }: { standard: StandardSnapshot }) {
         <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">{standard.notes}</p>
       )}
       {(online || url) && (
-        <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+        <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-2 sm:gap-x-4 sm:gap-y-1">
           {online && (
-            <a href={online} target="_blank" rel="noopener" className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+            <a href={online} target="_blank" rel="noopener" className="inline-flex items-center gap-1 py-1.5 text-sm font-medium text-primary hover:underline sm:py-0">
               {STANDARD_ONLINE_LABEL} <ExternalLink className="h-3.5 w-3.5" />
             </a>
           )}
           {url && (
-            <a href={url} target="_blank" rel="noopener" className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+            <a href={url} target="_blank" rel="noopener" className="inline-flex items-center gap-1 py-1.5 text-xs font-medium text-primary hover:underline sm:py-0">
               {STANDARDS_SOURCE_LABEL} <ExternalLink className="h-3 w-3" />
             </a>
           )}

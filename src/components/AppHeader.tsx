@@ -25,11 +25,11 @@ export function AppHeader() {
           textClassName="text-[1.375rem] sm:text-[1.75rem]"
         />
       </Link>
-      <nav className="col-span-2 flex flex-wrap items-center gap-x-4 gap-y-2 sm:col-span-1 sm:flex-nowrap">
+      <nav className="col-span-2 grid grid-cols-3 items-center gap-x-3 gap-y-2 max-sm:[&>button]:justify-self-start max-sm:[&>button]:px-2 max-sm:[&>button]:text-[13px] sm:col-span-1 sm:flex sm:flex-nowrap sm:gap-x-4">
         <Link
           to="/"
           activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
-          className="text-sm font-medium text-foreground/80 transition hover:text-foreground"
+          className="text-[13px] font-medium text-foreground/80 transition hover:text-foreground sm:text-sm"
         >
           Home
         </Link>
@@ -37,14 +37,14 @@ export function AppHeader() {
           to="/app"
           activeOptions={{ exact: true }}
           activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
-          className="text-sm font-medium text-foreground/80 transition hover:text-foreground"
+          className="text-[13px] font-medium text-foreground/80 transition hover:text-foreground sm:text-sm"
         >
           New Lesson
         </Link>
         <Link
           to="/plans"
           activeProps={{ className: "!text-foreground font-bold underline underline-offset-4" }}
-          className="text-sm font-medium text-foreground/80 transition hover:text-foreground"
+          className="text-[13px] font-medium text-foreground/80 transition hover:text-foreground sm:text-sm"
         >
           My Lessons
         </Link>

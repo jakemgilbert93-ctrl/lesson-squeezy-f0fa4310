@@ -60,7 +60,7 @@ function Picker({
         {label}
       </label>
       <span className="relative block">
-        <select id={id} value={value} onChange={onChange} className={selectClass}>
+        <select id={id} value={value} onChange={onChange} className={`${selectClass} max-sm:[#grade&]:px-2.5 max-sm:[#grade&]:pr-8 max-sm:[#length&]:px-2.5 max-sm:[#length&]:pr-8`}>
           {children}
         </select>
         <ChevronDown

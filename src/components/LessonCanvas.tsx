@@ -90,7 +90,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="grid grid-cols-2 items-center gap-2 max-sm:[&>button]:min-w-0 max-sm:[&>button]:justify-center max-sm:[&>button]:px-2 sm:flex sm:flex-wrap">
         {actions}
         <button
           onClick={exportDocx}
@@ -103,12 +103,12 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
         {saved && (
           <button
             onClick={copy}
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-accent"
+            className="col-span-2 inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-accent"
           >
             <Copy className="h-4 w-4" /> Copy
           </button>
         )}
-        <span className="text-xs text-muted-foreground">
+        <span className="col-span-2 text-center text-xs text-muted-foreground sm:text-left">
           {regen.enabled
             ? `${left} of ${regen.limit} section regenerations left`
             : "Save the lesson to regenerate sections"}
@@ -158,7 +158,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
                     onClick={() => requestRegen(key)}
                     disabled={!regen.enabled || left === 0 || regen.busy !== null}
                     title={!regen.enabled ? "Save the lesson first" : left === 0 ? "No regenerations left" : "Regenerate this section"}
-                    className="ml-auto inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+                    className="ml-auto inline-flex min-h-10 items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 sm:min-h-0 sm:px-2 sm:py-1"
                   >
                     <RefreshCw className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`} />
                     {busy ? "Regenerating…" : "Regenerate"}
@@ -179,7 +179,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
                     </ul>
                     <button
                       onClick={() => setEditingMaterials(true)}
-                      className="mt-2 inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground"
+                      className="mt-2 inline-flex items-center gap-1 rounded-md px-3 py-2 text-xs font-medium text-muted-foreground outline outline-1 outline-border transition hover:bg-accent hover:text-foreground sm:px-2 sm:py-1 sm:outline-none"
                     >
                       <Pencil className="h-3.5 w-3.5" aria-hidden="true" /> Edit materials
                     </button>
