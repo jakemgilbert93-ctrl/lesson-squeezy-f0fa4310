@@ -67,8 +67,7 @@ function Index() {
           Lesson plans, <span className="text-primary">drafted for you.</span>
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-base text-muted-foreground sm:text-lg">
-          Enter a topic or pick a standard, and Lesson Squeezy drafts a complete,
-          classroom-ready lesson plan. Edit it, save it, download it.
+          Enter a topic or standard, and Lesson Squeezy drafts a ready-to-edit lesson plan. Review it, save it, download it.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
@@ -85,7 +84,7 @@ function Index() {
             See a sample lesson
           </a>
         </div>
-        <p className="mt-4 text-sm text-muted-foreground">Built for teachers. No student information needed.</p>
+        <p className="mt-4 text-sm text-muted-foreground">Built for teachers, by teachers.</p>
       </section>
 
       {/* How it works */}
