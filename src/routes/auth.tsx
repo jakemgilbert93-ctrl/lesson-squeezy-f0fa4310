@@ -141,7 +141,7 @@ function AuthPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             {mode === "signin"
               ? "Sign in to generate and manage your lesson plans."
-              : "Draft lessons with verified Common Core standards for K–5 Math and ELA. More grades and subjects coming."}
+              : "Draft lessons with verified Common Core standards for K–5 Math and ELA. More grades and subjects coming soon."}
           </p>
 
           {confirmationNeeded ? (
