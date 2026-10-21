@@ -61,7 +61,8 @@ function AuthPage() {
             emailRedirectTo: window.location.origin,
           },
         });
-        if (error) { toast.error(passwordErrorMessage(error)); return; }
+        if (error?.code === "weak_password") { toast.error(passwordErrorMessage(error)); return; }
+        if (error) throw error;
         if (data.session === null) {
           setConfirmationNeeded(true);
         } else if (data.user) {
@@ -208,6 +209,7 @@ function AuthPage() {
                   placeholder="••••••••"
                   className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
                 />
+                {mode === "signup" && <PasswordRequirements id="signup-password-rules" password={password} />}
               </div>
 
               {mode === "signup" && (
