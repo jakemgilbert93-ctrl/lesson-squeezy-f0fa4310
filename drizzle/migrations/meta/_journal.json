@@ -43,6 +43,13 @@
       "when": 1792472291588,
       "tag": "0005_keep_optional_display_names_empty",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792555932409,
+      "tag": "0006_clamp_ai_call_parameters",
+      "breakpoints": true
     }
   ]
 }
