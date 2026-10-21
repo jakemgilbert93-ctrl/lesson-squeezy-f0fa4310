@@ -119,8 +119,7 @@ function AuthPage() {
               Lesson plans, drafted for you.
             </h2>
             <p className="mt-4 max-w-md text-secondary-foreground/90">
-              Enter a topic or pick a standard, and Lesson Squeezy drafts a complete,
-              classroom-ready lesson plan. Edit it, save it, download it.
+              Enter a topic or standard, and Lesson Squeezy drafts a ready-to-edit lesson plan. Review it, save it, download it.
             </p>
           </div>
         </div>
