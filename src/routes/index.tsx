@@ -92,9 +92,9 @@ function Index() {
         <h2 className="text-center text-2xl font-bold text-foreground sm:text-3xl">Three steps to a finished plan</h2>
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {[
-            { icon: FileText, title: "Choose grade and subject", desc: "Enter a topic, or pick a verified Common Core standard for K–5 Math and ELA. More grades and subjects coming." },
-            { icon: Pencil, title: "Review the draft", desc: "Edit any section, or regenerate one section at a time." },
-            { icon: Download, title: "Save and download", desc: "Keep it in My Lessons, download a .docx, or copy the text." },
+            { icon: FileText, title: "Choose a grade and subject", desc: "Enter a topic, or pick a verified Common Core standard for K–5 Math and ELA. More grades and subjects coming soon." },
+            { icon: Pencil, title: "Review the draft", desc: "Edit any section, or regenerate one section at a time. " },
+            { icon: Download, title: "Save or download it", desc: "Keep it in My Lessons, download a .docx, or copy the text to your clipboard." },
           ].map((step) => (
             <div key={step.title} className="rounded-xl border border-border bg-card p-6 text-left shadow-sm">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-icon">
