@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { APP_CONFIG } from "@/config/app-config";
 import { useHomeSession } from "@/hooks/use-home-session";
 import { Button } from "@/components/ui/button";
-import { AccountDialog } from "@/components/AccountDialog";
+import { UserRound } from "lucide-react";
 
 export function PublicHeader() {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export function PublicHeader() {
             >
               My Lessons
             </Link>
-            <AccountDialog userId={signedIn} />
+            <Button asChild variant="ghost" size="sm"><Link to="/account"><UserRound className="h-4 w-4" />Account</Link></Button>
             <Button variant="ghost"
               type="button"
               onClick={signOut}

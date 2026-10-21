@@ -7,6 +7,8 @@ export const APP_CONFIG = {
   /** Address used by the footer "Send feedback" link. */
   feedbackEmail: "team@lessonsqueezy.com",
   homepage: { recentLessons: 3 },
+  /** Minimum password length; matches the sign-up form. */
+  passwordMinLength: 6,
 
   /** True while nothing can be purchased. */
   beta: true as boolean,
