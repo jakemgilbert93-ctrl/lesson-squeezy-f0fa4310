@@ -77,7 +77,7 @@ export function LegalPage({
 }) {
   return (
     <main className="mx-auto w-full max-w-[720px] px-4 py-12 sm:px-6 sm:py-16">
-      <Link to="/" className="text-sm text-muted-foreground hover:text-primary">
+      <Link to="/" className="inline-block py-1.5 text-sm text-muted-foreground hover:text-primary sm:inline sm:py-0">
         ← Lesson Squeezy
       </Link>
       <h1 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl">{title}</h1>

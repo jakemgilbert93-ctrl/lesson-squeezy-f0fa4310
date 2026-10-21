@@ -106,7 +106,7 @@ function PlansPage() {
                 </Link>
                 <button
                   onClick={() => handleDelete(p.id)}
-                  className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition hover:text-destructive"
+                  className="mt-3 inline-flex min-h-[36px] items-center gap-1.5 px-1 py-2 text-xs text-muted-foreground transition hover:text-destructive sm:min-h-0 sm:p-0"
                 >
                   <Trash2 className="h-3.5 w-3.5" /> Delete
                 </button>
