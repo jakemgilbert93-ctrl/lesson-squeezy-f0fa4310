@@ -129,7 +129,7 @@ function ResetPasswordPage() {
         ) : sent ? (
           <p className="mt-6 text-sm text-muted-foreground">
             If an account exists for <span className="font-medium text-foreground">{email}</span>,
-            a reset link is on its way.
+            a reset link is on its way. Can’t find it? Check your spam or junk folder.
           </p>
         ) : (
           <form onSubmit={handleRequest} className="mt-6 space-y-4">
