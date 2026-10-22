@@ -11,6 +11,7 @@ import { profileKey, useMyProfile } from "@/hooks/use-my-profile";
 import { saveMyDisplayName } from "@/lib/profile.functions";
 import { getUsage } from "@/lib/lesson-plan.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { SuccessNote } from "@/components/SuccessNote";
 import { PasswordRequirements } from "@/components/PasswordRequirements";
 import { PASSWORD_MESSAGES, passwordErrorMessage, validatePasswordChange } from "@/lib/password-change";
 
@@ -92,7 +93,7 @@ function ProfileCard({ userId, email }: { userId: string; email: string }) {
             <label htmlFor="account-email" className="mb-1.5 block text-sm font-medium">Email</label>
             <Input id="account-email" type="email" className="h-10 bg-muted [overflow-wrap:anywhere]" value={email} readOnly aria-readonly="true" />
           </div>
-          {status && <p role={status.ok ? "status" : "alert"} className={status.ok ? "text-sm text-success" : "text-sm text-destructive"}>{status.text}</p>}
+          {status && (status.ok ? <SuccessNote>{status.text}</SuccessNote> : <p role="alert" className="text-sm text-destructive">{status.text}</p>)}
           <Button type="submit" className="min-h-10" disabled={saving}>{saving ? "Saving…" : "Save"}</Button>
         </form>}
     </section>
@@ -142,7 +143,7 @@ function PasswordCard() {
         <PasswordField id="new-password" label="New password" autoComplete="new-password" value={next} describedBy="new-password-rules" onChange={(v) => { setNext(v); setStatus(null); }} />
         <PasswordRequirements id="new-password-rules" password={next} />
         <PasswordField id="confirm-password" label="Confirm new password" autoComplete="new-password" value={confirm} onChange={(v) => { setConfirm(v); setStatus(null); }} />
-        {status && <p role={status.ok ? "status" : "alert"} className={status.ok ? "text-sm text-success" : "text-sm text-destructive"}>{status.text}</p>}
+        {status && (status.ok ? <SuccessNote>{status.text}</SuccessNote> : <p role="alert" className="text-sm text-destructive">{status.text}</p>)}
         <Button type="submit" className="min-h-10" disabled={busy}>{busy ? "Changing…" : "Change password"}</Button>
       </form>
     </section>

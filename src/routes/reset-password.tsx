@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { PasswordVisibilityToggle } from "@/components/PasswordVisibilityToggle";
 import { PasswordRequirements } from "@/components/PasswordRequirements";
 import { passwordErrorMessage, passwordRuleError } from "@/lib/password-change";
 
@@ -32,6 +33,7 @@ function ResetPasswordPage() {
   const [mode, setMode] = useState<Mode>("unknown");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [sent, setSent] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -105,8 +107,9 @@ function ResetPasswordPage() {
           ) : (
             <form onSubmit={handleUpdate} className="mt-6 space-y-4">
               <p className="text-sm text-muted-foreground">Enter your new password below.</p>
+              <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 autoComplete="new-password"
                 aria-label="New password"
@@ -114,8 +117,10 @@ function ResetPasswordPage() {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="New password"
-                className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-lg border border-input bg-card py-2.5 pl-3.5 pr-12 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
               />
+              <PasswordVisibilityToggle show={showPassword} onToggle={() => setShowPassword((v) => !v)} label="New password" />
+              </div>
               <PasswordRequirements id="reset-password-rules" password={newPassword} />
               <button
                 type="submit"

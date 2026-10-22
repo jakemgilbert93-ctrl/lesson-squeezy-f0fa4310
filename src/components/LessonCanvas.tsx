@@ -1,3 +1,4 @@
+import { SuccessNote } from "@/components/SuccessNote";
 import { useState, type ReactNode } from "react";
 import { chipFill } from "@/lib/chip-fill";
 import { Link } from "@tanstack/react-router";
@@ -115,12 +116,12 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
         </span>
       </div>
       {showSavedNotice && (
-        <p role="status" className="flex flex-wrap items-center gap-2 rounded-lg bg-muted px-3 py-2 text-sm text-foreground">
-          <Check className="h-4 w-4 shrink-0 text-success" aria-hidden="true" /> Saved to My Lessons.
-          <Link to="/plans" className="font-semibold text-primary hover:underline">
+        <SuccessNote>
+          Saved to My Lessons.
+          <Link to="/plans" className="font-semibold underline-offset-2 hover:underline">
             Go to My Lessons
           </Link>
-        </p>
+        </SuccessNote>
       )}
 
       <article className="rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
