@@ -3,7 +3,7 @@ import { useState, type ReactNode } from "react";
 import { chipFill } from "@/lib/chip-fill";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Copy, FileDown, Loader2, RefreshCw, Clock, Info, Check, Pencil } from "lucide-react";
+import { Copy, FileDown, Loader2, RefreshCw, Clock, Info, Pencil } from "lucide-react";
 import {
   SECTION_KEYS,
   SECTION_LABELS,
