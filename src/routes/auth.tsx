@@ -10,6 +10,10 @@ import { requireSignupAgreement } from "@/lib/signup-agreement";
 import { PasswordVisibilityToggle } from "@/components/PasswordVisibilityToggle";
 import { PasswordRequirements } from "@/components/PasswordRequirements";
 import { passwordErrorMessage, passwordRuleError } from "@/lib/password-change";
+import { APP_CONFIG } from "@/config/app-config";
+import { Button } from "@/components/ui/button";
+import { ResendConfirmation } from "@/components/ResendConfirmation";
+import { consumeConfirmationCallback, startResendCooldown } from "@/lib/email-confirmation";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -38,8 +42,12 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [confirmationNeeded, setConfirmationNeeded] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [unconfirmed, setUnconfirmed] = useState(false);
+  const [expiredLink, setExpiredLink] = useState(false);
 
   useEffect(() => {
+    const expired = consumeConfirmationCallback("expired");
+    if (expired) { setExpiredLink(true); return; }
     supabase.auth.getUser().then(({ data }) => {
       if (data.user) navigate({ to: "/app" });
     });
@@ -49,6 +57,7 @@ function AuthPage() {
     e.preventDefault();
     setLoading(true);
     setConfirmationNeeded(false);
+    setUnconfirmed(false);
 
     try {
       if (mode === "signup") {
@@ -60,12 +69,13 @@ function AuthPage() {
           password,
           options: {
             data: { display_name: normalizeDisplayName(displayName) ?? undefined },
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: `${APP_CONFIG.authEmailBaseUrl}/app`,
           },
         });
         if (error?.code === "weak_password") { toast.error(passwordErrorMessage(error)); return; }
         if (error) throw error;
         if (data.session === null) {
+          startResendCooldown();
           setConfirmationNeeded(true);
         } else if (data.user) {
           toast.success("Account created!");
@@ -73,6 +83,10 @@ function AuthPage() {
         }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error?.code === "email_not_confirmed" || error?.message === "Email not confirmed") {
+          setUnconfirmed(true);
+          return;
+        }
         if (error) throw error;
         toast.success("Welcome back!");
         navigate({ to: "/app" });
@@ -150,15 +164,27 @@ function AuthPage() {
               : "Draft lessons with verified Common Core standards for K–5 Math and ELA. More grades and subjects coming soon."}
           </p>
 
-          {confirmationNeeded ? (
+          {expiredLink ? (
+            <div className="mt-6 space-y-4">
+              <p role="alert" className="text-sm text-destructive">That confirmation link has expired or was already used. If you already confirmed, sign in. Otherwise, enter your email to get a new link.</p>
+              <div>
+                <label htmlFor="confirmation-email" className="mb-1.5 block text-sm font-medium text-foreground">Email</label>
+                <input id="confirmation-email" type="email" name="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30" />
+              </div>
+              <ResendConfirmation email={email} />
+              <Button type="button" variant="link" className="min-h-10 px-0" onClick={() => { setExpiredLink(false); setMode("signin"); }}>I've confirmed — sign in</Button>
+            </div>
+          ) : confirmationNeeded ? (
             <div className="mt-6 rounded-xl border border-primary/40 bg-primary/10 p-4 text-sm text-foreground">
               <p className="font-semibold">Check your email</p>
               <p className="mt-1 text-muted-foreground">
                 We sent a confirmation link to <span className="font-medium">{email}</span>.
                 Click it to activate your account, then sign in.
               </p>
+              <p className="mt-2 text-muted-foreground">Can't find it? Check your spam or junk folder.</p>
+              <div className="mt-3"><ResendConfirmation email={email} /></div>
               <button
-                onClick={() => setMode("signin")}
+                onClick={() => { setMode("signin"); setConfirmationNeeded(false); }}
                 className="mt-3 text-sm font-medium text-primary hover:underline"
               >
                 I've confirmed — sign in
@@ -241,6 +267,12 @@ function AuthPage() {
                 </div>
               )}
 
+              {unconfirmed && (
+                <div className="space-y-3">
+                  <p role="alert" className="text-sm text-destructive">Please confirm your email first. Check your inbox (and spam), or resend the link below.</p>
+                  <ResendConfirmation email={email} />
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={loading || (mode === "signup" && !agreed)}
@@ -258,6 +290,8 @@ function AuthPage() {
                 setMode(mode === "signin" ? "signup" : "signin");
                 setConfirmationNeeded(false);
                 setAgreed(false);
+                setUnconfirmed(false);
+                setExpiredLink(false);
               }}
               className="font-semibold text-primary hover:underline"
             >

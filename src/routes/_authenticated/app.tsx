@@ -19,6 +19,8 @@ import {
   type Usage,
 } from "@/lib/lesson-plan.functions";
 import { isTimed, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
+import { SuccessNote } from "@/components/SuccessNote";
+import { consumeConfirmationCallback } from "@/lib/email-confirmation";
 
 export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
@@ -73,6 +75,10 @@ function Picker({
 }
 
 function GeneratorPage() {
+  const [emailConfirmed, setEmailConfirmed] = useState(false);
+  useEffect(() => {
+    if (consumeConfirmationCallback("confirmed")) setEmailConfirmed(true);
+  }, []);
   const [grade, setGrade] = useState<string>("3");
   const [subject, setSubject] = useState<string>(APP_CONFIG.subjects[0]);
   const [durationMin, setDurationMin] = useState<number>(45);
@@ -316,6 +322,7 @@ function GeneratorPage() {
         </aside>
 
         <main className="min-w-0">
+          {emailConfirmed && <SuccessNote className="mb-4">Email confirmed. Welcome to Lesson Squeezy!</SuccessNote>}
           {error && (
             <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-foreground">
               <AlertCircle className="h-4 w-4 text-destructive" />

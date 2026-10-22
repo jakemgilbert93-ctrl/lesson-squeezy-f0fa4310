@@ -16,6 +16,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteFooter } from "@/components/SiteFooter";
+import { pendingConfirmationCallback } from "@/lib/email-confirmation";
 
 function NotFoundComponent() {
   return (
@@ -137,6 +138,7 @@ function RootComponent() {
 
   // Keep router + query caches in sync with sign-in / sign-out transitions.
   useEffect(() => {
+    if (pendingConfirmationCallback() === "expired") router.navigate({ to: "/auth", replace: true });
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
