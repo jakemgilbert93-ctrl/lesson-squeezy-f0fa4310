@@ -7,3 +7,4 @@
 - [x] Remove legal layout date lines and check Privacy placeholders.
 - [x] Install the owner's exact Terms policy and links.
 - [x] Add and verify required Sign Up legal agreement; checked requests intercepted without creating test accounts.
+- [ ] Enable and verify signup confirmation, resend cooldown, expired-link handling, welcome notice, and branded sender.
