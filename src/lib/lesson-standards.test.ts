@@ -54,7 +54,7 @@ describe("standards provenance", () => {
     expect(lessonToPlainText(plan, meta)).toContain(standard.standardText);
     expect(lessonToPlainText(plan, meta)).toContain(`${standard.code} — Verified standard`);
     const paragraphs = await documentParagraphs(plan);
-    expect(paragraphs).toContain(`${standard.code} — Verified standard`);
+    expect(paragraphs).toContain(`${standard.code} — Verified standard · Common Core State Standards`);
     for (const line of standard.standardText.split("\n")) expect(paragraphs).toContain(line);
   });
   test("verified standards link online and to the subject PDF", async () => {
