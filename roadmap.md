@@ -7,4 +7,5 @@
 - [x] Remove legal layout date lines and check Privacy placeholders.
 - [x] Install the owner's exact Terms policy and links.
 - [x] Add and verify required Sign Up legal agreement; checked requests intercepted without creating test accounts.
-- [ ] Enable and verify signup confirmation, resend cooldown, expired-link handling, welcome notice, and branded sender.
+- [x] Enable signup confirmation, verify hosted auto-confirm OFF, resend controls/cooldown/error handling and one-time welcome; branded template renders, verified notify sender configured, existing account access works, all tests pass.
+- [ ] Verify actual signup email arrival and confirmation-link click after publishing — requires the updated published app and a recipient inbox; browser checks used intercepted responses without sending mail.
