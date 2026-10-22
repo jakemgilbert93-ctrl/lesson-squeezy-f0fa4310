@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { PasswordVisibilityToggle } from "@/components/PasswordVisibilityToggle";
 import { PasswordRequirements } from "@/components/PasswordRequirements";
 import { passwordErrorMessage, passwordRuleError } from "@/lib/password-change";
+import { APP_CONFIG } from "@/config/app-config";
+
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
@@ -55,7 +57,7 @@ function ResetPasswordPage() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
+        redirectTo: `${APP_CONFIG.authEmailBaseUrl}/reset-password`,
       });
       if (error) throw error;
       setSent(true);
