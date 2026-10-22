@@ -152,7 +152,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       {isPublic && <SiteFooter />}
-      <Toaster richColors position="top-center" />
+      <Toaster richColors position="top-center" toastOptions={{ classNames: { success: "!bg-notice !text-notice-foreground !border-notice" } }} />
     </QueryClientProvider>
   );
 }

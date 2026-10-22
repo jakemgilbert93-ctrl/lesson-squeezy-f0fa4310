@@ -7,6 +7,7 @@ import { Clock } from "lucide-react";
 import { normalizeDisplayName } from "@/lib/display-name";
 import { Checkbox } from "@/components/ui/checkbox";
 import { requireSignupAgreement } from "@/lib/signup-agreement";
+import { PasswordVisibilityToggle } from "@/components/PasswordVisibilityToggle";
 import { PasswordRequirements } from "@/components/PasswordRequirements";
 import { passwordErrorMessage, passwordRuleError } from "@/lib/password-change";
 
@@ -32,6 +33,7 @@ function AuthPage() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [loading, setLoading] = useState(false);
   const [confirmationNeeded, setConfirmationNeeded] = useState(false);
@@ -197,9 +199,10 @@ function AuthPage() {
               </div>
               <div>
                 <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-foreground">Password</label>
+                <div className="relative">
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   autoComplete={mode === "signin" ? "current-password" : "new-password"}
                   required
@@ -207,8 +210,10 @@ function AuthPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full rounded-lg border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
+                  className="w-full rounded-lg border border-input bg-card py-2.5 pl-3.5 pr-12 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30"
                 />
+                <PasswordVisibilityToggle show={showPassword} onToggle={() => setShowPassword((v) => !v)} label="Password" />
+                </div>
                 {mode === "signup" && <PasswordRequirements id="signup-password-rules" password={password} />}
               </div>
 

@@ -52,6 +52,8 @@
   --color-cheer: var(--cheer);
   --color-blush: var(--blush);
   --color-babyblue: var(--babyblue);
+  --color-notice: var(--notice);
+  --color-notice-foreground: var(--notice-foreground);
   --color-lavender: var(--lavender);
   --color-pink: var(--pink);
   --color-pink-deep: var(--pink-deep);
@@ -85,6 +87,8 @@
   --cheer: hsl(209 100% 82%);
   --blush: hsl(338 100% 89%);
   --babyblue: hsl(208 97% 87%);
+  --notice: #bee0fe;
+  --notice-foreground: #3f2150;
   --lavender: hsl(280 34% 78%);
   --pink: hsl(338 100% 84%);
   --pink-deep: hsl(338 90% 77%);
