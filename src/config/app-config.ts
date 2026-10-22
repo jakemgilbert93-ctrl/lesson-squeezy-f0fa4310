@@ -8,6 +8,7 @@ export const APP_CONFIG = {
   feedbackEmail: "team@lessonsqueezy.com",
   /** Base address for links in account emails, e.g. the password reset link. */
   authEmailBaseUrl: "https://lessonsqueezy.com",
+  auth: { confirmationResendCooldownSeconds: 60 },
 
   homepage: { recentLessons: 3 },
   /** Minimum length for new passwords (also needs a number and a symbol). */
