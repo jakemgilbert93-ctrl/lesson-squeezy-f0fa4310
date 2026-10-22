@@ -52,7 +52,7 @@ export function ResendConfirmation({ email }: { email: string }) {
         </Button>
         {remaining > 0 && <span role="timer" className="text-sm text-muted-foreground">Resend in {remaining}s</span>}
       </div>
-      {sent && <SuccessNote>Email sent again</SuccessNote>}
+      {sent && <SuccessNote className="border-2 border-skyblue">Email sent again</SuccessNote>}
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     </div>
   );

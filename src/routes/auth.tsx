@@ -175,17 +175,17 @@ function AuthPage() {
               <Button type="button" variant="link" className="min-h-10 px-0" onClick={() => { setExpiredLink(false); setMode("signin"); }}>I've confirmed — sign in</Button>
             </div>
           ) : confirmationNeeded ? (
-            <div className="mt-6 rounded-xl border border-primary/40 bg-primary/10 p-4 text-sm text-foreground">
+            <div className="mt-6 rounded-xl border border-skyblue bg-notice p-4 text-sm text-notice-foreground">
               <p className="font-semibold">Check your email</p>
-              <p className="mt-1 text-muted-foreground">
+              <p className="mt-1 text-notice-foreground/80">
                 We sent a confirmation link to <span className="font-medium">{email}</span>.
                 Click it to activate your account, then sign in.
               </p>
-              <p className="mt-2 text-muted-foreground">Can't find it? Check your spam or junk folder.</p>
+              <p className="mt-2 text-notice-foreground/80">Can't find it? Check your spam or junk folder.</p>
               <div className="mt-3"><ResendConfirmation email={email} /></div>
               <button
                 onClick={() => { setMode("signin"); setConfirmationNeeded(false); }}
-                className="mt-3 text-sm font-medium text-primary hover:underline"
+                className="mt-3 min-h-10 text-sm font-medium text-notice-foreground hover:underline"
               >
                 I've confirmed — sign in
               </button>
