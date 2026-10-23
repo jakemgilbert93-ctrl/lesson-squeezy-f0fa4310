@@ -8,6 +8,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
 import { getLessonPlan, regenerateSection, saveLessonPlan } from "@/lib/lesson-plan.functions";
 import { isTimed, normalizeLesson, type LessonMeta, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
+import { lessonHasChanges } from "@/lib/lesson-edits";
 
 export const Route = createFileRoute("/_authenticated/plans/$id")({
   head: () => ({
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/_authenticated/plans/$id")({
 function PlanDetailPage() {
   const { id } = Route.useParams();
   const [plan, setPlan] = useState<LessonPlanData | null>(null);
+  const [baseline, setBaseline] = useState<LessonPlanData | null>(null);
   const [meta, setMeta] = useState<LessonMeta | null>(null);
   const [regen, setRegen] = useState({ used: 0, limit: 5 });
   const [busy, setBusy] = useState<SectionKey | null>(null);
@@ -41,7 +43,11 @@ function PlanDetailPage() {
     setLoadError(null);
     getFn({ data: { id } })
       .then((row) => {
-        setPlan(normalizeLesson(row.plan));
+        const loaded = normalizeLesson(row.plan);
+        setPlan(loaded);
+        setBaseline(loaded);
+        setDirty(false);
+        setJustSaved(false);
         setMeta({ grade: row.grade, subject: row.subject, durationMin: row.durationMin });
         setRegen({ used: row.regenerationCount, limit: row.regenLimit });
       })
@@ -57,10 +63,11 @@ function PlanDetailPage() {
   const [justSaved, setJustSaved] = useState(false);
 
   async function handleSave() {
-    if (!plan || !meta) return;
+    if (!plan || !meta || saving) return;
     setSaving(true);
     try {
       await saveFn({ data: { id, ...meta, plan: plan as unknown as Record<string, unknown> } });
+      setBaseline(plan);
       setDirty(false);
       setJustSaved(true);
     } catch (e) {
@@ -103,13 +110,16 @@ function PlanDetailPage() {
               <p className="text-foreground">{loadError}</p>
               <button onClick={load} className="mt-3 rounded-md border border-border px-3 py-1.5 font-medium hover:bg-accent">Try again</button>
             </div>
-          ) : plan && meta ? (
+          ) : plan && meta && baseline ? (
             <LessonCanvas
               plan={plan}
+              baseline={baseline}
+              saving={saving}
+              onSave={handleSave}
               meta={meta}
               onChange={(p) => {
                 setPlan(p);
-                setDirty(true);
+                setDirty(lessonHasChanges(p, baseline));
                 setJustSaved(false);
               }}
               saved

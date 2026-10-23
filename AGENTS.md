@@ -17,6 +17,8 @@
 - Lesson read and delete functions share the UUID input schema in `src/lib/lesson-id.ts`, so malformed IDs are rejected before querying.
 - Lesson cap is checked before the AI call and incremented only after validated output; failed generations never count.
 - The 7-section lesson shape lives in `src/lib/lesson-schema.ts` and one shared `LessonCanvas` component renders it for both new and saved lessons.
+- Section edit controls compare page text with an immutable generated/last-successfully-saved snapshot and use the existing whole-lesson save handler; cancellation restores only that section so other edits remain intact.
+- Monthly usage explanations share a UTC-calendar-month comparison of existing lesson creation timestamps, never infer deleted counts or compare all-time saved totals.
 - Section regeneration requires a saved lesson, because the per-lesson counter is stored on the lesson row.
 - Verified standards display is gated by standardsActive() in app-config; snapshots are refreshed server-side with grade/subject validation on generation, save and read. Teacher-entered text is stored separately as teacherStandard for unsupported grades/subjects, so user text can never be labeled verified.
 - Lesson document creation is separate from browser download so automated tests can inspect the same Word document users receive.

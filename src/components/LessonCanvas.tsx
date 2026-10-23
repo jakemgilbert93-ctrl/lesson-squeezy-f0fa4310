@@ -1,5 +1,7 @@
 import { SuccessNote } from "@/components/SuccessNote";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import { changedSections, restoreSection } from "@/lib/lesson-edits";
 import { chipFill } from "@/lib/chip-fill";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -23,6 +25,9 @@ import { StandardCard } from "./StandardCard";
 
 type Props = {
   plan: LessonPlanData;
+  baseline: LessonPlanData;
+  saving: boolean;
+  onSave: () => Promise<void>;
   meta: LessonMeta;
   onChange: (plan: LessonPlanData) => void;
   /** Extra buttons (e.g. Save) shown in the toolbar. */
@@ -45,9 +50,18 @@ const fieldClass =
   "w-full resize-y rounded-md border border-transparent bg-transparent px-2 py-1 text-sm leading-relaxed text-foreground outline-none transition hover:border-border focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20";
 
 /** Shared 7-section lesson editor used by the generator and the saved-lesson page. */
-export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNotice, regen }: Props) {
+export function LessonCanvas({ plan, baseline, saving, onSave, meta, onChange, actions, saved, showSavedNotice, regen }: Props) {
   const [exporting, setExporting] = useState(false);
   const [editingMaterials, setEditingMaterials] = useState(false);
+  const previousBaseline = useRef(baseline);
+  const [savedSections, setSavedSections] = useState<SectionKey[]>([]);
+  const unsaved = new Set(changedSections(plan, baseline));
+  useEffect(() => {
+    if (previousBaseline.current !== baseline) {
+      setSavedSections(showSavedNotice ? changedSections(baseline, previousBaseline.current) : []);
+      previousBaseline.current = baseline;
+    }
+  }, [baseline, showSavedNotice]);
   const edited = new Set(plan.editedSections ?? []);
   const std = visibleStandard(plan);
   const entered = enteredStandard(plan);
@@ -60,6 +74,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
   }
 
   function setText(key: SectionKey, value: string) {
+    setSavedSections((sections) => sections.filter((section) => section !== key));
     if (isTimed(key)) markEdited(key, { ...plan, [key]: { ...plan[key], content: value } });
     else markEdited(key, { ...plan, [key]: value });
   }
@@ -127,6 +142,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
       <article className="rounded-xl border border-border bg-card p-6 shadow-sm md:p-8">
         <textarea
           value={plan.title}
+          disabled={saving}
           maxLength={100}
           rows={1}
           onChange={(e) => onChange({ ...plan, title: e.target.value })}
@@ -157,7 +173,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
                   )}
                   <button
                     onClick={() => requestRegen(key)}
-                    disabled={!regen.enabled || left === 0 || regen.busy !== null}
+                    disabled={saving || !regen.enabled || left === 0 || regen.busy !== null}
                     title={!regen.enabled ? "Save the lesson first" : left === 0 ? "No regenerations left" : "Regenerate this section"}
                     className="ml-auto inline-flex min-h-10 items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-accent hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40 sm:min-h-0 sm:px-2 sm:py-1"
                   >
@@ -180,6 +196,7 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
                     </ul>
                     <button
                       onClick={() => setEditingMaterials(true)}
+                      disabled={saving}
                       className="mt-2 inline-flex items-center gap-1 rounded-md px-3 py-2 text-xs font-medium text-muted-foreground outline outline-1 outline-border transition hover:bg-accent hover:text-foreground sm:px-2 sm:py-1 sm:outline-none"
                     >
                       <Pencil className="h-3.5 w-3.5" aria-hidden="true" /> Edit materials
@@ -190,11 +207,26 @@ export function LessonCanvas({ plan, meta, onChange, actions, saved, showSavedNo
                     onBlur={key === "materials" ? () => setEditingMaterials(false) : undefined}
                     autoFocus={key === "materials"}
                     value={text}
+                    disabled={saving}
                     onChange={(e) => setText(key, e.target.value)}
                     rows={Math.max(2, text.split("\n").length + 1)}
                     aria-label={SECTION_LABELS[key]}
                     className={`${fieldClass} [field-sizing:content] min-h-16`}
                   />
+                )}
+                {unsaved.has(key) ? (
+                  <div className="mt-2 flex flex-wrap items-center gap-2 px-2">
+                    <span className="text-sm text-notice-foreground/70">Unsaved changes</span>
+                    <Button className="min-h-10" disabled={saving || regen.busy !== null} onClick={() => void onSave()}>
+                      {saving && <Loader2 className="animate-spin" />}Save lesson
+                    </Button>
+                    <Button variant="outline" className="min-h-10" disabled={saving || regen.busy !== null} onClick={() => {
+                      setSavedSections((sections) => sections.filter((section) => section !== key));
+                      onChange(restoreSection(plan, baseline, key));
+                    }}>Cancel edit</Button>
+                  </div>
+                ) : savedSections.includes(key) && (
+                  <SuccessNote className="mt-2 mx-2 w-fit">Saved</SuccessNote>
                 )}
               </section>
             );

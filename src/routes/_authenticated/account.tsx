@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { APP_CONFIG } from "@/config/app-config";
 import { profileKey, useMyProfile } from "@/hooks/use-my-profile";
 import { saveMyDisplayName } from "@/lib/profile.functions";
-import { getUsage } from "@/lib/lesson-plan.functions";
+import { getUsage, listLessonPlans } from "@/lib/lesson-plan.functions";
+import { MonthlyCountExplanation } from "@/components/MonthlyCountExplanation";
 import { supabase } from "@/integrations/supabase/client";
 import { SuccessNote } from "@/components/SuccessNote";
 import { PasswordRequirements } from "@/components/PasswordRequirements";
@@ -152,6 +153,8 @@ function PasswordCard() {
 
 function PlanCard({ userId }: { userId: string }) {
   const fetchUsage = useServerFn(getUsage);
+  const fetchLessons = useServerFn(listLessonPlans);
+  const lessons = useQuery({ queryKey: ["home-lessons", userId], queryFn: () => fetchLessons() });
   const usage = useQuery({ queryKey: ["home-usage", userId], queryFn: () => fetchUsage() });
   const current = usage.data;
   return (
@@ -162,6 +165,7 @@ function PlanCard({ userId }: { userId: string }) {
         : current && <div className="mt-4">
           <p className="font-semibold text-foreground">Current plan: {APP_CONFIG.plans[current.plan].name}</p>
           <p className="mt-2 text-sm text-muted-foreground">{current.monthlyLimit === null ? `${current.lessonsUsed} lessons used this month · No monthly lesson limit` : `${current.lessonsUsed} of ${current.monthlyLimit} lessons used this month`}</p>
+          <MonthlyCountExplanation used={current.lessonsUsed} lessons={lessons.isSuccess ? lessons.data : undefined} />
           {current.monthlyLimit !== null && <progress aria-label="Monthly lesson usage" className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted accent-primary [&::-webkit-progress-bar]:bg-muted [&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary" max={Math.max(1, current.monthlyLimit)} value={current.lessonsUsed} />}
           <p className="mt-3 text-sm text-muted-foreground">Resets on the 1st of each month at 00:00 UTC.</p>
           <Button asChild variant="link" className="mt-1 min-h-10 px-0"><Link to="/pricing">See pricing<ArrowRight /></Link></Button>
