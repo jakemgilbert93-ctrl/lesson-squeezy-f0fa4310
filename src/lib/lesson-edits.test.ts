@@ -1,4 +1,5 @@
-import { expect, test } from "bun:test";
+import { test } from "bun:test";
+import assert from "node:assert/strict";
 import { changedSections, lessonHasChanges, restoreSection } from "./lesson-edits";
 import type { LessonPlanData } from "./lesson-schema";
 
@@ -9,22 +10,22 @@ const baseline: LessonPlanData = {
 };
 
 test("section changes are compared with saved/generated text, not edit markers", () => {
-  expect(changedSections({ ...baseline, objective: "New objective", materials: "Scissors" }, baseline)).toEqual(["objective", "materials"]);
-  expect(changedSections(baseline, baseline)).toEqual([]);
+  assert.deepEqual(changedSections({ ...baseline, objective: "New objective", materials: "Scissors" }, baseline), ["objective", "materials"]);
+  assert.deepEqual(changedSections(baseline, baseline), []);
 });
 test("cancel restores only the selected section and its previous edit marker", () => {
   const restored = restoreSection({ ...baseline, objective: "New objective", materials: "Scissors", editedSections: ["objective", "materials"] }, baseline, "objective");
-  expect(restored.objective).toBe(baseline.objective);
-  expect(restored.materials).toBe("Scissors");
-  expect(restored.editedSections).toEqual(["materials", "objective"]);
+  assert.equal(restored.objective, baseline.objective);
+  assert.equal(restored.materials, "Scissors");
+  assert.deepEqual(restored.editedSections, ["materials", "objective"]);
 });
 test("cancel of a timed section restores its text without touching other edits", () => {
   const restored = restoreSection({ ...baseline, warmUp: { minutes: 5, content: "Changed" }, materials: "Scissors", editedSections: ["warmUp"] }, baseline, "warmUp");
-  expect(restored.warmUp).toEqual(baseline.warmUp);
-  expect(restored.materials).toBe("Scissors");
-  expect(restored.editedSections).toEqual([]);
+  assert.deepEqual(restored.warmUp, baseline.warmUp);
+  assert.equal(restored.materials, "Scissors");
+  assert.deepEqual(restored.editedSections, []);
 });
 test("returning to baseline clears dirty state while a title edit still counts", () => {
-  expect(lessonHasChanges(baseline, baseline)).toBe(false);
-  expect(lessonHasChanges({ ...baseline, title: "New title" }, baseline)).toBe(true);
+  assert.equal(lessonHasChanges(baseline, baseline), false);
+  assert.equal(lessonHasChanges({ ...baseline, title: "New title" }, baseline), true);
 });
