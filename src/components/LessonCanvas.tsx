@@ -217,14 +217,17 @@ export function LessonCanvas({ plan, baseline, saving, onSave, meta, onChange, a
                 {unsaved.has(key) ? (
                   <div className="mt-2 flex flex-wrap items-center gap-2 px-2">
                     <span className="text-sm text-notice-foreground/70">Unsaved changes</span>
-                    <Button className="min-h-10" disabled={saving || regen.busy !== null} onClick={() => void onSave()}>
-                      {saving && <Loader2 className="animate-spin" />}Save lesson
-                    </Button>
-                    <Button variant="outline" className="min-h-10" disabled={saving || regen.busy !== null} onClick={() => {
-                      setSavedSections((sections) => sections.filter((section) => section !== key));
-                      onChange(restoreSection(plan, baseline, key));
-                    }}>Cancel edit</Button>
+                    <div className="flex items-center gap-2">
+                      <Button className="min-h-10 max-sm:px-3" disabled={saving || regen.busy !== null} onClick={() => void onSave()}>
+                        {saving && <Loader2 className="animate-spin" />}Save changes
+                      </Button>
+                      <Button variant="outline" className="min-h-10 max-sm:px-3" disabled={saving || regen.busy !== null} onClick={() => {
+                        setSavedSections((sections) => sections.filter((section) => section !== key));
+                        onChange(restoreSection(plan, baseline, key));
+                      }}>Discard edit</Button>
+                    </div>
                   </div>
+
                 ) : savedSections.includes(key) && (
                   <SuccessNote className="mt-2 mx-2 w-fit">Saved</SuccessNote>
                 )}
