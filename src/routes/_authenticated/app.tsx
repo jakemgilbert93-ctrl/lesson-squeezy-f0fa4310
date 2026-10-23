@@ -18,7 +18,7 @@ import {
   saveLessonPlan,
   type Usage,
 } from "@/lib/lesson-plan.functions";
-import { isTimed, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
+import { isTimed, normalizeLesson, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
 import { SuccessNote } from "@/components/SuccessNote";
 import { consumeConfirmationCallback } from "@/lib/email-confirmation";
 import { lessonHasChanges } from "@/lib/lesson-edits";
@@ -179,7 +179,9 @@ function GeneratorPage() {
         },
       });
       setSavedId(row.id);
-      setBaseline(plan);
+      const savedPlan = normalizeLesson(row.plan);
+      setPlan(savedPlan);
+      setBaseline(savedPlan);
       setDirty(false);
       setJustSaved(true);
     } catch (err) {
@@ -370,7 +372,7 @@ function GeneratorPage() {
               actions={
                 <button
                   onClick={handleSave}
-                  disabled={saving || (!dirty && !!savedId)}
+                  disabled={saving || busySection !== null || (!dirty && !!savedId)}
                   className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
