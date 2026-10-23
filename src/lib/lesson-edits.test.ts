@@ -13,13 +13,13 @@ test("section changes are compared with saved/generated text, not edit markers",
   assert.deepEqual(changedSections({ ...baseline, objective: "New objective", materials: "Scissors" }, baseline), ["objective", "materials"]);
   assert.deepEqual(changedSections(baseline, baseline), []);
 });
-test("cancel restores only the selected section and its previous edit marker", () => {
+test("discard restores only the selected section and its previous edit marker", () => {
   const restored = restoreSection({ ...baseline, objective: "New objective", materials: "Scissors", editedSections: ["objective", "materials"] }, baseline, "objective");
   assert.equal(restored.objective, baseline.objective);
   assert.equal(restored.materials, "Scissors");
   assert.deepEqual(restored.editedSections, ["materials", "objective"]);
 });
-test("cancel of a timed section restores its text without touching other edits", () => {
+test("discard of a timed section restores its text without touching other edits", () => {
   const restored = restoreSection({ ...baseline, warmUp: { minutes: 5, content: "Changed" }, materials: "Scissors", editedSections: ["warmUp"] }, baseline, "warmUp");
   assert.deepEqual(restored.warmUp, baseline.warmUp);
   assert.equal(restored.materials, "Scissors");
