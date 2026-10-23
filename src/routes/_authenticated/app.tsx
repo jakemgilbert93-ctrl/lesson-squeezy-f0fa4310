@@ -18,9 +18,10 @@ import {
   saveLessonPlan,
   type Usage,
 } from "@/lib/lesson-plan.functions";
-import { isTimed, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
+import { isTimed, normalizeLesson, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
 import { SuccessNote } from "@/components/SuccessNote";
 import { consumeConfirmationCallback } from "@/lib/email-confirmation";
+import { lessonHasChanges } from "@/lib/lesson-edits";
 
 export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
@@ -88,6 +89,7 @@ function GeneratorPage() {
 
   const [usage, setUsage] = useState<Usage | null>(null);
   const [plan, setPlan] = useState<LessonPlanData | null>(null);
+  const [baseline, setBaseline] = useState<LessonPlanData | null>(null);
   const [planMeta, setPlanMeta] = useState({ grade, subject, durationMin });
   const [savedId, setSavedId] = useState<string | null>(null);
   const [justSaved, setJustSaved] = useState(false);
@@ -151,6 +153,7 @@ function GeneratorPage() {
         data: { grade, subject, durationMin, topic: topic.trim(), ...(!pickerOn && teacherStandard.trim() ? { teacherStandard } : {}), ...(selectedStd ? { ccssId: selectedStd.ccssId } : {}), ...(title.trim() ? { title: title.trim() } : {}) },
       });
       setPlan(res.plan);
+      setBaseline(res.plan);
       setPlanMeta({ grade, subject, durationMin });
       setUsage(res.usage);
       setSavedId(null);
@@ -165,7 +168,7 @@ function GeneratorPage() {
   }
 
   async function handleSave() {
-    if (!plan) return;
+    if (!plan || saving) return;
     setSaving(true);
     try {
       const row = await saveFn({
@@ -176,6 +179,9 @@ function GeneratorPage() {
         },
       });
       setSavedId(row.id);
+      const savedPlan = normalizeLesson(row.plan);
+      setPlan(savedPlan);
+      setBaseline(savedPlan);
       setDirty(false);
       setJustSaved(true);
     } catch (err) {
@@ -348,14 +354,17 @@ function GeneratorPage() {
                 </div>
               ))}
             </div>
-          ) : plan ? (
+          ) : plan && baseline ? (
             <div className="space-y-4">
             <LessonCanvas
               plan={plan}
+              baseline={baseline}
+              saving={saving}
+              onSave={handleSave}
               meta={planMeta}
               onChange={(p) => {
                 setPlan(p);
-                setDirty(true);
+                setDirty(!savedId || lessonHasChanges(p, baseline));
                 setJustSaved(false);
               }}
               saved={!!savedId}
@@ -363,7 +372,7 @@ function GeneratorPage() {
               actions={
                 <button
                   onClick={handleSave}
-                  disabled={saving || (!dirty && !!savedId)}
+                  disabled={saving || busySection !== null || (!dirty && !!savedId)}
                   className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
                 >
                   {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}

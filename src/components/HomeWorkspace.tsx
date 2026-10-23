@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useMyProfile } from "@/hooks/use-my-profile";
 import { welcomeGreeting } from "@/lib/display-name";
+import { MonthlyCountExplanation } from "@/components/MonthlyCountExplanation";
 
 export function HomeWorkspace({ userId }: { userId: string }) {
   const profile = useMyProfile(userId);
@@ -47,6 +48,7 @@ export function HomeWorkspace({ userId }: { userId: string }) {
             <div className="w-full max-w-md">
               <p className="font-semibold text-foreground">{APP_CONFIG.plans[current.plan].name}</p>
               <p className="mt-2 text-sm text-muted-foreground">{current.monthlyLimit === null ? `${current.lessonsUsed} lessons used this month · No monthly lesson limit` : `${current.lessonsUsed} of ${current.monthlyLimit} lessons used this month`}</p>
+              <MonthlyCountExplanation used={current.lessonsUsed} lessons={lessons.isSuccess ? lessons.data : undefined} />
               {current.monthlyLimit !== null && <progress aria-label="Monthly lesson usage" className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted accent-primary [&::-webkit-progress-bar]:bg-muted [&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary" max={Math.max(1, current.monthlyLimit)} value={current.lessonsUsed} />}
             </div>
             {current.plan === "free" && <Dialog><DialogTrigger asChild><Button variant="outline">Upgrade</Button></DialogTrigger>
