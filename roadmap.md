@@ -9,4 +9,4 @@
 - [x] Add and verify required Sign Up legal agreement; checked requests intercepted without creating test accounts.
 - [x] Enable signup confirmation, verify hosted auto-confirm OFF, resend controls/cooldown/error handling and one-time welcome; branded template renders, verified notify sender configured, existing account access works, all tests pass.
 - [ ] Verify actual signup email arrival and confirmation-link click after publishing — requires the updated published app and a recipient inbox; browser checks used intercepted responses without sending mail.
-- [ ] Add section save/cancel controls and shared UTC-month usage explanation; test count comparison and verify editing without database changes.
+- [x] Add section save/cancel controls and shared UTC-month usage explanation; 40 tests pass, real saved-lesson save/readback and mobile materials cancellation verified; no database schema changes.
