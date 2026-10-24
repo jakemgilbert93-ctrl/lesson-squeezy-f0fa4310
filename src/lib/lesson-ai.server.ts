@@ -3,6 +3,7 @@ import type { z } from "zod";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 import { APP_CONFIG } from "@/config/app-config";
 import { captureAiUsage, type AiCallContext } from "./ai-usage.server";
+import { createLovableAiGatewayProvider as createMaterialsGateway } from "./materials-gateway.server";
 
 export const SYSTEM_RULES = `You are an expert K-12 instructional designer writing ready-to-teach lesson plans for busy teachers.
 Rules you must always follow:
@@ -23,10 +24,12 @@ export async function generateValidatedJson<T>(
 ) {
   const key = process.env["LOVABLE_API_KEY"];
   if (!key) throw new Error("AI is not configured yet. Please contact the app owner.");
-  const gateway = createLovableAiGatewayProvider(key);
+  const gateway = streaming
+    ? createMaterialsGateway(key, undefined, { baseURL: "https://ai.gateway.lovable.dev/v1" })
+    : createLovableAiGatewayProvider(key);
 
   let lastError: unknown = null;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; attempt < (streaming ? 1 : 2); attempt++) {
     try {
       const options = {
         model: gateway(APP_CONFIG.aiModel),
