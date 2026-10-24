@@ -30,10 +30,12 @@ export const APP_CONFIG = {
     free: {
       monthlyLessons: 5 as number | null, // null = unlimited
       regensPerLesson: 5,
+      regensPerMaterial: 5,
     },
     pro: {
-      monthlyLessons: null as number | null,
+      monthlyLessons: 60 as number | null,
       regensPerLesson: 15,
+      regensPerMaterial: 15,
     },
     /** Max AI calls (generations + regenerations) per user per window. */
     aiCallsPerWindow: 10,
@@ -44,6 +46,13 @@ export const APP_CONFIG = {
     topicMaxChars: 200,
     titleMaxChars: 100,
     standardMaxChars: 5000,
+  },
+
+  materials: {
+    itemTypes: ["exit_ticket", "quiz"],
+    exitTicketQuestionTypes: ["short_answer", "multiple_choice"],
+    quizQuestions: 5,
+    quizChoices: 4,
   },
 
   grades: ["TK", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
