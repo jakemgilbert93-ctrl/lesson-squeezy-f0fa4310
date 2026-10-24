@@ -10,3 +10,4 @@
 - [x] Enable signup confirmation, verify hosted auto-confirm OFF, resend controls/cooldown/error handling and one-time welcome; branded template renders, verified notify sender configured, existing account access works, all tests pass.
 - [ ] Verify actual signup email arrival and confirmation-link click after publishing — requires the updated published app and a recipient inbox; browser checks used intercepted responses without sending mail.
 - [x] Add section save/cancel controls and shared UTC-month usage explanation; 40 tests pass, real saved-lesson save/readback and mobile materials cancellation verified; no database schema changes.
+- [ ] Add backend-only exit tickets/quizzes, per-item regeneration enforcement, AI token logs and Pro 60-lesson cap; verify without UI or monthly materials counter changes.
