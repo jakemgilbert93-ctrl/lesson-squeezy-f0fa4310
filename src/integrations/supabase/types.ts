@@ -32,6 +32,98 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_usage_log: {
+        Row: {
+          completion_tokens: number | null
+          created_at: string
+          feature: string
+          id: string
+          model: string
+          prompt_tokens: number | null
+          user_id: string
+        }
+        Insert: {
+          completion_tokens?: number | null
+          created_at?: string
+          feature: string
+          id?: string
+          model: string
+          prompt_tokens?: number | null
+          user_id: string
+        }
+        Update: {
+          completion_tokens?: number | null
+          created_at?: string
+          feature?: string
+          id?: string
+          model?: string
+          prompt_tokens?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_usage_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      lesson_materials_items: {
+        Row: {
+          answer_key: string | null
+          content: Json
+          created_at: string
+          id: string
+          item_type: string
+          lesson_id: string
+          regeneration_count: number
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answer_key?: string | null
+          content?: Json
+          created_at?: string
+          id?: string
+          item_type: string
+          lesson_id: string
+          regeneration_count?: number
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answer_key?: string | null
+          content?: Json
+          created_at?: string
+          id?: string
+          item_type?: string
+          lesson_id?: string
+          regeneration_count?: number
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_materials_items_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lesson_plans"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_materials_items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       lesson_plans: {
         Row: {
           created_at: string
@@ -253,6 +345,10 @@ export type Database = {
       }
       increment_lesson_regeneration: {
         Args: { p_lesson_id: string; p_limit: number }
+        Returns: number
+      }
+      increment_material_regeneration: {
+        Args: { p_item_id: string; p_limit: number }
         Returns: number
       }
       increment_monthly_usage: { Args: { p_limit: number }; Returns: number }
