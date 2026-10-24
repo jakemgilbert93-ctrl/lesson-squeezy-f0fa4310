@@ -169,7 +169,8 @@ Respond with ONLY one JSON object, no markdown, in this exact shape:
 }`;
 
     // 2. Generate + validate (failures throw and are never counted)
-    const result = await generateValidatedJson(LessonSections, prompt, (p) => fitTiming(p, data.durationMin));
+    const { data: result } = await generateValidatedJson(LessonSections, prompt,
+      { userId: context.userId, feature: "lesson" }, (p) => fitTiming(p, data.durationMin));
     const plan: LessonPlanData = {
       ...result,
       title: data.title ? data.title : result.title.slice(0, APP_CONFIG.input.titleMaxChars),
@@ -239,7 +240,8 @@ ${standardContext}
 Rewrite ONLY the "${label}" section with a fresh, different approach that stays consistent with the rest of the lesson.${timing}${key === "objective" ? " Write at least two complete sentences." : ""}${key === "materials" ? " List one item per line with no bullet symbols." : ""}
 Respond with ONLY one JSON object: { "content": string }`;
 
-    const out = await generateValidatedJson(z.object({ content: z.string().min(1) }), prompt);
+    const { data: out } = await generateValidatedJson(z.object({ content: z.string().min(1) }), prompt,
+      { userId: context.userId, feature: "lesson_regen" });
 
     const newCount = await rpc<number | null>(sb, "increment_lesson_regeneration", {
       p_lesson_id: data.lessonId,

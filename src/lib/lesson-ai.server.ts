@@ -1,7 +1,9 @@
-import { generateText } from "ai";
+import { generateText, streamText } from "ai";
 import type { z } from "zod";
 import { createLovableAiGatewayProvider } from "./ai-gateway.server";
 import { APP_CONFIG } from "@/config/app-config";
+import { captureAiUsage, type AiCallContext } from "./ai-usage.server";
+import { createLovableAiGatewayProvider as createMaterialsGateway } from "./materials-gateway.server";
 
 export const SYSTEM_RULES = `You are an expert K-12 instructional designer writing ready-to-teach lesson plans for busy teachers.
 Rules you must always follow:
@@ -16,20 +18,34 @@ Rules you must always follow:
 export async function generateValidatedJson<T>(
   schema: z.ZodType<T>,
   prompt: string,
+  callContext: AiCallContext,
   postCheck?: (v: T) => T | null,
-): Promise<T> {
+  streaming = false,
+) {
   const key = process.env["LOVABLE_API_KEY"];
   if (!key) throw new Error("AI is not configured yet. Please contact the app owner.");
-  const gateway = createLovableAiGatewayProvider(key);
+  const gateway = streaming
+    ? createMaterialsGateway(key, undefined, { baseURL: "https://ai.gateway.lovable.dev/v1" })
+    : createLovableAiGatewayProvider(key);
 
   let lastError: unknown = null;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; attempt < (streaming ? 1 : 2); attempt++) {
     try {
-      const { text } = await generateText({
+      const options = {
         model: gateway(APP_CONFIG.aiModel),
         system: SYSTEM_RULES,
         prompt,
-      });
+        // Each attempt is logged; prevent invisible SDK retries from bypassing logging.
+        maxRetries: 0,
+      };
+      const { text, usage } = await captureAiUsage(async () => {
+        if (streaming) {
+          const result = streamText(options);
+          return { text: await result.text, usage: await result.usage };
+        }
+        const result = await generateText(options);
+        return { text: result.text, usage: result.usage };
+      }, callContext, APP_CONFIG.aiModel);
       const cleaned = text.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
       const start = cleaned.indexOf("{");
       const end = cleaned.lastIndexOf("}");
@@ -37,9 +53,15 @@ export async function generateValidatedJson<T>(
       const parsed = schema.parse(JSON.parse(cleaned.slice(start, end + 1)));
       const checked = postCheck ? postCheck(parsed) : parsed;
       if (checked === null) throw new Error("Output failed post-validation");
-      return checked;
+      return { data: checked, usage };
     } catch (err) {
       lastError = err;
+      // Gateway denials, configuration errors and unavailable resources are terminal.
+      const status = err && typeof err === "object" && "statusCode" in err ? Number(err.statusCode) : null;
+      if (status !== null && status !== 429 && status < 500) throw err;
+      if (status === 429 || (status !== null && status >= 500)) {
+        if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 1500));
+      }
     }
   }
   console.error("AI generation failed:", lastError);
