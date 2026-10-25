@@ -47,7 +47,7 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
   const { Document, Packer, Paragraph, TextRun, HeadingLevel, Footer } = await import("docx");
   const p = (text: string, opts: { bold?: boolean; italics?: boolean; after?: number; indent?: number } = {}) =>
     new Paragraph({
-      children: [new TextRun({ text, bold: opts.bold, italics: opts.italics })],
+      children: [new TextRun({ text, bold: opts.bold ?? false, italics: opts.italics ?? false })],
       spacing: { after: opts.after ?? 80 },
       ...(opts.indent ? { indent: { left: opts.indent } } : {}),
     });
