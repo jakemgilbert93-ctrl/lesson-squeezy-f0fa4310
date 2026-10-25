@@ -89,7 +89,7 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
 }
 
 function MaterialCard({ card, item, busy, locked, error, monthlyFull, regenLimit, docBase, onGenerate, onRegenerate }: {
-  card: (typeof CARDS)[number]; item?: Item; busy: boolean; locked: boolean; error?: string; monthlyFull: boolean;
+  card: (typeof CARDS)[number]; item: Item | undefined; busy: boolean; locked: boolean; error: string | undefined; monthlyFull: boolean;
   regenLimit: number; docBase: Omit<Props, "lessonId">; onGenerate: () => void; onRegenerate: () => void;
 }) {
   const [teacher, setTeacher] = useState(false);
