@@ -138,6 +138,14 @@ function PlanDetailPage() {
               }
               regen={{ ...regen, enabled: true, busy, onRegenerate: handleRegenerate }}
             />
+          ) : null}
+          {plan && meta && baseline && !loadError ? (
+            <MaterialsSection
+              lessonId={id}
+              lessonTitle={baseline.title}
+              grade={meta.grade}
+              withStandardsFooter={Boolean(visibleStandard(baseline))}
+            />
           ) : (
             <p className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-5 w-5 animate-spin" /> Loading lesson…
