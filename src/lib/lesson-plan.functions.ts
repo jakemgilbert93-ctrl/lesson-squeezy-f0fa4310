@@ -180,10 +180,9 @@ Respond with ONLY one JSON object, no markdown, in this exact shape:
       ...(data.teacherStandard?.trim() ? { teacherStandard: data.teacherStandard } : {}),
     };
 
-    // 3. Count only after success, atomically against the cap
-    const newCount = await rpc<number | null>(sb, "increment_monthly_usage", {
-      p_limit: usage.monthlyLimit,
-    });
+    // 3. Count only after success, atomically against the cap.
+    // The database picks the cap from profiles.plan; keep it in sync with src/config/app-config.ts.
+    const newCount = await rpc<number | null>(sb, "increment_monthly_usage");
     if (newCount === null) {
       throw new Error(`You've used all ${usage.monthlyLimit} free lessons this month. They reset on the 1st. Pro is coming after beta.`);
     }
@@ -240,15 +239,22 @@ ${standardContext}
 Rewrite ONLY the "${label}" section with a fresh, different approach that stays consistent with the rest of the lesson.${timing}${key === "objective" ? " Write at least two complete sentences." : ""}${key === "materials" ? " List one item per line with no bullet symbols." : ""}
 Respond with ONLY one JSON object: { "content": string }`;
 
-    const { data: out } = await generateValidatedJson(z.object({ content: z.string().min(1) }), prompt,
-      { userId: context.userId, feature: "lesson_regen" });
-
+    // Reserve before the AI call; the database picks the cap from profiles.plan.
+    // Keep those numbers in sync with limits in src/config/app-config.ts.
     const newCount = await rpc<number | null>(sb, "increment_lesson_regeneration", {
       p_lesson_id: data.lessonId,
-      p_limit: usage.regensPerLesson,
     });
     if (newCount === null) {
       throw new Error(`This lesson has used all ${usage.regensPerLesson} section regenerations.`);
+    }
+    let out: { content: string };
+    try {
+      ({ data: out } = await generateValidatedJson(z.object({ content: z.string().min(1) }), prompt,
+        { userId: context.userId, feature: "lesson_regen" }));
+    } catch (err) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      await supabaseAdmin.rpc("refund_lesson_regeneration", { p_lesson_id: data.lessonId });
+      throw err;
     }
     return { section: key, content: out.content, regenerationCount: newCount, regenLimit: usage.regensPerLesson };
   });
