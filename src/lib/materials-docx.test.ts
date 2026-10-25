@@ -1,4 +1,5 @@
-import { describe, expect, test } from "bun:test";
+import { describe, test } from "bun:test";
+import assert from "node:assert/strict";
 import JSZip from "jszip";
 import { createMaterialDocx, materialToText } from "./materials-docx";
 
@@ -26,22 +27,22 @@ async function docText(blob: Blob) {
 describe("materials docx", () => {
   test("quiz student copy has no answers or solutions", async () => {
     const text = await docText(await createMaterialDocx({ ...base, itemType: "quiz", content: quiz }, "student"));
-    expect(text).toContain("Name:");
-    expect(text).not.toContain("SOLUTION-1");
-    expect(text).not.toContain("Correct answer");
+    assert.ok(text.includes("Name:"));
+    assert.ok(!text.includes("SOLUTION-1"));
+    assert.ok(!text.includes("Correct answer"));
   });
   test("quiz answer key has correct answer and worked solution", async () => {
     const text = await docText(await createMaterialDocx({ ...base, itemType: "quiz", content: quiz }, "key"));
-    expect(text).toContain("Correct answer: C. Charlie");
-    expect(text).toContain("SOLUTION-5");
+    assert.ok(text.includes("Correct answer: C. Charlie"));
+    assert.ok(text.includes("SOLUTION-5"));
   });
   test("exit ticket student copy omits teacher notes; key includes them", async () => {
     const student = await docText(await createMaterialDocx({ ...base, itemType: "exit_ticket", content: ticket }, "student"));
     const key = await docText(await createMaterialDocx({ ...base, itemType: "exit_ticket", content: ticket }, "key"));
-    expect(student).not.toContain("SECRET-NOTES");
-    expect(key).toContain("SECRET-NOTES");
+    assert.ok(!student.includes("SECRET-NOTES"));
+    assert.ok(key.includes("SECRET-NOTES"));
   });
   test("student copy text excludes answers", () => {
-    expect(materialToText({ itemType: "quiz", itemTitle: "T", content: quiz }, "student")).not.toContain("SOLUTION");
+    assert.ok(!materialToText({ itemType: "quiz", itemTitle: "T", content: quiz }, "student").includes("SOLUTION"));
   });
 });
