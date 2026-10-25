@@ -6,8 +6,9 @@ import { ArrowLeft, Loader2, Save } from "lucide-react";
 
 import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
+import { MaterialsSection } from "@/components/MaterialsSection";
 import { getLessonPlan, regenerateSection, saveLessonPlan } from "@/lib/lesson-plan.functions";
-import { isTimed, normalizeLesson, type LessonMeta, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
+import { isTimed, normalizeLesson, visibleStandard, type LessonMeta, type LessonPlanData, type SectionKey } from "@/lib/lesson-schema";
 import { lessonHasChanges } from "@/lib/lesson-edits";
 
 export const Route = createFileRoute("/_authenticated/plans/$id")({
@@ -142,6 +143,14 @@ function PlanDetailPage() {
             <p className="flex items-center gap-2 text-muted-foreground">
               <Loader2 className="h-5 w-5 animate-spin" /> Loading lesson…
             </p>
+          )}
+          {plan && meta && baseline && !loadError && (
+            <MaterialsSection
+              lessonId={id}
+              lessonTitle={baseline.title}
+              grade={meta.grade}
+              withStandardsFooter={Boolean(visibleStandard(baseline))}
+            />
           )}
         </div>
       </main>
