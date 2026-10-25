@@ -313,18 +313,21 @@ export type Database = {
       usage_monthly: {
         Row: {
           lesson_count: number
+          materials_count: number
           period: string
           updated_at: string
           user_id: string
         }
         Insert: {
           lesson_count?: number
+          materials_count?: number
           period: string
           updated_at?: string
           user_id: string
         }
         Update: {
           lesson_count?: number
+          materials_count?: number
           period?: string
           updated_at?: string
           user_id?: string
@@ -336,22 +339,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      current_plan_tier: { Args: { p_user: string }; Returns: string }
       get_my_usage: {
         Args: never
         Returns: {
           lessons_used: number
+          materials_limit: number
+          materials_used: number
           plan: string
         }[]
       }
       increment_lesson_regeneration: {
-        Args: { p_lesson_id: string; p_limit: number }
+        Args: { p_lesson_id: string }
         Returns: number
       }
       increment_material_regeneration: {
         Args: { p_item_id: string; p_limit: number }
         Returns: number
       }
-      increment_monthly_usage: { Args: { p_limit: number }; Returns: number }
+      increment_monthly_materials: { Args: never; Returns: number }
+      increment_monthly_usage: { Args: never; Returns: number }
+      refund_lesson_regeneration: {
+        Args: { p_lesson_id: string }
+        Returns: undefined
+      }
+      refund_material_regeneration: {
+        Args: { p_item_id: string }
+        Returns: undefined
+      }
+      refund_monthly_materials: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
       reserve_ai_call: {
         Args: { p_max: number; p_window_seconds: number }
         Returns: boolean
