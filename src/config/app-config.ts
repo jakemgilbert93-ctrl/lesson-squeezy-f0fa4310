@@ -31,11 +31,15 @@ export const APP_CONFIG = {
       monthlyLessons: 5 as number | null, // null = unlimited
       regensPerLesson: 5,
       regensPerMaterial: 5,
+      /** Enforced in the database by increment_monthly_materials; change both together. */
+      monthlyMaterials: 1,
     },
     pro: {
       monthlyLessons: 60 as number | null,
       regensPerLesson: 15,
       regensPerMaterial: 15,
+      /** Enforced in the database by increment_monthly_materials; change both together. */
+      monthlyMaterials: 60,
     },
     /** Max AI calls (generations + regenerations) per user per window. */
     aiCallsPerWindow: 10,
@@ -49,10 +53,17 @@ export const APP_CONFIG = {
   },
 
   materials: {
-    itemTypes: ["exit_ticket", "quiz"],
+    itemTypes: ["exit_ticket", "quiz", "worksheet", "vocab_cards", "game"],
     exitTicketQuestionTypes: ["short_answer", "multiple_choice"],
     quizQuestions: 5,
     quizChoices: 4,
+    worksheetQuestionTypes: ["short_answer", "fill_blank", "multiple_choice"],
+    worksheetQuestionsMin: 8,
+    worksheetQuestionsMax: 10,
+    vocabCardsMin: 6,
+    vocabCardsMax: 8,
+    gameFormats: ["scoot", "around_the_world", "four_corners", "team_relay"],
+    gameCards: 10,
   },
 
   grades: ["TK", "K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],

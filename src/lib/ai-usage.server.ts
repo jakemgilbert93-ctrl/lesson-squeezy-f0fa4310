@@ -1,7 +1,7 @@
 import type { LanguageModelUsage } from "ai";
 
 export type AiFeature = "lesson" | "lesson_regen" | "material_generate" | "material_regen";
-export type AiCallContext = { userId: string; feature: AiFeature };
+export type AiCallContext = { userId: string; feature: AiFeature; itemType?: string };
 export type AiUsageRow = AiCallContext & {
   model: string;
   promptTokens: number | null;
@@ -29,7 +29,7 @@ async function writeAiUsage(row: AiUsageRow): Promise<void> {
   // Callers have already passed authenticated middleware; logging alone is privileged.
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { error } = await supabaseAdmin.from("ai_usage_log").insert({
-    user_id: row.userId, feature: row.feature, model: row.model,
+    user_id: row.userId, feature: row.feature, model: row.model, item_type: row.itemType ?? null,
     prompt_tokens: row.promptTokens, completion_tokens: row.completionTokens,
   });
   if (error) {
