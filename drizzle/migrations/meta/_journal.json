@@ -71,6 +71,13 @@
       "when": 1792896700477,
       "tag": "0009_plan_enforced_limits_and_materials_counter",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792985567198,
+      "tag": "0010_more_material_item_types",
+      "breakpoints": true
     }
   ]
 }

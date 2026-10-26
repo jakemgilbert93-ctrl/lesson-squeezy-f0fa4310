@@ -38,6 +38,7 @@ export type Database = {
           created_at: string
           feature: string
           id: string
+          item_type: string | null
           model: string
           prompt_tokens: number | null
           user_id: string
@@ -47,6 +48,7 @@ export type Database = {
           created_at?: string
           feature: string
           id?: string
+          item_type?: string | null
           model: string
           prompt_tokens?: number | null
           user_id: string
@@ -56,6 +58,7 @@ export type Database = {
           created_at?: string
           feature?: string
           id?: string
+          item_type?: string | null
           model?: string
           prompt_tokens?: number | null
           user_id?: string
