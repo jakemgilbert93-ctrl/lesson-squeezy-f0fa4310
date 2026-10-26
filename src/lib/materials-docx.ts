@@ -14,7 +14,10 @@ export type MaterialDocInput = {
 export type MaterialCopy = "student" | "key";
 
 const letter = (i: number) => String.fromCharCode(65 + i);
-const LABEL: Record<MaterialItemType, string> = { exit_ticket: "Exit Ticket", quiz: "Quiz" };
+// Labels for all item types; export/copy for worksheet, vocab_cards and game is not built yet.
+const LABEL: Record<MaterialItemType, string> = {
+  exit_ticket: "Exit Ticket", quiz: "Quiz", worksheet: "Worksheet", vocab_cards: "Vocabulary Cards", game: "Game",
+};
 
 /** Plain-text versions used by the Copy button (student or teacher view). */
 export function materialToText(input: Pick<MaterialDocInput, "itemType" | "itemTitle" | "content">, copy: MaterialCopy): string {
