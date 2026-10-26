@@ -25,13 +25,13 @@ export const generateMaterialItem = createServerFn({ method: "POST" })
     if (lookupError) throw new Error("Could not check existing materials.");
     if (existing) throw new Error("This material already exists. Regenerate it instead.");
     await reserveMaterialCall(sb);
-    // Monthly cap (Free 1 / Pro 30) is picked in the database from profiles.plan;
+    // Monthly cap (Free 1 / Pro 60) is picked in the database from profiles.plan;
     // keep it in sync with src/config/app-config.ts.
     const { data: reserved, error: reserveError } = await sb.rpc("increment_monthly_materials");
     if (reserveError) throw new Error("Could not check your monthly materials limit.");
     if (reserved === null) throw new Error("You've used all your materials for this month. They reset on the 1st.");
     try {
-      const result = await generateMaterial(source, data.itemType, { userId, feature: "material_generate" }, false);
+      const result = await generateMaterial(source, data.itemType, { userId, feature: "material_generate", itemType: data.itemType }, false);
       const { data: item, error } = await sb.from("lesson_materials_items").insert({
         lesson_id: data.lessonId, user_id: userId, item_type: data.itemType,
         title: result.title, content: result.content as unknown as Json, answer_key: result.answerKey,
@@ -66,7 +66,8 @@ export const regenerateMaterialItem = createServerFn({ method: "POST" })
     if (countError) throw new Error("Could not reserve a material regeneration.");
     if (count === null) throw new Error(`This material has used all ${limit} regenerations.`);
     try {
-      const result = await generateMaterial(source, MaterialItemType.parse(existing.item_type), { userId, feature: "material_regen" }, true);
+      const itemType = MaterialItemType.parse(existing.item_type);
+      const result = await generateMaterial(source, itemType, { userId, feature: "material_regen", itemType }, true);
       const { data: item, error } = await sb.from("lesson_materials_items").update({
         title: result.title, content: result.content as unknown as Json, answer_key: result.answerKey,
       }).eq("id", existing.id).eq("user_id", userId).eq("regeneration_count", count).select("*").single();

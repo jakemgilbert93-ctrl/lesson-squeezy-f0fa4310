@@ -1,4 +1,3 @@
-import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { APP_CONFIG, gradeLabel, standardsSubjectFor } from "@/config/app-config";
@@ -115,6 +114,3 @@ export async function generateMaterial(source: MaterialLesson, itemType: Materia
     }
   }
 }
-
-// z is used by itemTitle's callers via schema parse; keep import meaningful.
-void z;
