@@ -10,7 +10,7 @@ export function priceLabel(tier: PlanTier): string {
 
 export function lessonsLine(tier: PlanTier): string {
   const n = limitsFor(tier).monthlyLessons;
-  return n === null ? "No monthly lesson limit" : `${n} lessons per month`;
+  return n === null ? "No monthly lesson limit" : `${n} lessons a month`;
 }
 
 export function regensLine(tier: PlanTier): string {
