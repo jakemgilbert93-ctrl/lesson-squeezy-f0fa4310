@@ -91,7 +91,7 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
             <p className="text-sm text-foreground">
               {monthlyFull ? "Free sample used. Resets on the 1st." : "Free plan: 1 sample left this month. Pick any one of the five."}
             </p>
-            <p className="text-xs text-muted-foreground">Pro includes about 60 a month. Coming soon.</p>
+            <p className="text-xs text-muted-foreground">Pro includes 60 a month. Coming soon.</p>
           </div>
         ))}
       </div>
