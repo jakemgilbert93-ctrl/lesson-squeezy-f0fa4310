@@ -102,12 +102,13 @@ function PlanDetailPage() {
   return (
     <div className="min-h-screen">
       <AppHeader />
-      <main className="mx-auto max-w-4xl px-4 py-8 md:px-6">
+      <main className="mx-auto max-w-4xl px-4 py-8 md:px-6 lg:max-w-7xl">
         <Link to="/plans" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground">
           <ArrowLeft className="h-4 w-4" /> Back to My Lessons
         </Link>
 
-        <div className="mt-5">
+        <div className="mt-5 lg:grid lg:grid-cols-3 lg:items-start lg:gap-8">
+          <div className="min-w-0 lg:col-span-2">
           {loadError ? (
             <div className="rounded-xl border border-border bg-card p-6 text-sm">
               <p className="text-foreground">{loadError}</p>
@@ -144,13 +145,16 @@ function PlanDetailPage() {
               <Loader2 className="h-5 w-5 animate-spin" /> Loading lesson…
             </p>
           )}
+          </div>
           {plan && meta && baseline && !loadError && (
-            <MaterialsSection
-              lessonId={id}
-              lessonTitle={baseline.title}
-              grade={meta.grade}
-              withStandardsFooter={Boolean(visibleStandard(baseline))}
-            />
+            <aside className="mt-10 lg:sticky lg:top-6 lg:mt-0 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pr-1">
+              <MaterialsSection
+                lessonId={id}
+                lessonTitle={baseline.title}
+                grade={meta.grade}
+                withStandardsFooter={Boolean(visibleStandard(baseline))}
+              />
+            </aside>
           )}
         </div>
       </main>
