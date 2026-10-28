@@ -44,8 +44,7 @@ type Props = {
     busy: SectionKey | null;
     onRegenerate: (key: SectionKey) => void;
   };
-  /** Shown instead of the plain "save to regenerate" note while unsaved. */
-  saveHint?: string;
+  saveHint?: string | undefined;
 };
 
 const fieldClass =
