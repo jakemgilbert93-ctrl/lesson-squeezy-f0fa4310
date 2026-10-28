@@ -401,6 +401,7 @@ function GeneratorPage() {
                 busy: busySection,
                 onRegenerate: handleRegenerate,
               }}
+              saveHint={saveHint}
             />
             {savedId && (
               <LessonRating lessonId={savedId} grade={planMeta.grade} subject={planMeta.subject} />
