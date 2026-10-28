@@ -7,7 +7,7 @@ import { Loader2, Save, Wand2, AlertCircle, ChevronDown } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
 import { LessonCanvas } from "@/components/LessonCanvas";
 import { LessonRating } from "@/components/LessonRating";
-import { APP_CONFIG, gradeLabel, standardsSubjectFor } from "@/config/app-config";
+import { APP_CONFIG, gradeLabel, limitsFor, standardsSubjectFor, type PlanTier } from "@/config/app-config";
 import { listStandards, type StandardOption } from "@/lib/standards.functions";
 import { StandardCard } from "@/components/StandardCard";
 import { Textarea } from "@/components/ui/textarea";
@@ -141,6 +141,21 @@ function GeneratorPage() {
   });
 
   const atCap = usage?.monthlyLimit != null && usage.lessonsUsed >= usage.monthlyLimit;
+
+  // Unsaved-lesson note: what saving unlocks, using the plan's limits and the
+  // monthly materials counter from get_my_usage.
+  const saveHint = useMemo(() => {
+    if (!usage) return undefined;
+    const tier: PlanTier = usage.plan;
+    const regens = limitsFor(tier).regensPerLesson;
+    const materialsLeft = Math.max(0, usage.materialsLimit - usage.materialsUsed);
+    if (tier === "pro") {
+      return `Save this lesson to regenerate sections (${regens} per lesson) and make materials (${materialsLeft} of ${usage.materialsLimit} left this month).`;
+    }
+    return materialsLeft > 0
+      ? `Save this lesson to regenerate sections (${regens} per lesson) and make materials (${limitsFor("free").monthlyMaterials} free sample this month).`
+      : `Save this lesson to regenerate sections (${regens} per lesson). Your free materials sample resets on the 1st.`;
+  }, [usage]);
   const canGenerate = (topic.trim().length > 0 || !!selectedStd || (!pickerOn && teacherStandard.trim().length > 0)) && !generating && !atCap;
 
   async function handleGenerate() {
@@ -386,6 +401,7 @@ function GeneratorPage() {
                 busy: busySection,
                 onRegenerate: handleRegenerate,
               }}
+              saveHint={saveHint}
             />
             {savedId && (
               <LessonRating lessonId={savedId} grade={planMeta.grade} subject={planMeta.subject} />

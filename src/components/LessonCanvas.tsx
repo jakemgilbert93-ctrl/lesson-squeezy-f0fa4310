@@ -44,13 +44,15 @@ type Props = {
     busy: SectionKey | null;
     onRegenerate: (key: SectionKey) => void;
   };
+  /** Shown instead of the plain "save to regenerate" note while unsaved. */
+  saveHint?: string | undefined;
 };
 
 const fieldClass =
   "w-full resize-y rounded-md border border-transparent bg-transparent px-2 py-1 text-sm leading-relaxed text-foreground outline-none transition hover:border-border focus:border-primary focus:bg-card focus:ring-2 focus:ring-primary/20";
 
 /** Shared 7-section lesson editor used by the generator and the saved-lesson page. */
-export function LessonCanvas({ plan, baseline, saving, onSave, meta, onChange, actions, saved, showSavedNotice, regen }: Props) {
+export function LessonCanvas({ plan, baseline, saving, onSave, meta, onChange, actions, saved, showSavedNotice, regen, saveHint }: Props) {
   const [exporting, setExporting] = useState(false);
   const [editingMaterials, setEditingMaterials] = useState(false);
   const previousBaseline = useRef(baseline);
@@ -127,7 +129,7 @@ export function LessonCanvas({ plan, baseline, saving, onSave, meta, onChange, a
         <span className="col-span-2 text-center text-xs text-muted-foreground sm:text-left">
           {regen.enabled
             ? `${left} of ${regen.limit} section regenerations left`
-            : "Save the lesson to regenerate sections"}
+            : (saveHint ?? "Save the lesson to regenerate sections")}
         </span>
       </div>
       {showSavedNotice && (

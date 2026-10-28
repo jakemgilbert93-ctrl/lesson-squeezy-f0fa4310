@@ -33,7 +33,7 @@ async function rpc<T>(client: unknown, fn: string, args?: Record<string, unknown
 }
 
 async function readUsage(client: unknown) {
-  const rows = await rpc<{ plan: string; lessons_used: number }[]>(client, "get_my_usage");
+  const rows = await rpc<{ plan: string; lessons_used: number; materials_used: number; materials_limit: number }[]>(client, "get_my_usage");
   const row = rows[0];
   const plan: PlanTier = row?.plan === "pro" ? "pro" : "free";
   const limits = limitsFor(plan);
@@ -42,6 +42,8 @@ async function readUsage(client: unknown) {
     lessonsUsed: row?.lessons_used ?? 0,
     monthlyLimit: limits.monthlyLessons,
     regensPerLesson: limits.regensPerLesson,
+    materialsUsed: row?.materials_used ?? 0,
+    materialsLimit: row?.materials_limit ?? limits.monthlyMaterials,
   };
 }
 export type Usage = Awaited<ReturnType<typeof readUsage>>;
