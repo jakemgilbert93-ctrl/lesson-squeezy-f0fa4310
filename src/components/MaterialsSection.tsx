@@ -104,25 +104,28 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
             const expanded = open === row.type && !!item;
             return (
               <li key={row.type}>
-                <div className="flex items-center gap-3 px-4 py-3">
-                  {item ? (
-                    <button type="button" className="flex min-w-0 flex-1 items-center gap-2 text-left"
-                      aria-expanded={expanded} onClick={() => setOpen(expanded ? null : row.type)}>
-                      <RowText row={row} />
-                      <ChevronDown className={cn("h-4 w-4 shrink-0 text-muted-foreground transition", expanded && "rotate-180")} />
-                    </button>
-                  ) : (
-                    <div className="min-w-0 flex-1"><RowText row={row} /></div>
-                  )}
-                  {busy === row.type ? (
-                    <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" aria-label="Working" />
-                  ) : item ? (
-                    <Badge variant="secondary" className="shrink-0">Ready</Badge>
-                  ) : !monthlyFull && confirming !== row.type ? (
-                    <Button size="sm" className="shrink-0" disabled={busy !== null || confirming !== null} onClick={() => onGenerate(row.type)}>
-                      <Sparkles /> Generate
-                    </Button>
-                  ) : null}
+                <div className="px-4 py-3">
+                  <div className="flex min-h-6 items-center gap-3">
+                    {item ? (
+                      <button type="button" className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                        aria-expanded={expanded} onClick={() => setOpen(expanded ? null : row.type)}>
+                        <span className="text-sm font-semibold text-foreground">{row.label}</span>
+                        <ChevronDown className={cn("ml-auto h-4 w-4 shrink-0 text-muted-foreground transition", expanded && "rotate-180")} />
+                      </button>
+                    ) : (
+                      <span className="text-sm font-semibold text-foreground">{row.label}</span>
+                    )}
+                    {busy === row.type ? (
+                      <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" aria-label="Working" />
+                    ) : item ? (
+                      <Badge variant="secondary" className="shrink-0">Ready</Badge>
+                    ) : !monthlyFull && confirming !== row.type ? (
+                      <Button size="sm" className="shrink-0" disabled={busy !== null || confirming !== null} onClick={() => onGenerate(row.type)}>
+                        <Sparkles /> Generate
+                      </Button>
+                    ) : null}
+                  </div>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{row.blurb}</p>
                 </div>
                 {confirming === row.type && (
                   <div className="mx-4 mb-3 rounded-lg border border-border bg-muted px-3 py-2 text-sm text-foreground">
@@ -154,14 +157,6 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
   );
 }
 
-function RowText({ row }: { row: (typeof ROWS)[number] }) {
-  return (
-    <span className="min-w-0">
-      <span className="block text-sm font-semibold text-foreground">{row.label}</span>
-      <span className="block truncate text-xs text-muted-foreground">{row.blurb}</span>
-    </span>
-  );
-}
 
 function ItemPanel({ row, item, locked, regenLimit, docBase, onRegenerate }: {
   row: (typeof ROWS)[number]; item: Item; locked: boolean; regenLimit: number;
