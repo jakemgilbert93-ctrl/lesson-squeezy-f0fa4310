@@ -30,14 +30,16 @@ export const APP_CONFIG = {
     free: {
       monthlyLessons: 5 as number | null, // null = unlimited
       regensPerLesson: 5,
-      regensPerMaterial: 5,
+      /** Must match increment_material_regeneration in the database. */
+      regensPerMaterial: 2,
       /** Enforced in the database by increment_monthly_materials; change both together. */
       monthlyMaterials: 1,
     },
     pro: {
       monthlyLessons: 60 as number | null,
       regensPerLesson: 15,
-      regensPerMaterial: 15,
+      /** Must match increment_material_regeneration in the database. */
+      regensPerMaterial: 5,
       /** Enforced in the database by increment_monthly_materials; change both together. */
       monthlyMaterials: 60,
     },

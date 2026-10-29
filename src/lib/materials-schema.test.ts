@@ -7,8 +7,10 @@ const question = { prompt: "What is 2 + 3?", choices: ["4", "5", "6", "7"], corr
 const quiz = { directions: "Choose one answer.", questions: Array.from({ length: 5 }, () => ({ ...question })) };
 
 test("Pro has a 60-lesson monthly cap", () => assert.equal(limitsFor("pro").monthlyLessons, 60));
-test("Free materials allow 5 regenerations per item", () => assert.equal(limitsFor("free").regensPerMaterial, 5));
-test("Pro materials allow 15 regenerations per item", () => assert.equal(limitsFor("pro").regensPerMaterial, 15));
+test("Free materials allow 2 regenerations per item", () => assert.equal(limitsFor("free").regensPerMaterial, 2));
+test("Pro materials allow 5 regenerations per item", () => assert.equal(limitsFor("pro").regensPerMaterial, 5));
+test("Free lesson section regenerations stay at 5", () => assert.equal(limitsFor("free").regensPerLesson, 5));
+test("Pro lesson section regenerations stay at 15", () => assert.equal(limitsFor("pro").regensPerLesson, 15));
 test("monthly materials caps are Free 1 and Pro 60, matching the database function", () => {
   assert.equal(limitsFor("free").monthlyMaterials, 1);
   assert.equal(limitsFor("pro").monthlyMaterials, 60);

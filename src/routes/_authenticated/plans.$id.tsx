@@ -147,7 +147,7 @@ function PlanDetailPage() {
           )}
           </div>
           {plan && meta && baseline && !loadError && (
-            <aside className="mt-10 lg:sticky lg:top-6 lg:mt-0 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pr-1">
+            <aside className="mt-6 lg:sticky lg:top-6 lg:mt-0 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pr-1">
               <MaterialsSection
                 lessonId={id}
                 lessonTitle={baseline.title}
