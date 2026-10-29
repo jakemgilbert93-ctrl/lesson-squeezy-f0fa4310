@@ -26,6 +26,8 @@ const ROWS: { type: MaterialItemType; label: string; blurb: string }[] = [
   { type: "game", label: "Game", blurb: "A ready-to-run classroom game with prompt cards." },
 ];
 const NEEDS_CHECK: MaterialItemType[] = ["quiz", "worksheet", "game"];
+/** Compact control sizing shared by Generate / Confirm / Cancel so every row's right edge lines up. */
+const COMPACT = "h-8 gap-1.5 px-3 text-[13px] [&_svg]:size-3.5";
 
 type Props = { lessonId: string; lessonTitle: string; grade: string | null; withStandardsFooter: boolean };
 
@@ -104,26 +106,30 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
             const expanded = open === row.type && !!item;
             return (
               <li key={row.type}>
-                <div className="px-4 py-3">
-                  <div className="flex min-h-6 items-center gap-3">
+                <div className="px-4 py-3.5">
+                  <div className="flex min-h-8 items-center justify-between gap-3">
                     {item ? (
-                      <button type="button" className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                      <button type="button" className="flex min-w-0 flex-1 items-center text-left"
                         aria-expanded={expanded} onClick={() => setOpen(expanded ? null : row.type)}>
                         <span className="text-sm font-semibold text-foreground">{row.label}</span>
-                        <ChevronDown className={cn("ml-auto h-4 w-4 shrink-0 text-muted-foreground transition", expanded && "rotate-180")} />
                       </button>
                     ) : (
-                      <span className="text-sm font-semibold text-foreground">{row.label}</span>
+                      <span className="min-w-0 text-sm font-semibold text-foreground">{row.label}</span>
                     )}
-                    {busy === row.type ? (
-                      <Loader2 className="h-4 w-4 shrink-0 animate-spin text-primary" aria-label="Working" />
-                    ) : item ? (
-                      <Badge variant="secondary" className="shrink-0">Ready</Badge>
-                    ) : !monthlyFull && confirming !== row.type ? (
-                      <Button size="sm" className="shrink-0" disabled={busy !== null || confirming !== null} onClick={() => onGenerate(row.type)}>
-                        <Sparkles /> Generate
-                      </Button>
-                    ) : null}
+                    <span className="flex shrink-0 items-center gap-2">
+                      {busy === row.type ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-primary" aria-label="Working" />
+                      ) : item ? (
+                        <>
+                          <Badge variant="secondary" className="h-8 px-3">Ready</Badge>
+                          <ChevronDown aria-hidden="true" className={cn("h-4 w-4 shrink-0 text-muted-foreground transition", expanded && "rotate-180")} />
+                        </>
+                      ) : !monthlyFull && confirming !== row.type ? (
+                        <Button size="sm" className={cn(COMPACT, "shrink-0")} disabled={busy !== null || confirming !== null} onClick={() => onGenerate(row.type)}>
+                          <Sparkles /> Generate
+                        </Button>
+                      ) : null}
+                    </span>
                   </div>
                   <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{row.blurb}</p>
                 </div>
@@ -131,8 +137,8 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
                   <div className="mx-4 mb-3 rounded-lg border border-border bg-muted px-3 py-2 text-sm text-foreground">
                     <p>This uses your free sample for the month. Generate {row.label}?</p>
                     <div className="mt-2 flex gap-2">
-                      <Button size="sm" onClick={() => run(row.type)}>Confirm</Button>
-                      <Button size="sm" variant="outline" onClick={() => setConfirming(null)}>Cancel</Button>
+                      <Button size="sm" className={COMPACT} onClick={() => run(row.type)}>Confirm</Button>
+                      <Button size="sm" variant="outline" className={COMPACT} onClick={() => setConfirming(null)}>Cancel</Button>
                     </div>
                   </div>
                 )}
