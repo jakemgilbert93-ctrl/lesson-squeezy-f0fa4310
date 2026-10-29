@@ -78,6 +78,13 @@
       "when": 1792985567198,
       "tag": "0010_more_material_item_types",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793245266236,
+      "tag": "0011_material_regeneration_plan_caps",
+      "breakpoints": true
     }
   ]
 }

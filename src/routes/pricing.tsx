@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import { PublicHeader } from "@/components/PublicHeader";
 import { APP_CONFIG, limitsFor, type PlanTier } from "@/config/app-config";
-import { lessonsLine, priceLabel, regensLine } from "@/lib/plan-copy";
+import { lessonsLine, priceLabel } from "@/lib/plan-copy";
 
 export const Route = createFileRoute("/pricing")({
   head: () => ({
@@ -25,7 +25,7 @@ function Features({ tier }: { tier: PlanTier }) {
     tier === "free"
       ? `${limits.monthlyMaterials} materials sample a month (pick any one of the five)`
       : `${limits.monthlyMaterials} materials a month (exit tickets, quizzes, worksheets, vocabulary cards, and games)`,
-    tier === "free" ? regensLine(tier) : `${limits.regensPerLesson} regenerations per lesson section and per material`,
+    `${limits.regensPerLesson} section regenerations per lesson and ${limits.regensPerMaterial} per material`,
     "Word (.docx) downloads, saved lessons on your account, and copy to clipboard",
   ];
   return (
@@ -61,7 +61,7 @@ function PricingPage() {
     },
     {
       q: "What are regenerations?",
-      a: `On a saved lesson, you can ask the AI to rewrite one section at a time. You can also regenerate any material you've made. Free includes ${free.regensPerLesson} per lesson and per material, and Pro includes ${pro.regensPerLesson}. Editing text yourself never counts.`,
+      a: `On a saved lesson, you can ask the AI to rewrite one section at a time. You can also regenerate any material you've made. Free includes ${free.regensPerLesson} section regenerations per lesson and ${free.regensPerMaterial} per material. Pro includes ${pro.regensPerLesson} per lesson and ${pro.regensPerMaterial} per material. Editing text yourself never counts.`,
     },
     {
       q: "Does regenerating a material use up my monthly materials?",
