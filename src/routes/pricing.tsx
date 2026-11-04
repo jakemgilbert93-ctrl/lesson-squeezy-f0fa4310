@@ -23,7 +23,7 @@ function Features({ tier }: { tier: PlanTier }) {
   const items = [
     lessonsLine(tier),
     tier === "free"
-      ? `${limits.monthlyMaterials} materials sample a month (pick any one of the five)`
+      ? `${limits.monthlyMaterials} material sample a month (pick any one of the five)`
       : `${limits.monthlyMaterials} materials a month (exit tickets, quizzes, worksheets, vocabulary cards, and games)`,
     `${limits.regensPerLesson} section regenerations per lesson and ${limits.regensPerMaterial} per material`,
     "Word (.docx) downloads, saved lessons on your account, and copy to clipboard",
