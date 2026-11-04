@@ -37,10 +37,41 @@ const base = { itemTitle: "T", lessonTitle: "Fractions", grade: "3", withStandar
 
 async function docText(blob: Blob) {
   const zip = await JSZip.loadAsync(await blob.arrayBuffer());
-  return (await zip.file("word/document.xml")!.async("string")).replace(/<[^>]+>/g, "");
+  const xml = zip.file("word/document.xml");
+  assert.ok(xml);
+  return (await xml.async("string")).replace(/<[^>]+>/g, "");
 }
 
 describe("materials docx", () => {
+  test("game Copy and both Word copies remove supplied choice and step markers", async () => {
+    const content = { ...game, howToPlay: ["1. Move to the next card.", "2) Solve."], cards: game.cards.map((card) => ({ ...card, choices: ["A) One", "B. Two", "C: Three", "D) Four"] })) };
+    for (const copy of ["student", "key"] as const) {
+      const input = { ...base, itemType: "game" as const, content };
+      for (const text of [materialToText(input, copy), await docText(await createMaterialDocx(input, copy))]) {
+        assert.ok(text.includes("A. One"));
+        assert.ok(!text.includes("A. A)"));
+        assert.ok(!text.includes("B. B."));
+        if (copy === "key") {
+          assert.ok(text.includes("1. Move to the next card."));
+          assert.ok(!text.includes("1. 1."));
+          assert.ok(!text.includes("2. 2)"));
+        }
+      }
+    }
+  });
+  test("quiz and worksheet Copy and Word choices strip supplied markers", async () => {
+    for (const itemType of ["quiz", "worksheet"] as const) {
+      const source = itemType === "quiz" ? quiz : worksheet;
+      const content = { ...source, questions: source.questions.map((q) => ({ ...q, ...(q.choices ? { choices: q.choices.map((ch, i) => `${String.fromCharCode(65 + i)}) ${ch}`) } : {}) })) };
+      for (const copy of ["student", "key"] as const) {
+        const input = { ...base, itemType, content };
+        for (const text of [materialToText(input, copy), await docText(await createMaterialDocx(input, copy))]) {
+          assert.ok(!/\b[A-D]\. [A-D]\)/.test(text));
+          if (copy === "student") assert.ok(text.includes(itemType === "quiz" ? "A. Alpha" : "A. One"));
+        }
+      }
+    }
+  });
   test("quiz student copy has no answers or solutions", async () => {
     const text = await docText(await createMaterialDocx({ ...base, itemType: "quiz", content: quiz }, "student"));
     assert.ok(text.includes("Name:"));

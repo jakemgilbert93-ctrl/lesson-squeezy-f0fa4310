@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { APP_CONFIG, gradeLabel } from "@/config/app-config";
+import { stripChoiceMarker, stripStepMarker } from "./material-labels";
 import {
   ExitTicketContent, GameContent, QuizContent, VocabCardsContent, WorksheetContent, type MaterialItemType,
 } from "./materials-schema";
@@ -41,8 +42,8 @@ export function materialToText(input: Pick<MaterialDocInput, "itemType" | "itemT
     if (copy === "student") lines.push(c.directions, "");
     c.questions.forEach((q, i) => {
       lines.push(`${i + 1}. ${q.prompt}`);
-      if (copy === "student") q.choices.forEach((ch, j) => lines.push(`   ${letter(j)}. ${ch}`));
-      else lines.push(`   Answer: ${letter(q.correctIndex)}. ${q.choices[q.correctIndex]}`, `   ${q.workedSolution}`);
+      if (copy === "student") q.choices.forEach((ch, j) => lines.push(`   ${letter(j)}. ${stripChoiceMarker(ch)}`));
+      else lines.push(`   Answer: ${letter(q.correctIndex)}. ${stripChoiceMarker(q.choices[q.correctIndex])}`, `   ${q.workedSolution}`);
       lines.push("");
     });
   } else if (t === "worksheet") {
@@ -50,7 +51,7 @@ export function materialToText(input: Pick<MaterialDocInput, "itemType" | "itemT
     lines.push(c.directions, "");
     c.questions.forEach((q, i) => {
       lines.push(`${i + 1}. ${q.prompt}`);
-      q.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${ch}`));
+      q.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${stripChoiceMarker(ch)}`));
       if (copy === "key") lines.push(`   Answer: ${q.answer}`, `   ${q.workedSolution}`);
       lines.push("");
     });
@@ -66,11 +67,11 @@ export function materialToText(input: Pick<MaterialDocInput, "itemType" | "itemT
     lines.push(`${c.gameName} (${GAME_FORMAT_LABEL[c.format]})`, "");
     if (copy === "key") {
       lines.push("Materials", ...c.materialsNeeded.map((m) => `- ${m}`), "", "Setup", c.setup, "",
-        "How to play", ...c.howToPlay.map((s, i) => `${i + 1}. ${s}`), "", "Teacher notes", c.teacherNotes, "");
+        "How to play", ...c.howToPlay.map((s, i) => `${i + 1}. ${stripStepMarker(s)}`), "", "Teacher notes", c.teacherNotes, "");
     }
     c.cards.forEach((card, i) => {
       lines.push(`Card ${i + 1}: ${card.prompt}`);
-      card.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${ch}`));
+      card.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${stripChoiceMarker(ch)}`));
       if (copy === "key") lines.push(`   Answer: ${card.answer}`, `   ${card.workedSolution}`);
       lines.push("");
     });
@@ -80,7 +81,7 @@ export function materialToText(input: Pick<MaterialDocInput, "itemType" | "itemT
       lines.push(c.directions, "");
       c.questions.forEach((q, i) => {
         lines.push(`${i + 1}. ${q.prompt}`);
-        q.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${ch}`));
+        q.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${stripChoiceMarker(ch)}`));
         lines.push("");
       });
     } else lines.push("Teacher notes", c.teacherNotes || "—");
@@ -138,9 +139,9 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
     c.questions.forEach((q, i) => {
       children.push(p(`${i + 1}. ${q.prompt}`, { bold: true }));
       if (copy === "student") {
-        q.choices.forEach((ch, j) => children.push(p(`${letter(j)}. ${ch}`, { indent: 360 })));
+        q.choices.forEach((ch, j) => children.push(p(`${letter(j)}. ${stripChoiceMarker(ch)}`, { indent: 360 })));
       } else {
-        children.push(p(`Correct answer: ${letter(q.correctIndex)}. ${q.choices[q.correctIndex]}`, { indent: 360 }));
+        children.push(p(`Correct answer: ${letter(q.correctIndex)}. ${stripChoiceMarker(q.choices[q.correctIndex])}`, { indent: 360 }));
         children.push(...body(q.workedSolution));
       }
       children.push(p("", { after: 120 }));
@@ -150,7 +151,7 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
     children.push(p(c.directions, { bold: true, after: 200 }));
     c.questions.forEach((q, i) => {
       children.push(p(`${i + 1}. ${q.prompt}`, { bold: true }));
-      if (q.choices?.length) q.choices.forEach((ch, j) => children.push(p(`${letter(j)}. ${ch}`, { indent: 360 })));
+      if (q.choices?.length) q.choices.forEach((ch, j) => children.push(p(`${letter(j)}. ${stripChoiceMarker(ch)}`, { indent: 360 })));
       if (copy === "student") {
         if (!q.choices?.length) for (let n = 0; n < (q.answerLines ?? 3); n++) children.push(answerLine());
       } else {
@@ -176,18 +177,18 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
       children.push(cardGrid(c.cards.map((card, i) => [
         p(`Card ${i + 1}`, { bold: true }),
         p(card.prompt),
-        ...(card.choices ?? []).map((ch, j) => p(`${letter(j)}. ${ch}`, { indent: 240 })),
+        ...(card.choices ?? []).map((ch, j) => p(`${letter(j)}. ${stripChoiceMarker(ch)}`, { indent: 240 })),
       ]), 2));
     } else {
       children.push(h1("Format"), p(GAME_FORMAT_LABEL[c.format]));
       children.push(h1("Materials"), ...c.materialsNeeded.map((m) => p(`• ${m}`)));
       children.push(h1("Setup"), ...body(c.setup));
-      children.push(h1("How to play"), ...c.howToPlay.map((s, i) => p(`${i + 1}. ${s}`)));
+      children.push(h1("How to play"), ...c.howToPlay.map((s, i) => p(`${i + 1}. ${stripStepMarker(s)}`)));
       children.push(h1("Teacher notes"), ...body(c.teacherNotes));
       children.push(h1("Cards and answers"));
       c.cards.forEach((card, i) => {
         children.push(p(`Card ${i + 1}: ${card.prompt}`, { bold: true }));
-        card.choices?.forEach((ch, j) => children.push(p(`${letter(j)}. ${ch}`, { indent: 360 })));
+        card.choices?.forEach((ch, j) => children.push(p(`${letter(j)}. ${stripChoiceMarker(ch)}`, { indent: 360 })));
         children.push(p(`Answer: ${card.answer}`, { indent: 360 }), ...body(card.workedSolution), p("", { after: 120 }));
       });
     }
@@ -197,7 +198,7 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
       children.push(p(c.directions, { bold: true, after: 200 }));
       c.questions.forEach((q, i) => {
         children.push(p(`${i + 1}. ${q.prompt}`, { bold: true }));
-        if (q.choices?.length) q.choices.forEach((ch, j) => children.push(p(`${letter(j)}. ${ch}`, { indent: 360 })));
+        if (q.choices?.length) q.choices.forEach((ch, j) => children.push(p(`${letter(j)}. ${stripChoiceMarker(ch)}`, { indent: 360 })));
         else for (let n = 0; n < (q.answerLines ?? 3); n++) children.push(answerLine());
         children.push(p("", { after: 120 }));
       });
