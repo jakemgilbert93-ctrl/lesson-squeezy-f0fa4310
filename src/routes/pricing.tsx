@@ -57,7 +57,7 @@ function PricingPage() {
     },
     {
       q: "How many materials do I get?",
-      a: `Free includes ${free.monthlyMaterials} materials sample a month, and you choose which of the five to make. Pro includes ${pro.monthlyMaterials} a month. Each item you generate counts as one, and your count resets on the 1st of each month (UTC). If a generation fails, it doesn't count.`,
+      a: `Free includes ${free.monthlyMaterials} material sample a month, and you choose which of the five to make. Pro includes ${pro.monthlyMaterials} a month. Each item you generate counts as one, and your count resets on the 1st of each month (UTC). If a generation fails, it doesn't count.`,
     },
     {
       q: "What are regenerations?",
