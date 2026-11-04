@@ -1,3 +1,4 @@
+- [ ] Apply six small fixes: material labels, limit chips, prompt wording, row click targets, sample-used hints, and lesson lengths; run existing tests.
 - [x] Update and verify material regeneration caps, pricing wording, and Materials sidebar spacing; Free blocks at 2 and Pro at 5, 68 tests pass.
 - [x] Load CCSS file into standards; delete null ccss_id rows; NOT NULL ccss_id/standard_text; UNIQUE ccss_id
 - [x] Picker fix not needed (no page reads standards yet)
