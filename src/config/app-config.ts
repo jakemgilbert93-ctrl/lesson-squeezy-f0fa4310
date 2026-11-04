@@ -81,7 +81,7 @@ export const APP_CONFIG = {
     "World Languages",
     "Computer Science",
   ],
-  lessonLengths: [30, 45, 60, 90],
+  lessonLengths: [20, 30, 45, 60, 75, 90],
 
   /** Official Common Core standards picker. Fails closed without a real notice. */
   standards: {

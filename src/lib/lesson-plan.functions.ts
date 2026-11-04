@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { LessonIdInput } from "./lesson-id";
+import { fitTiming } from "./lesson-timing";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Json } from "@/integrations/supabase/types";
 import { APP_CONFIG, gradeLabel, limitsFor, standardsActive, standardsSubjectFor, type PlanTier } from "@/config/app-config";
@@ -96,14 +97,6 @@ async function loadStandard(client: unknown, ccssId: string, grade: string, subj
     notes: data.notes ?? null,
     sourceUrl: data.source_url ?? null,
   };
-}
-
-function fitTiming(plan: z.infer<typeof LessonSections>, total: number) {
-  const sum = plan.warmUp.minutes + plan.directInstruction.minutes + plan.practice.minutes;
-  if (sum === total) return plan;
-  const practice = total - plan.warmUp.minutes - plan.directInstruction.minutes;
-  if (practice < 5) return null;
-  return { ...plan, practice: { ...plan.practice, minutes: practice } };
 }
 
 /** Remove legacy/AI metadata and refresh verified text using the selected grade/subject. */

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { ChevronDown, Copy, FileDown, Info, Loader2, RefreshCw, Sparkles } from "lucide-react";
+import { ChevronDown, Copy, FileDown, Info, Loader2, Lock, RefreshCw, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { limitsFor } from "@/config/app-config";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { stripChoiceMarker, stripStepMarker } from "@/lib/material-labels";
 import { generateMaterialItem, regenerateMaterialItem } from "@/lib/materials.functions";
 import {
   ExitTicketContent, GameContent, QuizContent, VocabCardsContent, WorksheetContent, type MaterialItemType,
@@ -106,16 +107,14 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
             const expanded = open === row.type && !!item;
             return (
               <li key={row.type}>
-                <div className="px-4 py-3.5">
+                <div className={cn("relative px-4 py-3.5", item && "cursor-pointer")}>
+                  {item && (
+                    <Button variant="ghost" type="button" aria-label={`Toggle ${row.label}`} aria-expanded={expanded}
+                      onClick={() => setOpen(expanded ? null : row.type)}
+                      className="absolute inset-0 z-10 h-full w-full rounded-none p-0 hover:bg-transparent focus-visible:ring-inset" />
+                  )}
                   <div className="flex min-h-8 items-center justify-between gap-3">
-                    {item ? (
-                      <button type="button" className="flex min-w-0 flex-1 items-center text-left"
-                        aria-expanded={expanded} onClick={() => setOpen(expanded ? null : row.type)}>
-                        <span className="text-sm font-semibold text-foreground">{row.label}</span>
-                      </button>
-                    ) : (
-                      <span className="min-w-0 text-sm font-semibold text-foreground">{row.label}</span>
-                    )}
+                    <span className="min-w-0 text-sm font-semibold text-foreground">{row.label}</span>
                     <span className="flex shrink-0 items-center gap-2">
                       {busy === row.type ? (
                         <Loader2 className="h-4 w-4 animate-spin text-primary" aria-label="Working" />
@@ -125,13 +124,16 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
                           <ChevronDown aria-hidden="true" className={cn("h-4 w-4 shrink-0 text-muted-foreground transition", expanded && "rotate-180")} />
                         </>
                       ) : !monthlyFull && confirming !== row.type ? (
-                        <Button size="sm" className={cn(COMPACT, "shrink-0")} disabled={busy !== null || confirming !== null} onClick={() => onGenerate(row.type)}>
+                        <Button size="sm" className={cn(COMPACT, "shrink-0")} disabled={busy !== null || confirming !== null} onClick={(event) => { event.stopPropagation(); onGenerate(row.type); }}>
                           <Sparkles /> Generate
                         </Button>
                       ) : null}
                     </span>
                   </div>
                   <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{row.blurb}</p>
+                  {!item && usage && !isPro && monthlyFull && (
+                    <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground"><Lock aria-hidden="true" className="h-3 w-3 shrink-0" />Free sample used. Resets on the 1st.</p>
+                  )}
                 </div>
                 {confirming === row.type && (
                   <div className="mx-4 mb-3 rounded-lg border border-border bg-muted px-3 py-2 text-sm text-foreground">
@@ -225,7 +227,10 @@ function ItemPanel({ row, item, locked, regenLimit, docBase, onRegenerate }: {
           </Button>
         ))}
       </div>
-      <p className="mt-2 text-xs text-muted-foreground">{left} of {regenLimit} left</p>
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+        <span>{left} of {regenLimit} left</span>
+        {left === 0 && <span className="rounded-full bg-limit-notice px-2 py-1 text-notice-foreground">Limit reached for this material</span>}
+      </div>
     </div>
   );
 }
@@ -236,7 +241,7 @@ const Lines = ({ n }: { n: number }) => (
   <div aria-hidden="true" className="mt-2 space-y-4">{Array.from({ length: n }).map((_, k) => <div key={k} className="border-b border-border" />)}</div>
 );
 const Choices = ({ choices }: { choices: string[] }) => (
-  <ul className="mt-1 space-y-0.5">{choices.map((ch, j) => <li key={j}>{letter(j)}. {ch}</li>)}</ul>
+  <ul className="mt-1 space-y-0.5">{choices.map((ch, j) => <li key={j}>{letter(j)}. {stripChoiceMarker(ch)}</li>)}</ul>
 );
 const Answer = ({ answer, solution }: { answer: string; solution: string }) => (
   <div className="mt-1 rounded-md bg-muted/60 px-2 py-1.5">
@@ -259,7 +264,7 @@ function MaterialBody({ type, title, content, teacher }: { type: MaterialItemTyp
           {c.questions.map((q, i) => (
             <li key={i}>
               <p>{q.prompt}</p>
-              {teacher ? <Answer answer={`${letter(q.correctIndex)}. ${q.choices[q.correctIndex]}`} solution={q.workedSolution} /> : <Choices choices={q.choices} />}
+              {teacher ? <Answer answer={`${letter(q.correctIndex)}. ${stripChoiceMarker(q.choices[q.correctIndex])}`} solution={q.workedSolution} /> : <Choices choices={q.choices} />}
             </li>
           ))}
         </ol>
@@ -315,7 +320,7 @@ function MaterialBody({ type, title, content, teacher }: { type: MaterialItemTyp
         <p><span className="font-semibold">Format:</span> {GAME_FORMAT_LABEL[c.format]}</p>
         <div><p className="font-semibold">Materials</p><ul className="list-disc pl-5">{c.materialsNeeded.map((m, i) => <li key={i}>{m}</li>)}</ul></div>
         <div><p className="font-semibold">Setup</p><p className="whitespace-pre-wrap">{c.setup}</p></div>
-        <div><p className="font-semibold">How to play</p><ol className="list-decimal pl-5">{c.howToPlay.map((s, i) => <li key={i}>{s}</li>)}</ol></div>
+        <div><p className="font-semibold">How to play</p><ol className="list-decimal pl-5">{c.howToPlay.map((s, i) => <li key={i}>{stripStepMarker(s)}</li>)}</ol></div>
         {teacher && (
           <div className="rounded-md bg-muted/60 px-2 py-1.5">
             <p className="font-semibold">Teacher notes</p>

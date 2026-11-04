@@ -17,6 +17,8 @@
 - Lesson read and delete functions share the UUID input schema in `src/lib/lesson-id.ts`, so malformed IDs are rejected before querying.
 - Lesson cap is checked before the AI call and incremented only after validated output; failed generations never count.
 - The 7-section lesson shape lives in `src/lib/lesson-schema.ts` and one shared `LessonCanvas` component renders it for both new and saved lessons.
+- Material views, clipboard and Word exports share marker stripping in `material-labels`; model-supplied labels must not duplicate display numbering.
+- Lesson generation fits timed sections through the shared `lesson-timing` helper; valid selected lengths always produce an exact positive-integer total without changing the output schema.
 - Section edit controls compare page text with an immutable generated/last-successfully-saved snapshot and use the existing whole-lesson save handler; cancellation restores only that section so other edits remain intact.
 - Monthly usage explanations share a UTC-calendar-month comparison of existing lesson creation timestamps, never infer deleted counts or compare all-time saved totals.
 - Section regeneration requires a saved lesson, because the per-lesson counter is stored on the lesson row.
