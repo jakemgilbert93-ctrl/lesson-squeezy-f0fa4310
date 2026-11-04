@@ -15,7 +15,7 @@ test("lesson length options are exactly the six requested lengths", () => {
 
 for (const total of [20, 30, 45, 60, 75, 90]) {
   test(`${total}-minute lessons always have positive integer chips totaling ${total}`, () => {
-    for (const minutes of [[10, 20, 15], [1, 1, 1], [60, 90, 90], [5, 5, total - 10]]) {
+    for (const minutes of [[10, 20, 15], [1, 1, 1], [60, 90, 90], [5, 5, total - 10]] as const) {
       const fitted = fitTiming({ ...plan, warmUp: { ...plan.warmUp, minutes: minutes[0] }, directInstruction: { ...plan.directInstruction, minutes: minutes[1] }, practice: { ...plan.practice, minutes: minutes[2] } }, total);
       const chips = [fitted.warmUp.minutes, fitted.directInstruction.minutes, fitted.practice.minutes];
       assert.equal(chips.reduce((sum, n) => sum + n, 0), total);
