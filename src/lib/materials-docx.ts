@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { APP_CONFIG, gradeLabel } from "@/config/app-config";
-import { stripChoiceMarker, stripStepMarker } from "./material-labels";
+import { answerKeyLine, stripChoiceMarker, stripStepMarker } from "./material-labels";
 import {
   ExitTicketContent, GameContent, QuizContent, VocabCardsContent, WorksheetContent, type MaterialItemType,
 } from "./materials-schema";
@@ -52,7 +52,7 @@ export function materialToText(input: Pick<MaterialDocInput, "itemType" | "itemT
     c.questions.forEach((q, i) => {
       lines.push(`${i + 1}. ${q.prompt}`);
       q.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${stripChoiceMarker(ch)}`));
-      if (copy === "key") lines.push(`   Answer: ${q.answer}`, `   ${q.workedSolution}`);
+      if (copy === "key") lines.push(`   ${answerKeyLine(q.answer)}`, `   ${q.workedSolution}`);
       lines.push("");
     });
   } else if (t === "vocab_cards") {
@@ -72,7 +72,7 @@ export function materialToText(input: Pick<MaterialDocInput, "itemType" | "itemT
     c.cards.forEach((card, i) => {
       lines.push(`Card ${i + 1}: ${card.prompt}`);
       card.choices?.forEach((ch, j) => lines.push(`   ${letter(j)}. ${stripChoiceMarker(ch)}`));
-      if (copy === "key") lines.push(`   Answer: ${card.answer}`, `   ${card.workedSolution}`);
+      if (copy === "key") lines.push(`   ${answerKeyLine(card.answer)}`, `   ${card.workedSolution}`);
       lines.push("");
     });
   } else {
@@ -155,7 +155,7 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
       if (copy === "student") {
         if (!q.choices?.length) for (let n = 0; n < (q.answerLines ?? 3); n++) children.push(answerLine());
       } else {
-        children.push(p(`Answer: ${q.answer}`, { indent: 360 }));
+        children.push(p(answerKeyLine(q.answer), { indent: 360 }));
         children.push(...body(q.workedSolution));
       }
       children.push(p("", { after: 120 }));
@@ -189,7 +189,7 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
       c.cards.forEach((card, i) => {
         children.push(p(`Card ${i + 1}: ${card.prompt}`, { bold: true }));
         card.choices?.forEach((ch, j) => children.push(p(`${letter(j)}. ${stripChoiceMarker(ch)}`, { indent: 360 })));
-        children.push(p(`Answer: ${card.answer}`, { indent: 360 }), ...body(card.workedSolution), p("", { after: 120 }));
+        children.push(p(answerKeyLine(card.answer), { indent: 360 }), ...body(card.workedSolution), p("", { after: 120 }));
       });
     }
   } else {

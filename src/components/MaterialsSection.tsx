@@ -7,7 +7,7 @@ import { limitsFor } from "@/config/app-config";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { stripChoiceMarker, stripStepMarker } from "@/lib/material-labels";
+import { OPEN_RESPONSE_NOTE, splitAnswerLabel, stripChoiceMarker, stripStepMarker } from "@/lib/material-labels";
 import { generateMaterialItem, regenerateMaterialItem } from "@/lib/materials.functions";
 import {
   ExitTicketContent, GameContent, QuizContent, VocabCardsContent, WorksheetContent, type MaterialItemType,
@@ -243,12 +243,18 @@ const Lines = ({ n }: { n: number }) => (
 const Choices = ({ choices }: { choices: string[] }) => (
   <ul className="mt-1 space-y-0.5">{choices.map((ch, j) => <li key={j}>{letter(j)}. {stripChoiceMarker(ch)}</li>)}</ul>
 );
-const Answer = ({ answer, solution }: { answer: string; solution: string }) => (
-  <div className="mt-1 rounded-md bg-muted/60 px-2 py-1.5">
-    <p className="font-semibold">Answer: {answer}</p>
-    <p className="mt-1 whitespace-pre-wrap text-muted-foreground">{solution}</p>
-  </div>
-);
+const Answer = ({ answer, solution }: { answer: string; solution: string }) => {
+  const { label, text } = splitAnswerLabel(answer);
+  return (
+    <div className="mt-1 rounded-md bg-muted/60 px-2 py-1.5">
+      <p className="font-semibold">
+        {label}: {text}
+        {label === "Sample answer" && <span className="font-normal text-muted-foreground"> {OPEN_RESPONSE_NOTE}</span>}
+      </p>
+      <p className="mt-1 whitespace-pre-wrap text-muted-foreground">{solution}</p>
+    </div>
+  );
+};
 
 function MaterialBody({ type, title, content, teacher }: { type: MaterialItemType; title: string; content: unknown; teacher: boolean }) {
   const wrap = "mt-3 space-y-3 text-sm text-foreground";
