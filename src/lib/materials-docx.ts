@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { APP_CONFIG, gradeLabel } from "@/config/app-config";
-import { stripChoiceMarker, stripStepMarker } from "./material-labels";
+import { answerKeyLine, stripChoiceMarker, stripStepMarker } from "./material-labels";
 import {
   ExitTicketContent, GameContent, QuizContent, VocabCardsContent, WorksheetContent, type MaterialItemType,
 } from "./materials-schema";
