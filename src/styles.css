@@ -58,6 +58,7 @@
   --color-pink: var(--pink);
   --color-pink-deep: var(--pink-deep);
   --color-skyblue: var(--skyblue);
+  --color-limit-notice: var(--limit-notice);
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -89,6 +90,7 @@
   --babyblue: hsl(208 97% 87%);
   --notice: #bee0fe;
   --notice-foreground: #3f2150;
+  --limit-notice: #ffc8dc;
   --lavender: hsl(280 34% 78%);
   --pink: hsl(338 100% 84%);
   --pink-deep: hsl(338 90% 77%);

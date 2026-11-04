@@ -126,10 +126,11 @@ export function LessonCanvas({ plan, baseline, saving, onSave, meta, onChange, a
             <Copy className="h-4 w-4" /> Copy
           </button>
         )}
-        <span className="col-span-2 text-center text-xs text-muted-foreground sm:text-left">
-          {regen.enabled
+        <span className="col-span-2 flex flex-wrap items-center justify-center gap-2 text-center text-xs text-muted-foreground sm:justify-start sm:text-left">
+          <span>{regen.enabled
             ? `${left} of ${regen.limit} section regenerations left`
-            : (saveHint ?? "Save the lesson to regenerate sections")}
+            : (saveHint ?? "Save the lesson to regenerate sections")}</span>
+          {regen.enabled && left === 0 && <span className="rounded-full bg-limit-notice px-2 py-1 text-notice-foreground">Limit reached for this lesson</span>}
         </span>
       </div>
       {showSavedNotice && (
