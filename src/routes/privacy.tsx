@@ -7,7 +7,7 @@ const INTRO: LegalBlock[] = [
     kind: "p",
     text: 'Lesson Squeezy ("we" or "us") runs a lesson planning tool for teachers at https://lessonsqueezy.com (the "Service"). It is currently in private beta. This policy explains what information we collect, how we use it, who else handles it, and the choices you have.',
   },
-  { kind: "p", text: "**Effective date:** October 20, 2026" },
+  { kind: "p", text: "**Effective date:** November 5th, 2026" },
   { kind: "p", text: "The Service is for teachers and other adult educators, 18 or older." },
 ];
 
@@ -25,8 +25,8 @@ const SECTIONS: LegalSection[] = [
           "**Account information:** your email address and password. Your password is handled by our sign-in system.",
           "**Display name (optional):** a name you can add when you sign up. It is shown only to you, in the dashboard greeting and account menu, and you can edit it. If you leave it blank, nothing is stored.",
           "**Lesson requests:** the grade, subject, and topic you choose, and any standard you enter yourself.",
-          "**Saved lessons and ratings:** when you click Save, we store the lesson, its title, grade, subject, and date. If you rate a lesson from 1 to 5 stars, we store the rating with it.",
-          "**Usage records:** a count of the lessons you generate each month, and short-lived timestamps that limit how quickly lessons can be generated.",
+          "**Saved lessons and ratings:** when you click Save, we store the lesson, its title, grade, subject, and date. We also store any materials you generate for a saved lesson (exit tickets, quizzes, worksheets, vocabulary cards, and games).",
+          "**Usage records:** a count of the lessons and materials you generate each month, and short-lived timestamps that limit how quickly lessons can be generated.",
           "**Technical information:** your browser sends information such as your IP address and browser type when you visit the site. Our hosting provider handles this to deliver the Service.",
           "**Messages you send us:** if you email team@lessonsqueezy.com, including to ask to be notified when Pro opens, we receive your email address and message.",
         ],
@@ -46,8 +46,8 @@ const SECTIONS: LegalSection[] = [
         kind: "ul",
         items: [
           "To create and manage your account and keep you signed in.",
-          "To generate your lessons, save them, and let you export them.",
-          "To apply the monthly lesson limit and prevent abuse.",
+          "To generate your lessons and materials, save them, and let you export them.",
+          "To apply the monthly lesson and materials limits and prevent abuse.",
           "To review star ratings, which we use to improve the quality of lessons.",
           "To respond to messages and requests you send us.",
           "To send account emails, such as password resets (see Cookies, tracking, and emails below).",
@@ -113,9 +113,9 @@ const SECTIONS: LegalSection[] = [
       {
         kind: "ul",
         items: [
-          "**Delete a lesson:** you can delete any saved lesson from My Lessons. After a confirmation step, the lesson and its rating are permanently removed.",
+          "**Delete a lesson:** you can delete any saved lesson from My Lessons. After a confirmation step, the lesson, its materials, and its rating are permanently removed.",
           "**Edit your display name:** you can change it from the account menu.",
-          "**Delete your account:** email team@lessonsqueezy.com. We will delete your account within 30 days. This removes your profile, saved lessons, ratings, monthly usage counts, and rate-limit records.",
+          "**Delete your account:** email team@lessonsqueezy.com. We will delete your account within 30 days. This removes your profile, saved lessons, materials, ratings, monthly usage counts, and rate-limit records.",
           "**What deletion does not reach:** temporary logs held by the AI gateway and provider, which we cannot delete, and any emails you sent us, which we delete on request.",
         ],
       },
