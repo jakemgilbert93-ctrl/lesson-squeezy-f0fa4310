@@ -33,7 +33,7 @@ const SECTIONS: LegalSection[] = [
       {
         "kind": "ul",
         "items": [
-          "**Free plan:** you can generate up to 5 lessons per calendar month. The count resets on the 1st of each month at 00:00 UTC. A generation that fails does not count against your limit.",
+          "**Free plan:** you can generate up to 5 lessons per calendar month, plus one materials sample per month (one exit ticket, quiz, worksheet, set of vocabulary cards, or game). The counts reset on the 1st of each month at 00:00 UTC. A generation that fails does not count against your limit.",
           "**Pro plan:** we plan to offer a low-cost paid plan. It is not available yet. We will post its price and terms before anyone is charged.",
           "**Limits and abuse:** we may limit how quickly lessons can be generated and may change these limits."
         ]
@@ -50,7 +50,7 @@ const SECTIONS: LegalSection[] = [
     ]
   },
   {
-    "heading": "Your content and AI-generated lessons",
+    "heading": "Your content and AI-generated lessons and materials",
     "body": [
       {
         "kind": "p",
@@ -58,7 +58,7 @@ const SECTIONS: LegalSection[] = [
       },
       {
         "kind": "p",
-        "text": "Lessons are written by AI, so they can contain mistakes, and they may not fit your students, your curriculum, or your state's requirements. **You are responsible for reviewing every lesson for accuracy, age-appropriateness, and fit before you use it.** We do not guarantee any result from using the Service."
+        "text": "Lessons and materials (such as exit tickets, quizzes, worksheets, vocabulary cards, and games) are written by AI, so they can contain mistakes, including incorrect answer keys, and they may not fit your students, your curriculum, or your state's requirements. **You are responsible for reviewing every lesson and material, including every answer key, for accuracy, age-appropriateness, and fit before you use it with students.** We do not guarantee any result from using the Service."
       },
       {
         "kind": "p",
