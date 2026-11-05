@@ -9,7 +9,7 @@ const INTRO: LegalBlock[] = [
   },
   {
     "kind": "p",
-    "text": "**Effective date:** October 20, 2026"
+    "text": "**Effective date:** November 5th, 2026"
   }
 ];
 
