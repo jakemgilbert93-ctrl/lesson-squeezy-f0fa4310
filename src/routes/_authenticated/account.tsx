@@ -165,6 +165,7 @@ function PlanCard({ userId }: { userId: string }) {
         : current && <div className="mt-4">
           <p className="font-semibold text-foreground">Current plan: {APP_CONFIG.plans[current.plan].name}</p>
           <p className="mt-2 text-sm text-muted-foreground">{current.monthlyLimit === null ? `${current.lessonsUsed} lessons used this month · No monthly lesson limit` : `${current.lessonsUsed} of ${current.monthlyLimit} lessons used this month`}</p>
+          <p className="mt-1 text-sm text-muted-foreground">{current.plan === "pro" ? `Materials: ${current.materialsUsed} of ${current.materialsLimit} this month` : `Materials sample: ${current.materialsUsed < current.materialsLimit ? "available" : "used"}`}</p>
           <MonthlyCountExplanation used={current.lessonsUsed} lessons={lessons.isSuccess ? lessons.data : undefined} />
           {current.monthlyLimit !== null && <progress aria-label="Monthly lesson usage" className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted accent-primary [&::-webkit-progress-bar]:bg-muted [&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary" max={Math.max(1, current.monthlyLimit)} value={current.lessonsUsed} />}
           <p className="mt-3 text-sm text-muted-foreground">Resets on the 1st of each month at 00:00 UTC.</p>

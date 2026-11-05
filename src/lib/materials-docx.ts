@@ -97,7 +97,7 @@ export async function createMaterialDocx(input: MaterialDocInput, copy: Material
   type P = InstanceType<typeof Paragraph>;
   const p = (text: string, opts: { bold?: boolean; italics?: boolean; after?: number; indent?: number } = {}) =>
     new Paragraph({
-      children: [new TextRun({ text, bold: opts.bold ?? false, italics: opts.italics ?? false })],
+      children: text.split("\n").map((line, index) => new TextRun({ text: line, bold: opts.bold ?? false, italics: opts.italics ?? false, ...(index > 0 ? { break: 1 } : {}) })),
       spacing: { after: opts.after ?? 80 },
       ...(opts.indent ? { indent: { left: opts.indent } } : {}),
     });

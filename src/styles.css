@@ -59,6 +59,11 @@
   --color-pink-deep: var(--pink-deep);
   --color-skyblue: var(--skyblue);
   --color-limit-notice: var(--limit-notice);
+  --color-material-status-used: var(--material-status-used);
+  --color-material-status-available: var(--material-status-available);
+  --color-material-status-used-border: var(--material-status-used-border);
+  --color-material-status-available-border: var(--material-status-available-border);
+  --color-material-status-pill: var(--material-status-pill);
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -91,6 +96,11 @@
   --notice: #bee0fe;
   --notice-foreground: #3f2150;
   --limit-notice: #ffc8dc;
+  --material-status-used: #ffe3ee;
+  --material-status-available: #e3f1ff;
+  --material-status-used-border: #ffafcc;
+  --material-status-available-border: #a2d2ff;
+  --material-status-pill: #cdb4da;
   --lavender: hsl(280 34% 78%);
   --pink: hsl(338 100% 84%);
   --pink-deep: hsl(338 90% 77%);

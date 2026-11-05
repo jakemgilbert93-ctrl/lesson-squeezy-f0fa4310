@@ -90,11 +90,12 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
         {usage && (isPro ? (
           <p className="mt-1 text-sm text-muted-foreground">Materials this month: {usage.materials_used} of {usage.materials_limit}</p>
         ) : (
-          <div className="mt-1">
-            <p className="text-sm text-foreground">
-              {monthlyFull ? "Free sample used. Resets on the 1st." : "Free plan: 1 sample left this month. Pick any one of the five."}
+          <div className={cn("mt-2 w-full rounded-[12px] border px-3.5 py-3", monthlyFull ? "border-material-status-used-border bg-material-status-used" : "border-material-status-available-border bg-material-status-available")}>
+            <p className="flex items-start gap-2 text-sm font-semibold text-notice-foreground">
+              {monthlyFull ? <Lock aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" /> : <Sparkles aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />}
+              <span>{monthlyFull ? "Free sample used. Resets on the 1st." : "Free plan: 1 sample left this month. Pick any one of the five."}</span>
             </p>
-            <p className="text-xs text-muted-foreground">Pro includes 60 a month. Coming soon.</p>
+            <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">Pro includes 60 a month. <span className="rounded-full bg-material-status-pill px-2 py-0.5 text-notice-foreground">Coming soon</span></p>
           </div>
         ))}
       </div>
@@ -241,13 +242,13 @@ const Lines = ({ n }: { n: number }) => (
   <div aria-hidden="true" className="mt-2 space-y-4">{Array.from({ length: n }).map((_, k) => <div key={k} className="border-b border-border" />)}</div>
 );
 const Choices = ({ choices }: { choices: string[] }) => (
-  <ul className="mt-1 space-y-0.5">{choices.map((ch, j) => <li key={j}>{letter(j)}. {stripChoiceMarker(ch)}</li>)}</ul>
+  <ul className="mt-1 space-y-0.5">{choices.map((ch, j) => <li key={j} className="whitespace-pre-line">{letter(j)}. {stripChoiceMarker(ch)}</li>)}</ul>
 );
 const Answer = ({ answer, solution }: { answer: string; solution: string }) => {
   const { label, text } = splitAnswerLabel(answer);
   return (
     <div className="mt-1 rounded-md bg-muted/60 px-2 py-1.5">
-      <p className="font-semibold">
+      <p className="whitespace-pre-line font-semibold">
         {label}: {text}
         {label === "Sample answer" && <span className="font-normal text-muted-foreground"> {OPEN_RESPONSE_NOTE}</span>}
       </p>
@@ -257,7 +258,7 @@ const Answer = ({ answer, solution }: { answer: string; solution: string }) => {
 };
 
 function MaterialBody({ type, title, content, teacher }: { type: MaterialItemType; title: string; content: unknown; teacher: boolean }) {
-  const wrap = "mt-3 space-y-3 text-sm text-foreground";
+  const wrap = "mt-3 space-y-3 text-sm text-foreground [&_p]:whitespace-pre-line";
   if (type === "quiz") {
     const parsed = QuizContent.safeParse(content);
     if (!parsed.success) return broken("quiz");

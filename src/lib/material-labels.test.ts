@@ -26,3 +26,8 @@ test("single-answer questions keep the plain Answer label without the note", () 
   assert.equal(answerKeyLine("B. 3/4"), "Answer: B. 3/4");
   assert.equal(answerKeyLine("="), "Answer: =");
 });
+
+test("single-answer choice markers normalize to a period without changing multiline text", () => {
+  assert.deepEqual(splitAnswerLabel("A) First line\nSecond line"), { label: "Answer", text: "A. First line\nSecond line" });
+  assert.equal(answerKeyLine("B: 3/4"), "Answer: B. 3/4");
+});

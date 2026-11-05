@@ -20,7 +20,7 @@ const SAMPLE_PREFIX = /^\s*sample answer\s*:\s*/i;
 export function splitAnswerLabel(answer: string): { label: "Answer" | "Sample answer"; text: string } {
   const text = answer.trim();
   if (SAMPLE_PREFIX.test(text)) return { label: "Sample answer", text: text.replace(SAMPLE_PREFIX, "") };
-  return { label: "Answer", text };
+  return { label: "Answer", text: text.replace(/^([A-Za-z])[):]\s+/, "$1. ") };
 }
 
 /** Full answer-key line for plain-text exports. */
