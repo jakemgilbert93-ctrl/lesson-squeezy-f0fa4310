@@ -43,6 +43,37 @@ async function docText(blob: Blob) {
 }
 
 describe("materials docx", () => {
+  test("multiline question prompts retain line breaks in clipboard and Word", async () => {
+    for (const itemType of ["exit_ticket", "quiz", "worksheet", "game"] as const) {
+      const prompt = "Compare 1/2 and 3/4.\nShow your work.";
+      const content = itemType === "game"
+        ? { ...game, cards: game.cards.map((card) => ({ ...card, prompt })) }
+        : itemType === "quiz" ? { ...quiz, questions: quiz.questions.map((q) => ({ ...q, prompt })) }
+        : itemType === "worksheet" ? { ...worksheet, questions: worksheet.questions.map((q) => ({ ...q, prompt })) }
+        : { ...ticket, questions: ticket.questions.map((q) => ({ ...q, prompt })) };
+      for (const copy of ["student", "key"] as const) {
+        if (itemType === "exit_ticket" && copy === "key") continue;
+        const input = { ...base, itemType, content };
+        assert.ok(materialToText(input, copy).includes(prompt));
+        const zip = await JSZip.loadAsync(await (await createMaterialDocx(input, copy)).arrayBuffer());
+        const xml = zip.file("word/document.xml");
+        assert.ok(xml);
+        assert.match(await xml.async("string"), /Compare 1\/2 and 3\/4\.<\/w:t><\/w:r><w:r>[\s\S]*?<w:br\/>[\s\S]*?Show your work\./);
+      }
+    }
+  });
+  test("worksheet and game answer-key choice letters use a period in clipboard and Word", async () => {
+    for (const itemType of ["worksheet", "game"] as const) {
+      const content = itemType === "worksheet"
+        ? { ...worksheet, questions: worksheet.questions.map((q) => ({ ...q, answer: "A) One" })) }
+        : { ...game, cards: game.cards.map((card) => ({ ...card, choices: ["One", "Two"], answer: "A) One" })) };
+      const input = { ...base, itemType, content };
+      for (const text of [materialToText(input, "key"), await docText(await createMaterialDocx(input, "key"))]) {
+        assert.ok(text.includes("Answer: A. One"));
+        assert.ok(!text.includes("Answer: A) One"));
+      }
+    }
+  });
   test("game Copy and both Word copies remove supplied choice and step markers", async () => {
     const content = { ...game, howToPlay: ["1. Move to the next card.", "2) Solve."], cards: game.cards.map((card) => ({ ...card, choices: ["A) One", "B. Two", "C: Three", "D) Four"] })) };
     for (const copy of ["student", "key"] as const) {
