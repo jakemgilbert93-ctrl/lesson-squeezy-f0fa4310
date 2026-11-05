@@ -112,6 +112,7 @@ function PlanDetailPage() {
           {loadError ? (
             <div className="rounded-xl border border-border bg-card p-6 text-sm">
               <p className="text-foreground">{loadError}</p>
+              {loadError !== "Lesson not found." && <button onClick={load} className="mt-3 rounded-md border border-border px-3 py-1.5 font-medium hover:bg-accent">Try again</button>}
             </div>
           ) : plan && meta && baseline ? (
             <LessonCanvas
