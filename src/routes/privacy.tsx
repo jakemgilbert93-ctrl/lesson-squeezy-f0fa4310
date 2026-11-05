@@ -25,7 +25,7 @@ const SECTIONS: LegalSection[] = [
           "**Account information:** your email address and password. Your password is handled by our sign-in system.",
           "**Display name (optional):** a name you can add when you sign up. It is shown only to you, in the dashboard greeting and account menu, and you can edit it. If you leave it blank, nothing is stored.",
           "**Lesson requests:** the grade, subject, and topic you choose, and any standard you enter yourself.",
-          "**Saved lessons and ratings:** when you click Save, we store the lesson, its title, grade, subject, and date. We also store any materials you generate for a saved lesson (exit tickets, quizzes, worksheets, vocabulary cards, and games).",
+          "**Saved lessons, materials, and ratings:** when you click Save, we store the lesson, its title, grade, subject, and date. We also store any materials you generate for a saved lesson (exit tickets, quizzes, worksheets, vocabulary cards, and games).",
           "**Usage records:** a count of the lessons and materials you generate each month, and short-lived timestamps that limit how quickly lessons can be generated.",
           "**Technical information:** your browser sends information such as your IP address and browser type when you visit the site. Our hosting provider handles this to deliver the Service.",
           "**Messages you send us:** if you email team@lessonsqueezy.com, including to ask to be notified when Pro opens, we receive your email address and message.",
