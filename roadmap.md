@@ -1,3 +1,4 @@
+- [ ] Apply five display-only changes: Free materials status box, preserved material line breaks, Home/Account materials usage, missing-lesson action, and answer-key choice markers; run existing tests and preview checks.
 - [x] Apply six small fixes: material labels, limit chips, prompt wording, row click targets, sample-used hints, and lesson lengths; 79 tests pass, preview builds cleanly, saved-lesson interactions and mocked Free-cap states checked at 390px without AI calls or data writes.
 - [x] Update and verify material regeneration caps, pricing wording, and Materials sidebar spacing; Free blocks at 2 and Pro at 5, 68 tests pass.
 - [x] Load CCSS file into standards; delete null ccss_id rows; NOT NULL ccss_id/standard_text; UNIQUE ccss_id
