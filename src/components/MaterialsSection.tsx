@@ -133,7 +133,7 @@ export function MaterialsSection({ lessonId, lessonTitle, grade, withStandardsFo
                   </div>
                   <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{row.blurb}</p>
                   {!item && usage && !isPro && monthlyFull && (
-                    <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground"><Lock aria-hidden="true" className="h-3 w-3 shrink-0" />Free sample used. Resets on the 1st.</p>
+                    <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground"><Lock aria-hidden="true" className="h-3 w-3 shrink-0" />Sample used</p>
                   )}
                 </div>
                 {confirming === row.type && (
