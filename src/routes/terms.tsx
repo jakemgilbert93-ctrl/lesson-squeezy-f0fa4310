@@ -54,7 +54,7 @@ const SECTIONS: LegalSection[] = [
     "body": [
       {
         "kind": "p",
-        "text": "You keep ownership of the content you enter and save, and you may use the lessons you generate for your teaching. You give us only the permission we need to run the Service for you, such as storing your lessons, sending your requests to the AI service that writes them, and showing and exporting your content to you."
+        "text": "You keep ownership of the content you enter and save, and you may use the lessons and materials you generate for your teaching. You give us only the permission we need to run the Service for you, such as storing your lessons, sending your requests to the AI service that writes them, and showing and exporting your content to you."
       },
       {
         "kind": "p",
