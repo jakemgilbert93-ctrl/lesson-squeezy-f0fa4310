@@ -9,6 +9,7 @@ import { LessonCanvas } from "@/components/LessonCanvas";
 import { LessonRating } from "@/components/LessonRating";
 import { APP_CONFIG, gradeLabel, limitsFor, standardsSubjectFor, type PlanTier } from "@/config/app-config";
 import { listStandards, type StandardOption } from "@/lib/standards.functions";
+import { standardOptionLabel } from "@/lib/standard-label";
 import { StandardCard } from "@/components/StandardCard";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -50,12 +51,14 @@ function Picker({
   value,
   onChange,
   children,
+  below,
 }: {
   id: string;
   label: ReactNode;
   value: string;
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   children: ReactNode;
+  below?: ReactNode;
 }) {
   return (
     <div>
@@ -71,6 +74,7 @@ function Picker({
           aria-hidden="true"
         />
       </span>
+      {below}
     </div>
   );
 }
@@ -269,13 +273,25 @@ function GeneratorPage() {
                   label={<>Standard <span className="font-normal">(optional)</span></>}
                   value={ccssId}
                   onChange={(e) => setCcssId(e.target.value)}
+                  below={
+                    <>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Verified standards · Common Core State Standards
+                      </p>
+                      {selectedStd && (
+                        <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-muted-foreground">
+                          {selectedStd.standardText}
+                        </p>
+                      )}
+                    </>
+                  }
                 >
                   <option value="">No standard</option>
                   {stdGroups.map(([group, opts]) => (
                     <optgroup key={group} label={group}>
                       {opts.map((o) => (
                         <option key={o.ccssId} value={o.ccssId}>
-                          {o.code} — Verified standard · Common Core State Standards
+                          {standardOptionLabel(o.code, o.standardText)}
                         </option>
                       ))}
                     </optgroup>
