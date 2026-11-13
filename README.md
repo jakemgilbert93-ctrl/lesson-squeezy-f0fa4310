@@ -1,24 +1,14 @@
 # Lesson Squeezy
 
-I want to create a website for teachers to generate effective and creative lesson plans based off state and district standards.
+**Standards-aligned lesson plans for elementary teachers, generated in seconds.**
 
-This project was built with [Lovable](https://lovable.dev).
+Live site: https://lessonsqueezy.com
 
-## Build with Lovable
+Lesson Squeezy was designed by a 4th grade teacher to cut down lesson-planning time. A teacher picks a grade, subject, and Common Core standard, and the app generates a full, editable lesson plan. The teacher can then save it, refine it, and export it as a Word document.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/d1d73548-489a-4735-a9fe-67c7feeb5f56).
+## Features
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+- **Verified standards.** K-5 Math and ELA lessons are tied to official Common Core standards stored in the database, not written by AI. Each lesson links back to the standard's source.
+- **AI lesson generation.** Structured lesson plans (objective, materials, activities, assessment) with per-section regeneration.
+- **Materials generator.** Exit tickets, quizzes, worksheets, vocabulary cards, and games, each with an answer key, generated from a saved lesson.
+- **Editable .docx export.** Teachers can tweak lessons
