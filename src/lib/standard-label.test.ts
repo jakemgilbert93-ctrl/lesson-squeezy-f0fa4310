@@ -12,7 +12,7 @@ describe("standard dropdown option labels", () => {
     const desc = label.slice(0, -1);
     assert.ok(desc.length <= 70, `description stays within the limit (got ${desc.length})`);
     assert.ok(LONG.startsWith(desc), "the shown words are an unchanged prefix");
-    const next = LONG[desc.length];
+    const next = LONG[desc.length] ?? "";
     assert.ok(next === " " || /[,;:.]/.test(next), "the cut lands after a whole word, never inside one");
   });
 
