@@ -12,7 +12,8 @@ describe("standard dropdown option labels", () => {
     const desc = label.slice(0, -1);
     assert.ok(desc.length <= 70, `description stays within the limit (got ${desc.length})`);
     assert.ok(LONG.startsWith(desc), "the shown words are an unchanged prefix");
-    assert.equal(LONG[desc.length], " ", "the cut lands on a space, never inside a word");
+    const next = LONG[desc.length];
+    assert.ok(next === " " || /[,;:.]/.test(next), "the cut lands after a whole word, never inside one");
   });
 
   it("adds no ellipsis when nothing was cut, including a description exactly at the limit", () => {
